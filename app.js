@@ -1,0 +1,290 @@
+const express = require('express');
+const dotenv = require('dotenv');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { sql, poolPromise } = require('./config/db'); // Conexão com o banco de dados
+
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.static('public'));
+
+
+// Middleware para verificar o token
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+
+    if (!token) return res.status(403).send('Token não fornecido.');
+
+    const bearerToken = token.startsWith('Bearer ') ? token.slice(7) : token;
+
+    jwt.verify(bearerToken, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            console.error('Erro na verificação do token:', err.message);
+            return res.status(500).send('Falha na autenticação do token.');
+        }
+
+        req.userId = decoded.id; // Certifique-se de que o id está correto
+        next();
+    });
+};
+//rota cadastro
+app.post('/register', async (req, res) => {
+    const { nome, cpf, email, senha } = req.body;
+
+    try {
+        const pool = await poolPromise;
+
+        // Verificar se o email já está cadastrado
+        const existingUser = await pool.request()
+            .input('email', sql.NVarChar, email)
+            .query('SELECT * FROM USUARIO WHERE email = @email');
+
+        if (existingUser.recordset.length > 0) {
+            return res.status(400).json({ message: 'Email já cadastrado.' });
+        }
+
+        // Criptografar a senha
+        const hashedPassword = await bcrypt.hash(senha, 10);
+
+        // Inserir novo usuário
+        await pool.request()
+            .input('nome', sql.NVarChar, nome)
+            .input('cpf', sql.NVarChar, cpf)
+            .input('email', sql.NVarChar, email)
+            .input('senha', sql.NVarChar, hashedPassword)
+            .query('INSERT INTO USUARIO (nome, cpf, email, senha) VALUES (@nome, @cpf, @email, @senha)');
+
+        res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao cadastrar usuário:', error.message);
+        res.status(500).json({ message: 'Erro ao cadastrar usuário.' });
+    }
+});
+// Rota de Login
+app.post('/login', async (req, res) => {
+    const { email, senha } = req.body;
+
+    try {
+        const pool = await poolPromise;
+
+        const result = await pool.request()
+            .input('email', sql.NVarChar, email)
+            .query('SELECT * FROM USUARIO WHERE email = @email');
+
+        if (result.recordset.length === 0) {
+            return res.status(400).json({ msg: 'Email ou senha inválidos.' });
+        }
+
+        const user = result.recordset[0];
+        const validPassword = await bcrypt.compare(senha, user.senha);
+        if (!validPassword) {
+            return res.status(400).json({ msg: 'Email ou senha inválidos.' });
+        }
+
+        // Gera o token com o ID do usuário
+        const token = jwt.sign({ id: user.IDusuario }, process.env.JWT_SECRET, { expiresIn: '30d' });
+        console.log('Token gerado:', token); // Log para verificar o token
+
+        return res.json({ token });
+    } catch (error) {
+        console.error('Erro no login:', error.message);
+        return res.status(500).json({ error: 'Erro no servidor' });
+    }
+});
+
+// FUNCAO CD_HOME FUNCAO CD_HOME FUNCAO CD_HOME FUNCAO CD_HOME FUNCAO CD_HOME //
+
+app.get('/dashboard', verifyToken, async (req, res) => {
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId;
+
+        const totalProdutos = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT COUNT(*) AS total FROM Produto WHERE idusuario = @idusuario');
+
+        const produtosVencidos = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT COUNT(*) AS total FROM Produto WHERE idusuario = @idusuario AND vencimento < GETDATE()');
+
+        const proximosVencimento = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query(`SELECT COUNT(*) AS total FROM Produto 
+                    WHERE idusuario = @idusuario 
+                    AND vencimento >= GETDATE() 
+                    AND vencimento <= DATEADD(day, 7, GETDATE())`);
+
+        const produtosSeguros = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query(`SELECT COUNT(*) AS total FROM Produto 
+                    WHERE idusuario = @idusuario 
+                    AND vencimento > DATEADD(day, 7, GETDATE())`);
+
+        res.json({
+            totalProdutos: totalProdutos.recordset[0].total,
+            produtosVencidos: produtosVencidos.recordset[0].total,
+            proximosVencimento: proximosVencimento.recordset[0].total,
+            produtosSeguros: produtosSeguros.recordset[0].total
+        });
+    } catch (error) {
+        console.error('Erro ao buscar dados da dashboard:', error.message);
+        res.status(500).send('Erro ao buscar dados da dashboard.');
+    }
+});
+
+// FUNCAO CD_ESTABELECIMENTO FUNCAO CD_ESTABELECIMENTO FUNCAO CD_ESTABELECIMENTO FUNCAO CD_ESTABELECIMENTO //
+app.post('/add-estabelecimento', verifyToken, async (req, res) => {
+    const { nomeEstabelecimento, cnpj, contato, logradouro, numero, bairro, cidade, cep } = req.body;
+
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtendo o ID do usuário do token
+
+        console.log('ID do usuário:', idusuario); // Para depuração
+
+        const estabelecimentoResult = await pool.request()
+            .input('cnpj', sql.NVarChar, cnpj)
+            .query('SELECT * FROM ESTABELECIMENTO WHERE CNPJ = @cnpj');
+
+        if (estabelecimentoResult.recordset.length > 0) {
+            return res.status(400).send('Estabelecimento com este CNPJ já cadastrada');
+        }
+
+        const estabelecimentoInsert = await pool.request()
+            .input('nomeEstabelecimento', sql.NVarChar, nomeEstabelecimento)
+            .input('cnpj', sql.NVarChar, cnpj)
+            .input('contato', sql.NVarChar, contato)
+            .input('idusuario', sql.Int, idusuario) // Aqui você está passando o ID do usuário
+            .query('INSERT INTO Estabelecimento (nome, CNPJ, contato, idusuario) VALUES (@nomeEstabelecimento, @cnpj, @contato, @idusuario); SELECT SCOPE_IDENTITY() AS id');
+
+        const idEstabelecimento = estabelecimentoInsert.recordset[0].id;
+
+        await pool.request()
+            .input('idEstabelecimento', sql.Int, idEstabelecimento)
+            .input('logradouro', sql.NVarChar, logradouro)
+            .input('numero', sql.NVarChar, numero)
+            .input('bairro', sql.NVarChar, bairro)
+            .input('cidade', sql.NVarChar, cidade)
+            .input('cep', sql.NVarChar, cep)
+            .query('INSERT INTO Unidade (idestabelecimento, logradouro, numero, bairro, cidade, cep) VALUES (@idEstabelecimento, @logradouro, @numero, @bairro, @cidade, @cep)');
+
+        res.status(201).send('estabelecimento e unidade cadastradas com sucesso');
+    } catch (err) {
+        console.error('Erro ao cadastrar estabelecimento e unidade:', err.message);
+        res.status(500).send('Erro ao cadastrar estabelecimento e unidade');
+    }
+});
+
+app.get('/estabelecimentos', verifyToken, async (req, res) => {
+
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtém o ID do usuário a partir do token
+
+        // Consulta para obter todas as estabelecimento cadastradas pelo usuário
+        const result = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT * FROM estabelecimento WHERE idusuario = @idusuario');
+
+        // Retorna os dados para o frontend
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Erro ao buscar estabelecimento:', error.message);
+        res.status(500).send('Erro ao buscar estabelecimento.');
+    }
+});
+
+// FUNCAO PRODUTO FUNCAO PRODUTO FUNCAO PRODUTO FUNCAO PRODUTO //
+
+//ADICIONAR PRODUTO
+app.post('/add-produto', verifyToken, async (req, res) => {
+    const { nome, codigoBarras, vencimento, quantidade, fornecedor, categoria } = req.body;
+
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtendo o ID do usuário do token
+
+        console.log('ID do usuário:', idusuario); // Para depuração
+
+        // Verificar se já existe um produto com o mesmo código de barras
+        const produtoResult = await pool.request()
+            .input('codigoBarras', sql.BigInt, codigoBarras)
+            .query('SELECT * FROM Produto WHERE codigoBarras = @codigoBarras');
+
+        if (produtoResult.recordset.length > 0) {
+            return res.status(400).send('Produto com este código de barras já cadastrado');
+        }
+
+        // Inserir o produto na tabela Produto
+        const produtoInsert = await pool.request()
+            .input('nome', sql.NVarChar, nome)
+            .input('codigoBarras', sql.BigInt, codigoBarras)
+            .input('vencimento', sql.Date, vencimento)
+            .input('quantidade', sql.Int, quantidade)
+            .input('fornecedor', sql.NVarChar, fornecedor)
+            .input('idusuario', sql.Int, idusuario) // ID do usuário autenticado
+            .input('categoria', sql.VarChar, categoria)
+            .query('INSERT INTO Produto (nome, codigoBarras, vencimento, quantidade, fornecedor,categoria, idusuario) VALUES (@nome, @codigoBarras, @vencimento, @quantidade, @fornecedor, @categoria, @idusuario); SELECT SCOPE_IDENTITY() AS id');
+
+        res.status(201).send('Produto adicionado com sucesso');
+    } catch (err) {
+        console.error('Erro ao cadastrar produto:', err.message);
+        res.status(500).send('Erro ao cadastrar produto');
+    }
+});
+
+//REQUISICAO PARA "RESGATAR" OS PRODUTOS
+
+app.get('/produtos', verifyToken, async (req, res) => {
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtém o ID do usuário a partir do token
+
+        // Consulta para obter todos os produtos cadastrados pelo usuário
+        const result = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT * FROM PRODUTO WHERE idusuario = @idusuario');
+
+        // Retorna os dados dos produtos
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Erro ao buscar produtos:', error.message);
+        res.status(500).send('Erro ao buscar produtos.');
+    }
+});
+
+// DELETE ID PRODUTO 
+app.delete('/produtos/:idproduto', verifyToken, async (req, res) => {
+    const { idproduto } = req.params;
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtém o ID do usuário a partir do token
+
+        // Consulta para deletar o produto
+        await pool.request()
+            .input('idproduto', sql.Int, idproduto)
+            .input('idusuario', sql.Int, idusuario)
+            .query('DELETE FROM Produto WHERE idproduto = @idproduto AND idusuario = @idusuario');
+
+        res.status(200).send('Produto excluído com sucesso');
+    } catch (error) {
+        console.error('Erro ao excluir produto:', error.message);
+        res.status(500).send('Erro ao excluir produto.');
+    }
+});
+
+
+
+
+
+
+//testes testes testes teste teste//
+
+// Iniciar o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando em http://localhost:${port}`);
+});

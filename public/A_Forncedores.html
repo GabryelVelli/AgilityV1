@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agility - Cadastro Produtos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="inicio.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+    <button class="botao-menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav class="menu-lateral">
+        <ul>
+            <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+            <li><a href="A_Cadastrarproduto.html"><i class="fa-solid fa-plus"></i>Adicionar Produto</a></li>
+            <li><a href="A_Estoque.html"><i class="fa-solid fa-list"></i>Seu Estoque</a></li>
+            <li><a href="A_Fornecedor.html"><i class="fa-solid fa-building-user"></i>Fornecedor</a></li>
+            <li><a href="A_Fornecedores.html"><i class="fa-solid fa-building-user"></i>Fornecedores</a></li>
+            <li><a href="A_Contato.html"><i class="fa-solid fa-inbox"></i>Contato</a></li>
+            <li><a href="usuario.html"><i class="fa-solid fa-user"></i>Perfil</a></li>
+            <li><a href="configuraçoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
+            <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair da Conta</a></li>
+        </ul>
+    </nav>
+
+    <div class="background"></div>
+
+    <main class="conteudo">
+        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
+        <hr>
+        <h2><i class="fa-solid fa-warehouse"></i>Fornecedores</h2>
+        <h2>Fornecedores Cadastrados</h2>
+
+        <!-- Barra de pesquisa -->
+        <div class="barra-pesquisa">
+            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <div id="estabelecimentosContainer"></div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modalExclusao" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="mensagemModal"></p>
+        </div>
+    </div>
+
+    <script src="scriptinicio.js"></script>
+
+    <script>
+         async function carregarEstabelecimentos() {
+            try {
+                const response = await fetch('/estabelecimentos', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'), // Passa o token JWT
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    const estabelecimentos = await response.json();
+
+                    // Exibe as estabelecimentos em uma tabela ou lista
+                    const estabelecimentosContainer = document.getElementById('estabelecimentosContainer');
+                    estabelecimentos.forEach(estabelecimento => {
+                        const estabelecimentoDiv = document.createElement('div');
+                        estabelecimentoDiv.innerHTML = `
+                            <p><strong>Fornecedor:</strong> ${estabelecimento.nome}</p>
+                            <p><strong>CNPJ:</strong> ${estabelecimento.CNPJ}</p>
+                            <p><strong>Contato:</strong> ${estabelecimento.contato}</p>
+                            <hr>
+                        `;
+                        estabelecimentosContainer.appendChild(estabelecimentoDiv);
+                    });
+                } else {
+                    mostrarModal('Erro ao carregar Fornecedor');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarModal('Erro ao carregar Fornecedor');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEstabelecimentos();
+        });
+        // Função para exibir o modal com a mensagem
+        function mostrarModal(mensagem) {
+            const modal = document.getElementById('modalExclusao');
+            const mensagemModal = document.getElementById('mensagemModal');
+            const span = document.getElementsByClassName('close')[0];
+
+            mensagemModal.textContent = mensagem;
+            modal.style.display = 'block';
+
+            // Fecha o modal quando o usuário clica no "x"
+            span.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            // Fecha o modal quando o usuário clica fora do conteúdo do modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        }
+    </script>

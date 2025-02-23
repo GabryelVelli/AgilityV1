@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agility - Cadastro Produtos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="inicio.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+    <button class="botao-menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav class="menu-lateral">
+        <ul>
+            <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+            <li><a href="A_Cadastrarproduto.html"><i class="fa-solid fa-plus"></i>Adicionar Produto</a></li>
+            <li><a href="A_Estoque.html"><i class="fa-solid fa-list"></i>Seu Estoque</a></li>
+            <li><a href="A_Fornecedor.html"><i class="fa-solid fa-building-user"></i>Fornecedor</a></li>
+            <li><a href="A_Contato.html"><i class="fa-solid fa-inbox"></i>Contato</a></li>
+            <li><a href="usuario.html"><i class="fa-solid fa-user"></i>Perfil</a></li>
+            <li><a href="configuraçoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
+            <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair da Conta</a></li>
+        </ul>
+    </nav>
+
+    <div class="background"></div>
+
+    <main class="conteudo">
+        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
+        <hr>
+        <h2><i class="fa-solid fa-warehouse"></i>Estoque</h2>
+        <h2>Produtos Cadastrados</h2>
+
+        <!-- Barra de pesquisa -->
+        <div class="barra-pesquisa">
+            <input type="text" id="pesquisa" placeholder="Pesquisar produto..." oninput="filtrarProdutos()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <div id="produtosContainer"></div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modalExclusao" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="mensagemModal"></p>
+        </div>
+    </div>
+
+    <script src="scriptinicio.js"></script>
+
+    <script>
+        // Variável para armazenar todos os produtos
+        let produtos = [];
+
+        // Função para formatar a data
+        function formatarData(data) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const formatoData = new Date(data).toLocaleDateString('pt-BR', options);
+            return formatoData;
+        }
+
+        // Função assíncrona para carregar produtos
+        async function carregarProdutos() {
+            try {
+                const response = await fetch('/produtos', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    produtos = await response.json(); // Armazena os produtos globalmente
+
+                    // Exibe os produtos ao carregar
+                    exibirProdutos(produtos);
+                } else {
+                    mostrarModal('Erro ao carregar produtos');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarModal('Erro ao carregar produtos');
+            }
+        }
+
+        // Função para exibir os produtos no DOM
+        function exibirProdutos(produtos) {
+            const produtosContainer = document.getElementById('produtosContainer');
+            produtosContainer.innerHTML = ''; // Limpa o conteúdo antes de adicionar os novos produtos
+
+            produtos.forEach(produto => {
+                const produtoDiv = document.createElement('div');
+                produtoDiv.innerHTML = `
+                    <p><strong style='color: black'>Nome:</strong> ${produto.nome}  / <strong style='color: black'>Código de Barras:</strong> ${produto.codigoBarras} / <strong style='color: black'>Vencimento:</strong> ${formatarData(produto.vencimento)}</p>
+                    <p><strong style='color: black'>Quantidade:</strong> ${produto.quantidade} / <strong style='color: black'>Fornecedor:</strong> ${produto.fornecedor} / <strong style='color: black'>Categoria:</strong> ${produto.categoria}</p>
+                    <button class="excluir" onclick="excluirProduto(${produto.idproduto})"><i class="fa-solid fa-trash"></i></button>
+                    <p style='border-bottom: 2px solid white'></p>
+                `;
+                produtosContainer.appendChild(produtoDiv);
+            });
+        }
+
+        // Função para filtrar produtos com base no texto digitado na barra de pesquisa
+        function filtrarProdutos() {
+            const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
+
+            // Filtra os produtos com base no nome, fornecedor, categoria e vencimento
+            const produtosFiltrados = produtos.filter(produto => {
+            const nomeMatch = produto.nome.toLowerCase().includes(termoPesquisa);
+            const fornecedorMatch = produto.fornecedor.toLowerCase().includes(termoPesquisa);
+            const categoriaMatch = produto.categoria.toLowerCase().includes(termoPesquisa);
+            const vencimentoMatch = formatarData(produto.vencimento).toLowerCase().includes(termoPesquisa);
+
+            // Retorna true se algum campo corresponder ao termo de pesquisa
+            return nomeMatch || fornecedorMatch || categoriaMatch || vencimentoMatch;
+        });
+            // Exibe os produtos filtrados
+            exibirProdutos(produtosFiltrados);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarProdutos();
+        });
+
+        // Função para excluir um produto
+        async function excluirProduto(idproduto) {
+            try {
+                const response = await fetch(`/produtos/${idproduto}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    mostrarModal('Produto excluído com sucesso');
+                    carregarProdutos(); // Recarrega a lista de produtos após a exclusão
+                } else {
+                    mostrarModal('Erro ao excluir produto');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarModal('Erro ao excluir produto');
+            }
+        }
+
+        // Função para exibir o modal com a mensagem
+        function mostrarModal(mensagem) {
+            const modal = document.getElementById('modalExclusao');
+            const mensagemModal = document.getElementById('mensagemModal');
+            const span = document.getElementsByClassName('close')[0];
+
+            mensagemModal.textContent = mensagem;
+            modal.style.display = 'block';
+
+            // Fecha o modal quando o usuário clica no "x"
+            span.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            // Fecha o modal quando o usuário clica fora do conteúdo do modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</html>
