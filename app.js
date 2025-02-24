@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const { sql, poolPromise } = require('./config/db'); // Conexão com o banco de dados
 
@@ -12,6 +13,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
+// Middleware para processar dados do formulário (application/x-www-form-urlencoded)
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware para verificar o token
 const verifyToken = (req, res, next) => {
@@ -277,13 +280,41 @@ app.delete('/produtos/:idproduto', verifyToken, async (req, res) => {
     }
 });
 
+app.post('/send-email', (req, res) => {
+    const { nome, email, assunto, mensagem } = req.body; // Dados do formulário
 
+    // Verificar se os dados necessários foram enviados
+    if (!nome || !email || !assunto || !mensagem) {
+        return res.status(400).send('Todos os campos são obrigatórios.');
+    }
 
+    // Configuração do Nodemailer
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,  // Seu e-mail
+            pass: process.env.EMAIL_PASS   // Senha gerada do app
+        }
+    });
 
+    const mailOptions = {
+        from: email,  // E-mail do remetente
+        to: 'agilityv1contato@gmail.com',  // Destinatário do e-mail
+        subject: assunto,
+        text: `Nome: ${nome}\nE-mail: ${email}\nAssunto: ${assunto}\nMensagem: ${mensagem}`
+    };
 
+    // Envio do e-mail
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Erro ao enviar e-mail:', error);
+            return res.status(500).send('Erro ao enviar e-mail. Tente novamente mais tarde.');
+        }
 
-//testes testes testes teste teste//
-
+        console.log('E-mail enviado:', info.response);
+        res.status(200).send('E-mail enviado com sucesso!');
+    });
+});
 // Iniciar o servidor
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);

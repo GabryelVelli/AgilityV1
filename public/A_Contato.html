@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Cadastro Produtos</title>
+    <title>Agility - Contato</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -42,26 +42,86 @@
         <p>Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.</p>
         
         <div class="contato">
-            <form id="contact-form" action="/submit" method="POST">
-              <label for="nome">Nome:</label>
-              <input type="text" id="nome" name="nome" required>
-              
-              <label for="email">E-mail:</label>
-              <input type="email" id="email" name="email" required>
-              
-              <label for="assunto">Assunto:</label>
-              <input type="text" id="assunto" name="assunto" required>
-              
-              <label for="mensagem">Mensagem:</label>
-              <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
-              
-              <div class="buttons-container">
-                <button type="submit" class="send-btn">Enviar</button>
-                <button type="reset" class="clear-btn">Limpar</button>
-             </div>
+            <form id="contact-form" action="/send-email" method="POST">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+                
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="assunto">Assunto:</label>
+                <input type="text" id="assunto" name="assunto" required>
+                
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+                
+                <div class="buttons-container">
+                    <button type="submit" class="send-btn">Enviar</button>
+                    <button type="reset" class="clear-btn">Limpar</button>
+                </div>
             </form>
-          </div>
+        </div>
     </main>
+    <div id="modalExclusao" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="mensagemModal"></p>
+        </div>
+    </div>
 </body>
 <script src="scriptinicio.js"></script>
+<script>
+        document.getElementById('contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const assunto = document.getElementById('assunto').value;
+            const mensagem = document.getElementById('mensagem').value;
+
+            if (!nome || !email || !assunto || !mensagem) {
+                mostrarModal('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const formData = new FormData(this);
+            const urlEncodedData = new URLSearchParams(formData).toString();
+
+            fetch('/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: urlEncodedData
+            })
+            .then(response => response.text())
+            .then(result => {
+                mostrarModal('E-mail enviado com sucesso!');
+            })
+            .catch(error => {
+                mostrarModal('Erro ao enviar o e-mail.');
+            });
+        });
+     // Função para exibir o modal com a mensagem
+     function mostrarModal(mensagem) {
+        const modal = document.getElementById('modalExclusao');
+        const mensagemModal = document.getElementById('mensagemModal');
+        const span = document.getElementsByClassName('close')[0];
+
+        mensagemModal.textContent = mensagem;
+        modal.style.display = 'block';
+
+        // Fecha o modal quando o usuário clica no "x"
+        span.onclick = function () {
+            modal.style.display = 'none';
+        }
+
+        // Fecha o modal quando o usuário clica fora do conteúdo do modal
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    }
+</script>
 </html>
