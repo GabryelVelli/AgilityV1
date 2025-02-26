@@ -56,42 +56,61 @@
     <script src="scriptinicio.js"></script>
 
     <script>
-         async function carregarEstabelecimentos() {
-            try {
-                const response = await fetch('/estabelecimentos', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'), // Passa o token JWT
-                        'Content-Type': 'application/json',
-                    }
-                });
-
-                if (response.ok) {
-                    const estabelecimentos = await response.json();
-
-                    // Exibe as estabelecimentos em uma tabela ou lista
-                    const estabelecimentosContainer = document.getElementById('estabelecimentosContainer');
-                    estabelecimentos.forEach(estabelecimento => {
-                        const estabelecimentoDiv = document.createElement('div');
-                        estabelecimentoDiv.innerHTML = `
-                            <p><strong>Fornecedor:</strong> ${estabelecimento.nome}</p>
-                            <p><strong>CNPJ:</strong> ${estabelecimento.CNPJ}</p>
-                            <p><strong>Contato:</strong> ${estabelecimento.contato}</p>
-                            <hr>
-                        `;
-                        estabelecimentosContainer.appendChild(estabelecimentoDiv);
-                    });
-                } else {
-                    mostrarModal('Erro ao carregar Fornecedor');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                mostrarModal('Erro ao carregar Fornecedor');
+ async function carregarEstabelecimentos() {
+    try {
+        const response = await fetch('/estabelecimentos', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'), // Passa o token JWT
+                'Content-Type': 'application/json',
             }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            carregarEstabelecimentos();
         });
+
+        if (response.ok) {
+            const estabelecimentos = await response.json();
+
+            // Exibe os estabelecimentos em uma tabela
+            const estabelecimentosContainer = document.getElementById('estabelecimentosContainer');
+            estabelecimentosContainer.innerHTML = ''; // Limpa o container antes de adicionar os novos
+
+            const tabela = document.createElement('table');
+            tabela.style = "width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
+            tabela.innerHTML = `
+                <thead>
+                    <tr style="background-color: #6E6E6E;">
+                        <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Nome</th>
+                        <th style="border: 1px solid #848484; padding: 8px; text-align: left;">CNPJ</th>
+                        <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Contato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            `;
+            estabelecimentosContainer.appendChild(tabela);
+
+            const tabelaBody = tabela.querySelector('tbody');
+            estabelecimentos.forEach(item => {
+                const estabelecimentoRow = document.createElement('tr');
+                estabelecimentoRow.innerHTML = `
+                    <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${item.nome}</td>
+                    <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${item.CNPJ}</td>
+                    <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${item.contato}</td>
+                `;
+                tabelaBody.appendChild(estabelecimentoRow);
+            });
+
+        } else {
+            mostrarModal('Erro ao carregar Estabelecimentos');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarModal('Erro ao carregar Estabelecimentos');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarEstabelecimentos();
+});
         // Função para exibir o modal com a mensagem
         function mostrarModal(mensagem) {
             const modal = document.getElementById('modalExclusao');
