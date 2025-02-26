@@ -3,7 +3,7 @@
     --secondary-color: #393939;
     --text-color: #FFC107;
     --text-secondary-color: hsl(211, 100%, 6%);
-    --background-color: gainsboro;
+    --background-color: rgb(214, 0, 0);
 }
 
 body{
@@ -11,7 +11,7 @@ body{
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background-color 0.5s ease;
-    background-color: gainsboro;
+    background-color: rgb(190, 17, 17);
     z-index: 0;
 }
 .titulo{
