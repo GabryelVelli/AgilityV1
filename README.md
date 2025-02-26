@@ -11,9 +11,11 @@ Estou empolgado em compartilhar o progresso do meu projeto de extensão acadêmi
 - Cadastro de Estabelecimento: Criação de estabelecimento inserindo CNPJ, Estabelecimento e contato.
 - Cadastro de Unidade: Criação de unidade junto com estabelecimento inserindo Rua, Numero, Bairro, Cidade e CEP.
 - Sistema de Logout: Foi inserido também um sistema de logout.
-- Cadastro de Produtos: Criação de Produtos inserindo, nome do produto, Vencimento, fornecedor, quantidade e Categoria
-- DashBoard: Foi inserido uma funcionalidade de dashboard de produtos proximo do vencimento, vencidos, produtos seguros e Total de Produtos
-
+- Cadastro de Produtos: Criação de Produtos inserindo, nome do produto, Vencimento, fornecedor, quantidade e Categoria.
+- Visualização de Produtos e Estabelecimentos cadastrados.
+- Exclusão de Produtos cadastrados.
+- Contato: A funcionalidade de contato permite que o usuário se comunique com os colaboradores da empresa por meio de e-mail.
+- DashBoard: Foi inserido uma funcionalidade de dashboard de produtos proximo do vencimento, vencidos, produtos seguros e Total de Produtos.
 🌐 Tecnologias Utilizadas:
 - Backend: Node.js
 - Frontend: HTML para estrutura, CSS para design responsivo e JavaScript para validação dos formulários.
