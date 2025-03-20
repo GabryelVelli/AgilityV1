@@ -6,13 +6,13 @@ Agility! O sistema tem como objetivo gerenciar o controle de estoque
 
 👥 Participantes:
 
-Eduardo Leon Gomes Feitoza
-Gabryel Velli Vilas Boas
-Gustavo Toschi de Assis Correa
-Pedro Caetano Torres
-Pedro Henrique Gonçalves
-Lucas Felipe de Oliveira
-Rodrigo Angelo Nepomuceno
+- Eduardo Leon Gomes Feitoza
+- Gabryel Velli Vilas Boas
+- Gustavo Toschi de Assis Correa
+- Pedro Caetano Torres
+- Pedro Henrique Gonçalves
+- Lucas Felipe de Oliveira
+- Rodrigo Angelo Nepomuceno
 
 🛠 Funcionalidades já implementadas:
 - Cadastro de Usuários: Criação de contas inserindo nome, email e senha.
