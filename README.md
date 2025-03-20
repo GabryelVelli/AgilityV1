@@ -2,7 +2,17 @@
 
 🚀 Agility
 
-Estou empolgado em compartilhar o progresso do meu projeto de extensão acadêmica: Agility! O sistema tem como objetivo gerenciar o controle de vencimento de produtos, e a primeira etapa de desenvolvimento já está funcionando com sucesso. 😄
+Agility! O sistema tem como objetivo gerenciar o controle de estoque
+
+👥 Participantes:
+
+Eduardo Leon Gomes Feitoza
+Gabryel Velli Vilas Boas
+Gustavo Toschi de Assis Correa
+Pedro Caetano Torres
+Pedro Henrique Gonçalves
+Lucas Felipe de Oliveira
+Rodrigo Angelo Nepomuceno
 
 🛠 Funcionalidades já implementadas:
 - Cadastro de Usuários: Criação de contas inserindo nome, email e senha.
@@ -16,8 +26,17 @@ Estou empolgado em compartilhar o progresso do meu projeto de extensão acadêmi
 - Exclusão de Produtos cadastrados.
 - Contato: A funcionalidade de contato permite que o usuário se comunique com os colaboradores da empresa por meio de e-mail.
 - DashBoard: Foi inserido uma funcionalidade de dashboard de produtos proximo do vencimento, vencidos, produtos seguros e Total de Produtos.
+  
 🌐 Tecnologias Utilizadas:
-- Backend: Node.js
+- Backend:
+- Node.js - Ambiente de execução JavaScript (v20.18.0)
+- Express - Framework para aplicativos web em Node.js (v4.21.2)
+- EJS - Template engine para renderizar HTML (v3.1.10)
+- BcryptJS - Para criptografar senhas (v2.4.3)
+- Dotenv - Gerenciamento de variáveis de ambiente (v16.4.5)
+- JSON Web Token (JWT) - Autenticação segura de usuários (v9.0.2)
+- MSSQL - Conexão com Microsoft SQL Server (v11.0.1)]
+- Nodemailer - Envio de emails (v6.10.0)
 - Frontend: HTML para estrutura, CSS para design responsivo e JavaScript para validação dos formulários.
 - Banco de Dados: SQL Server
 - Autenticação: Criação de tokens para login seguro.
