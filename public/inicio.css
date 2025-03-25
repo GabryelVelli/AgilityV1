@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #FFC107;
+    --primary-color: gainsboro;
     --secondary-color: #393939;
     --text-color: #FFC107;
     --text-secondary-color: hsl(211, 100%, 6%);
@@ -68,7 +68,7 @@ body{
 }
 
 .botao-menu{
-    background-color: #FFC107;
+    background-color: rgb(5, 8, 95);
     position: fixed;
     left: 20px;
     top: 20px;
@@ -78,13 +78,14 @@ body{
     border: none;
     padding: 10px 15px;
     cursor: pointer;
-    color: #2e2e2e;
+    color: gainsboro;
     transition: all 0.5s ease-in-out;
 }
 
 .botao-menu:hover{
-    background-color: #2e2e2e;
-    color: #FFC107;
+    background-color: gainsboro;
+    color: rgb(5, 8, 95);
+    border:1px solid rgb(5, 8, 95);
     transition: 0.5s;
 }
 
@@ -158,7 +159,7 @@ body{
     text-align: center;
     width: 220px; /* Tamanho um pouco maior para os cards */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
-    border: 2px solid #f9bf12; /* Borda fina e amarela ao redor */
+    border: 2px solid rgb(5, 8, 95); /* Borda fina e amarela ao redor */
 }
 
 .card:hover {
@@ -175,21 +176,21 @@ body{
 }
 
 .card p {
-    color: #333333; /* Texto de descrição mais suave */
-    font-size: 1.8em; /* Um tamanho de fonte maior para os números */
+    color: #333333; 
+    font-size: 1.8em; 
     font-weight: bold;
     margin-top: 10px;
 }
 
 .card .icon {
-    font-size: 2.5em; /* Ícone maior para chamar atenção */
-    color: #f9bf12; /* Cor amarela para o ícone */
+    font-size: 2.5em; 
+    color: rgb(5, 8, 95); 
     margin-bottom: 10px;
     transition: color 0.3s ease;
 }
 
 .card:hover .icon {
-    color: #FFC107; /* Muda a cor do ícone ao passar o mouse */
+    color: rgb(5, 8, 95); /* Muda a cor do ícone ao passar o mouse */
 }
 
 
@@ -230,8 +231,8 @@ input{
     margin-left: 45% ;
     margin-bottom: 25px;
     border-radius: 5px;
-    background: #FFC107;
-    color: #000000;
+    background: rgb(5, 8, 95);
+    color: gainsboro;
     padding: 0.625rem 1.25rem;
     border: none;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
@@ -251,7 +252,7 @@ input{
     margin-left: 32px;
     font-weight: bold;
     font-size: 24px;
-    color: #f9bf12;
+    color: rgb(1, 6, 165);
 }
 .cadastroestabelecimento{
     width: 85%;
@@ -319,7 +320,8 @@ input{
 }
 
 .excluir{
-    background-color: #FFC107;
+    background-color: rgb(5, 8, 95);
+    color: gainsboro;
     border: none;
     border-radius: 5px;
     width: 50px;
