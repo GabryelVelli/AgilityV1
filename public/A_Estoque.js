@@ -39,10 +39,10 @@
 
         // Adiciona o cabeçalho da tabela uma única vez
         const tabela = document.createElement('table');
-        tabela.style = "width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
+        tabela.style = "margin-left: 40px;width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
         tabela.innerHTML = `
             <thead>
-                <tr style="background-color: #6E6E6E;">
+                <tr style="background-color: #111827; color:white">
                     <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Nome</th>
                     <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Código de Barras</th>
                     <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Vencimento</th>

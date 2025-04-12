@@ -14,57 +14,111 @@
 </head>
 
 <body>
-    <button class="botao-menu">
-        <i class="fa-solid fa-bars"></i>
-    </button>
+    <header class="top-bar">
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        <h1>Agility</h1>
+        <div class="placeholder"></div>
+      </header>
 
-    <nav class="menu-lateral">
+      <nav class="sidebar" id="sidebar">
         <ul>
-            <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
-            <li><a href="A_Cadastrarproduto.html"><i class="fa-solid fa-plus"></i>Adicionar Produto</a></li>
-            <li><a href="A_Estoque.html"><i class="fa-solid fa-list"></i>Seu Estoque</a></li>
-            <li><a href="A_Fornecedor.html"><i class="fa-solid fa-building-user"></i>Fornecedor</a></li>
-            <li><a href="A_Fornecedores.html"><i class="fa-solid fa-building-user"></i>Fornecedores</a></li>
-            <li><a href="A_Contato.html"><i class="fa-solid fa-inbox"></i>Contato</a></li>
-            <li><a href="usuario.html"><i class="fa-solid fa-user"></i>Perfil</a></li>
-            <li><a href="configuraçoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
-            <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair da Conta</a></li>
+          <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-box"></i>Produtos</button>
+            <ul class="submenu">
+                <li><a href="A_Cadastrarproduto.html">Adicionar Produto</a></li>
+                <li><a href="A_Estoque.html">Seu Estoque</a></li>
+            </ul>
+          </li>
+      
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-building"></i>Fornecedores</button>
+            <ul class="submenu">
+                <li><a href="A_Fornecedor.html">Cadastrar Fornecedor</a></li>
+                <li><a href="A_Fornecedores.html">Fornecedores</a></li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+            <ul class="submenu">
+              <li><a href="#">Cadastrar Compras</a></li>
+              <li><a href="#">Compras</a></li>
+            </ul>
+          </li>
+          
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Setores</button>
+            <ul class="submenu">
+              <li><a href="#">Cadastrar Setores</a></li>
+              <li><a href="#">Setores</a></li>
+            </ul>
+          </li>
+
+          <!-- <li class="has-submenu">
+            <button class="submenu-toggle">Usuários</button>
+            <ul class="submenu">
+              <li><a href="#">Cadastrar Usuário</a></li>
+              <li><a href="#">Usuários</a></li>
+            </ul>
+          </li> -->
+          <li><a href="#"><i class="fa-solid fa-file"></i>Relatórios</a></li>
+          <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
+          <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
+          <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
+          <li><a href="A_Configuracoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
+          <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair Da Conta</a></li>
         </ul>
-    </nav>
+      </nav>
 
-    <div class="background">
 
-    </div>
-
-    <main class="conteudo">
+    <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
-        <hr>
-        <h2><i class="fa-solid fa-plus"></i>Cadastrar Produto</h2>
-        <p>Cadastre Seus Produtos Aqui.</p>
-        <p>Após Cadastrar os produtos estarão disponiveis nos seus Registros.</p>
+        <hr> 
+        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Cadastrar Produto</h2>
+        <p class="texto-produto">Cadastre Seus Produtos Aqui.</p>
+        <p class="texto-produto">Após Cadastrar os produtos estarão disponiveis nos seus Registros.</p>
 
         <div class="cadastroprod">
-            <form id="product-form">
-                <br><br>
-                <label>Nome do Produto:</label>
-                <input type="text" id="nome" name="nome" placeholder="Ex:Coca-Cola 2L" required>
-                <label>Código de Barras:</label>
-                <input type="text" id="codigoBarras" name="CodigoBarras" placeholder="Código de Barras" required>
-                <label>Vencimento:</label>
-                <input type="date" id="vencimento" name="Vencimento" required>
-                <label>Quantidade:</label>
-                <input type="number" id="quantidade" name="Quantidade" min="1" max="100" required>
-                <label>Fornecedor:</label>
+          <form id="product-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="nome">Nome do Produto:</label>
+                <input type="text" id="nome" name="nome" placeholder="Ex: Coca-Cola 2L" required>
+              </div>
+              <div class="form-field">
+                <label for="codigoBarras">Código de Barras:</label>
+                <input type="text" id="codigoBarras" name="codigoBarras" placeholder="7891234567890" required>
+              </div>
+              <div class="form-field">
+                <label for="vencimento">Vencimento:</label>
+                <input type="date" id="vencimento" name="vencimento" required>
+              </div>
+            </div>
+          
+            <div class="form-row">
+              <div class="form-field">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade" min="1" required>
+              </div>
+              <div class="form-field">
+                <label for="fornecedor">Fornecedor:</label>
                 <input type="text" id="fornecedor" name="fornecedor" placeholder="Coca-Cola">
-                <label>Categoria:</label>
-                <input type="text" id="categoria" name="categoria" required placeholder="Bebida">
-                <button type="submit" class="button"><span class="button__text">Cadastrar </span>
-                </button>
-            </form>
+              </div>
+              <div class="form-field">
+                <label for="categoria">Categoria:</label>
+                <input type="text" id="categoria" name="categoria" placeholder="Bebida" required>
+              </div>
+            </div>
+          
+            <div class="button-container">
+              <button type="submit" class="button">Cadastrar</button>
+            </div>
+          </form>
             <!-- Modal -->
             <div id="modalExclusao" class="modal">
                 <div class="modal-content">
-                    <span class="close">&times;</span>
+                    <p class="close">&times;</p>
                     <p id="mensagemModal"></p>
                 </div>
             </div>

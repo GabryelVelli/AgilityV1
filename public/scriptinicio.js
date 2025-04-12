@@ -1,27 +1,20 @@
-//INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML //
-//INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML //
-//INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML INICIO.HTML //
-const botao = document.querySelector('.botao-menu')
-const menuLateral = document.querySelector('.menu-lateral')
-const conteudo = document.querySelector('.conteudo')
-const background = document.querySelector('.background')
-
-botao.addEventListener('click', () => {
-    menuLateral.classList.toggle('ativo')
-    botao.classList.toggle('ativo')
-    conteudo.classList.toggle('ativo')
-    background.classList.toggle('ativo')
-    document.body.style.backgroundColor = menuLateral.classList.contains('ativo') ? 'gainsboro' : 'gainsboro'
-})
-
-background.addEventListener('click', ()=> {
-    menuLateral.classList.remove('ativo')
-    botao.classList.remove('ativo')
-    conteudo.classList.remove('ativo')
-    background.classList.remove('ativo')
-    document.body.style.backgroundColor = 'gainsboro'
-})
-
+// Abrir/fechar a sidebar
+document.getElementById("menu-toggle").addEventListener("click", function () {
+    const sidebar = document.getElementById("sidebar");
+    const mainContent = document.querySelector(".main-content");
+  
+    sidebar.classList.toggle("open");              // Mostra/oculta sidebar
+    mainContent.classList.toggle("full-width");    // Expande ou contrai conteúdo principal
+  });
+  
+  // Expandir/colapsar submenus
+  document.querySelectorAll('.submenu-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const parent = button.parentElement;
+      parent.classList.toggle('open'); // Mostra ou esconde os <ul class="submenu">
+    });
+  });
+  
 // Função de logout
 function logout() {
     // Remover o token do localStorage

@@ -14,32 +14,68 @@
 </head>
 
 <body>
-    <button class="botao-menu">
-        <i class="fa-solid fa-bars"></i>
-    </button>
+    <header class="top-bar">
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        <h1>Agility</h1>
+        <div class="placeholder"></div>
+      </header>
 
-    <nav class="menu-lateral">
+      <nav class="sidebar" id="sidebar">
         <ul>
-            <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
-            <li><a href="A_Cadastrarproduto.html"><i class="fa-solid fa-plus"></i>Adicionar Produto</a></li>
-            <li><a href="A_Estoque.html"><i class="fa-solid fa-list"></i>Seu Estoque</a></li>
-            <li><a href="A_Fornecedor.html"><i class="fa-solid fa-building-user"></i>Fornecedor</a></li>
-            <li><a href="A_Contato.html"><i class="fa-solid fa-inbox"></i>Contato</a></li>
-            <li><a href="usuario.html"><i class="fa-solid fa-user"></i>Perfil</a></li>
-            <li><a href="configuraçoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
-            <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair da Conta</a></li>
+          <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-box"></i>Produtos</button>
+            <ul class="submenu">
+                <li><a href="A_Cadastrarproduto.html">Adicionar Produto</a></li>
+                <li><a href="A_Estoque.html">Seu Estoque</a></li>
+            </ul>
+          </li>
+      
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-building"></i>Fornecedores</button>
+            <ul class="submenu">
+                <li><a href="A_Fornecedor.html">Cadastrar Fornecedor</a></li>
+                <li><a href="A_Fornecedores.html">Fornecedores</a></li>
+            </ul>
+          </li>
+
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+            <ul class="submenu">
+              <li><a href="#">Cadastrar Compras</a></li>
+              <li><a href="#">Compras</a></li>
+            </ul>
+          </li>
+          
+          <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Setores</button>
+            <ul class="submenu">
+              <li><a href="#">Cadastrar Setores</a></li>
+              <li><a href="#">Setores</a></li>
+            </ul>
+          </li>
+
+          <!-- <li class="has-submenu">
+            <button class="submenu-toggle">Usuários</button>
+            <ul class="submenu">
+              <li><a href="#">Cadastrar Usuário</a></li>
+              <li><a href="#">Usuários</a></li>
+            </ul>
+          </li> -->
+          <li><a href="#"><i class="fa-solid fa-file"></i>Relatórios</a></li>
+          <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
+          <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
+          <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
+          <li><a href="A_Configuracoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
+          <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair Da Conta</a></li>
         </ul>
-    </nav>
+      </nav>
 
-    <div class="background">
-
-    </div>
-
-    <main class="conteudo">
+      <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
         <h2><i class="fa-solid fa-envelope"></i>Entre em Contato</h2>
-        <p>Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.</p>
+        <p class="texto-produto" style="margin-bottom: 30px;">Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.</p>
         
         <div class="contato">
             <form id="contact-form" action="/send-email" method="POST">

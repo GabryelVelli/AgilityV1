@@ -16,7 +16,7 @@ async function carregarEstabelecimentos() {
             estabelecimentosContainer.innerHTML = ''; // Limpa o container antes de adicionar os novos
 
             const tabela = document.createElement('table');
-            tabela.style = "width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
+            tabela.style = "margin-left: 40px; width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
             tabela.innerHTML = `
                 <thead>
                     <tr style="background-color: #6E6E6E;">
