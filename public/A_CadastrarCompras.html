@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+!<!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações - Agility</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Agility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -18,7 +16,7 @@
         <div class="placeholder"></div>
       </header>
 
-      <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <ul>
           <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
           <li class="has-submenu">
@@ -70,26 +68,51 @@
       </nav>
 
       <main class="main-content">
-        <h1 class="titulo"><i class="fa-solid fa-circle-info"></i> Ajuda / Sobre o Projeto</h1>
-        <hr>
-      
-        <section class="section-info">
-          <h2><i class="fa-solid fa-clipboard-list"></i> Sobre o Sistema</h2>
-          <p>
-            Este sistema foi desenvolvido com o objetivo de facilitar o <strong>cadastro e gerenciamento de fornecedores e suas unidades</strong>. 
-            Ele permite armazenar dados como nome do fornecedor, CNPJ, contato e localização da unidade de forma segura e organizada.
-          </p>
-        </section>
-      
-        <section class="section-info">
-          <h2><i class="fa-solid fa-circle-question"></i> Como Usar</h2>
-          <ol>
-            <li>Após o cadastro </li>
-          </ol>
-        </section>
-      
-       
+        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
+        <hr> 
+        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Cadastrar Itens</h2>
+        <p class="texto-produto">Cadastre Produtos para Compra Aqui.</p>
+        <p class="texto-produto">Apos Cadastrar os itens eles estarão no Compras.</p>
+
+        <div class="cadastroprod">
+            <form id="product-form">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="nome">Nome do Produto:</label>
+                  <input type="text" id="nome" name="nome" placeholder="Ex: Coca-Cola 2L" required>
+                </div>
+                <div class="form-field">
+                  <label for="codigoBarras">Valor (R$)</label>
+                  <input type="number" id="valor" name="valor" placeholder="99,00" required>
+                </div>
+              </div>
+            
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="quantidade">Quantidade:</label>
+                  <input type="number" id="quantidade" name="quantidade" min="1" required placeholder="1">
+                </div>
+                <div class="form-field">
+                  <label for="prioridade">Prioridade</label>
+                  <input type="text" id="prioridade" name="prioridade" placeholder="Alta">
+                </div>
+              </div>
+            
+              <div class="button-container">
+                <button type="submit" class="button">Cadastrar</button>
+              </div>
+            </form>
+              <!-- Modal -->
+              <div id="modalExclusao" class="modal">
+                  <div class="modal-content">
+                      <p class="close">&times;</p>
+                      <p id="mensagemModal"></p>
+                  </div>
+              </div>
+          </div>
+  
       </main>
-</body>
     <script src="scriptinicio.js"></script>
+    <script src="A_Home.js"></script>
+</body>
 </html>
