@@ -14,7 +14,32 @@ document.getElementById("menu-toggle").addEventListener("click", function () {
       parent.classList.toggle('open'); // Mostra ou esconde os <ul class="submenu">
     });
   });
-  
+
+  // Aplica a classe de tema no body
+function aplicarTema(tema) {
+  document.body.classList.remove('tema-claro', 'tema-escuro');
+  document.body.classList.add(`tema-${tema}`);
+  } 
+
+// Ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  const temaSalvo = localStorage.getItem('tema') || 'claro'; // tema padrão
+  aplicarTema(temaSalvo);
+
+  // Atualiza o <select> com o valor salvo
+  const selectTema = document.getElementById('tema');
+  if (selectTema) {
+      selectTema.value = temaSalvo;
+
+      // Quando o usuário muda o tema
+      selectTema.addEventListener('change', () => {
+          const novoTema = selectTema.value;
+          aplicarTema(novoTema);
+          localStorage.setItem('tema', novoTema);
+      });
+  }
+});
+
 // Função de logout
 function logout() {
     // Remover o token do localStorage

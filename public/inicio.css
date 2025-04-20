@@ -232,7 +232,7 @@
   }
   
  /*Adicionar A_CadatrorProduto.HTMl*/
- #product-form {
+ #product-form, #compras-form {
   max-width: 1000px;
   margin-left: 40px;
   margin-top: 20px;
@@ -454,11 +454,177 @@ ESTOQUE.HTML
   padding: 10px;
 }
 
+/*configuracoes.html*/
+/*configuracoes.html*/
+/*configuracoes.html*/
+/* Estilo para seção de configurações */
+.config-opcoes {
+  margin-left: 40px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
+.config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
+.config-item label {
+  font-weight: bold;
+  font-size: 16px;
+}
 
+.config-item input,
+.config-item select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
 
+.config-item button {
+  width: fit-content;
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+.config-item button:hover {
+  background-color: #0056b3;
+}
+/* AJUDA.HTML */
+/* AJUDA.HTML */
+/* AJUDA.HTML */
+.project-overview {
+  text-align: left;
+}
+
+.project-overview h1 {
+  margin-left:40px ;
+  font-size: 2.5rem;
+  color: #111827;
+}
+
+.project-overview p {
+  margin-left:40px ;
+  font-size: 1.1rem;
+  color: #555;
+  margin-top: 10px;
+}
+
+.cards-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card-ajuda {
+  margin-left:40px ;
+  margin-top: 30px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease;
+}
+
+.card-ajuda:hover {
+  transform: translateY(-8px);
+}
+
+.card-ajuda h2 {
+  text-align: left;
+  font-size: 18px;
+  color: #111827;
+}
+
+.card-ajuda p {
+  text-align: left;
+  font-size: 1rem;
+  color: #444;
+}
+
+@media (max-width: 600px) {
+  .project-overview h1 {
+    font-size: 2rem;
+  }
+
+  .card-ajuda h2 {
+    font-size: 1.1rem;
+  }
+
+  .card-ajuda p {
+    font-size: 0.95rem;
+  }
+}
+/* TEMA ESCURO */
+/* TEMA ESCURO */
+/* TEMA ESCURO */
+body.tema-escuro{
+    background-color: #262626;
+    color: gainsboro;
+}
+
+body.tema-escuro .main-content label{
+    color: gainsboro;
+}
+
+body.tema-escuro h1,
+body.tema-escuro h2,
+body.tema-escuro h3,
+body.tema-escuro h4,
+body.tema-escuro h5,
+body.tema-escuro h6 {
+    color: gainsboro;
+}
+
+body.tema-escuro input,
+body.tema-escuro select {
+    background-color: #3a3a3a;
+    color: gainsboro;
+    border: 1px solid #666;
+}
+
+body.tema-escuro .config-opcoes{
+    background-color: #2c2c2c;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+body.tema-escuro .main-content .card{
+    background-color: #262626;
+    color: gainsboro
+}
+body.tema-escuro .main-content #product-form{
+  background-color: #262626;
+  color: gainsboro
+}
+body.tema-escuro .main-content #compras-form{
+  background-color: #262626;
+  color: gainsboro
+}
+body.tema-escuro .main-content #estabelecimentoForm{
+  background-color: #262626;
+  color: gainsboro
+}
+body.tema-escuro .main-content .contato{
+  background-color: #262626;
+  color: gainsboro
+}
+body.tema-escuro .main-content #contact-form label{
+  color: gainsboro
+}
 
 
 /* Modals */

@@ -38,8 +38,8 @@
           <li class="has-submenu">
             <button class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
             <ul class="submenu">
-              <li><a href="#">Cadastrar Compras</a></li>
-              <li><a href="#">Compras</a></li>
+              <li><a href="A_CadastrarCompras.html">Cadastrar Compras</a></li>
+              <li><a href="A_Compras.html">Compras</a></li>
             </ul>
           </li>
           
@@ -75,14 +75,14 @@
         <p class="texto-produto">Apos Cadastrar os itens eles estarão no Compras.</p>
 
         <div class="cadastroprod">
-            <form id="product-form">
+            <form id="compras-form">
               <div class="form-row">
                 <div class="form-field">
                   <label for="nome">Nome do Produto:</label>
                   <input type="text" id="nome" name="nome" placeholder="Ex: Coca-Cola 2L" required>
                 </div>
                 <div class="form-field">
-                  <label for="codigoBarras">Valor (R$)</label>
+                  <label for="valor">Valor (R$)</label>
                   <input type="number" id="valor" name="valor" placeholder="99,00" required>
                 </div>
               </div>
@@ -91,6 +91,10 @@
                 <div class="form-field">
                   <label for="quantidade">Quantidade:</label>
                   <input type="number" id="quantidade" name="quantidade" min="1" required placeholder="1">
+                </div>
+                <div class="form-field">
+                  <label for="prioridade">Categoria</label>
+                  <input type="text" id="categoria" name="categoria" placeholder="Bebbida">
                 </div>
                 <div class="form-field">
                   <label for="prioridade">Prioridade</label>
@@ -113,6 +117,6 @@
   
       </main>
     <script src="scriptinicio.js"></script>
-    <script src="A_Home.js"></script>
+    <script src="A_CadastrarCompras.js"></script>
 </body>
 </html>

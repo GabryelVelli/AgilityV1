@@ -71,7 +71,46 @@
 
       <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-gear"></i>Configurações</h1>
-        <hr>
+          <hr>
+
+          <section class="config-opcoes">
+              <div class="config-item">
+                  <label for="tema">Tema:</label>
+                  <select id="tema" name="tema">
+                      <option value="claro">Claro</option>
+                      <option value="escuro">Escuro</option>
+                  </select>
+              </div>
+
+              <div class="config-item">
+                  <label for="nomeUsuario">Alterar Nome de Usuário:</label>
+                  <input type="text" id="nomeUsuario" placeholder="Digite seu novo nome">
+                  <button>Salvar</button>
+              </div>
+
+              <div class="config-item">
+                  <label for="senhaAtual">Alterar Senha:</label>
+                  <input type="password" id="senhaAtual" placeholder="Senha atual">
+                  <input type="password" id="novaSenha" placeholder="Nova senha">
+                  <button>Atualizar Senha</button>
+              </div>
+
+              <div class="config-item">
+                  <label>
+                      <input type="checkbox" id="notificacoes"> Receber notificações por email
+                  </label>
+              </div>
+
+              <div class="config-item">
+                  <label for="idioma">Idioma:</label>
+                  <select id="idioma" name="idioma">
+                      <option value="pt">Português</option>
+                      <option value="en">Inglês</option>
+                      <option value="es">Espanhol</option>
+                  </select>
+              </div>
+
+          </section>
 
     </main>
 </body>

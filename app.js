@@ -4,11 +4,13 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const { sql, poolPromise } = require('./config/db'); // Conexão com o banco de dados
+const { detect } = require('detect-port');
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000
+// const DEFAULT_PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -315,7 +317,63 @@ app.post('/send-email', (req, res) => {
         res.status(200).send('E-mail enviado com sucesso!');
     });
 });
+
+// add compra 
+app.post('/add-compra', verifyToken, async (req, res) => {
+    const { nome, valor, quantidade, prioridade, categoria } = req.body;
+
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // ID do usuário vindo do token
+
+        console.log('ID do usuário:', idusuario); // Para depuração
+
+        // Inserção da compra no banco
+        await pool.request()
+            .input('nome', sql.NVarChar, nome)
+            .input('valor', sql.Decimal(10, 2), valor)
+            .input('quantidade', sql.Int, quantidade)
+            .input('prioridade', sql.NVarChar, prioridade)
+            .input('categoria', sql.NVarChar, categoria)
+            .input('idusuario', sql.Int, idusuario)
+            .query(`
+                INSERT INTO COMPRAS (nome, valor, quantidade, prioridade, categoria, idusuario)
+                VALUES (@nome, @valor, @quantidade, @prioridade, @categoria, @idusuario)
+            `);
+
+        res.status(201).send('Compra cadastrada com sucesso');
+    } catch (err) {
+        console.error('Erro ao cadastrar compra:', err.message);
+        res.status(500).send('Erro ao cadastrar compra');
+    }
+});
+app.get('/compras', verifyToken, async (req, res) => {
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtém o ID do usuário autenticado
+
+        // Consulta para pegar as compras
+        const result = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT * FROM Compras WHERE idusuario = @idusuario');
+
+        res.json(result.recordset); // Retorna as compras
+    } catch (error) {
+        console.error('Erro ao buscar compras:', error.message);
+        res.status(500).send('Erro ao buscar compras.');
+    }
+});
+
+// Rota para deletar uma compra
+
 // Iniciar o servidor
+// detect(DEFAULT_PORT).then((port) => {
+//     app.listen(port, () => {
+//         console.log(`Servidor rodando em http://localhost:${port}`);
+//     });
+// }).catch(err => {
+//     console.error('Erro ao detectar porta:', err);
+// });
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
-});
+  });
