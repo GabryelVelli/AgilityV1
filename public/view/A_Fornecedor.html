@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Cadastro Produtos</title>
+    <title>Agility - Estabelecimento</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="/css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
@@ -68,29 +68,80 @@
       </nav>
 
 
-    <main class="main-content">
+      <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
-        <h2><i class="fa-solid fa-warehouse"></i>Estoque</h2>
-        <h2>Produtos Cadastrados</h2>
-
-        <!-- Barra de pesquisa -->
-        <div class="barra-pesquisa">
-            <input type="text" id="pesquisa" placeholder="Pesquisar produto..." oninput="filtrarProdutos()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-
-        <div id="produtosContainer"></div>
-    </main>
-
-    <!-- Modal -->
-    <div id="modalExclusao" class="modal">
+        <h2><i class="fa-solid fa-shop"></i>Estabelecimento</h2>
+        <p class="texto-produto">Cadastre seu Estabelecimento e sua unidade nesta seção</p>
+        <div class="cadastroestabelecimento">
+        <form id="estabelecimentoForm">
+          <!-- Dados do Fornecedor -->
+          <h3 class="h3-Fornecedor">Dados do Fornecedor</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nomeEstabelecimento">Fornecedor</label>
+              <input type="text" id="nomeEstabelecimento" placeholder="Digite o nome do Fornecedor" required>
+            </div>
+            <div class="form-group">
+              <label for="cnpj">CNPJ</label>
+              <input type="text" id="cnpj" placeholder="Digite o CNPJ" required>
+            </div>
+            <div class="form-group">
+              <label for="contato">Contato</label>
+              <input type="text" id="contato" placeholder="Digite o contato do estabelecimento" required>
+            </div>
+          </div>
+        
+          <!-- Dados da Unidade -->
+          <h3 class="h3-Fornecedor">Dados da Unidade</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="logradouro">Logradouro</label>
+              <input type="text" id="logradouro" placeholder="Digite o logradouro" required>
+            </div>
+            <div class="form-group">
+              <label for="numero">Número</label>
+              <input type="text" id="numero" placeholder="Digite o número" required>
+            </div>
+            <div class="form-group">
+              <label for="bairro">Bairro</label>
+              <input type="text" id="bairro" placeholder="Digite o bairro" required>
+            </div>
+          </div>
+        
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cidade">Cidade</label>
+              <input type="text" id="cidade" placeholder="Digite a cidade" required>
+            </div>
+            <div class="form-group">
+              <label for="cep">CEP</label>
+              <input type="text" id="cep" placeholder="Digite o CEP" required>
+            </div>
+          </div>
+        
+          <div class="button-container">
+            <button type="submit" class="button">
+              Cadastrar
+            </button>
+          </div>
+        </form>
+    </div>
+    <div class="container">
+        <!-- <h2>Fornecedores Cadastrados</h2>
+        <div id="estabelecimentosContainer"></div> -->
+    </div>
+     <!-- Modal -->
+     <div id="modalExclusao" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <p id="mensagemModal"></p>
         </div>
     </div>
+    </main>
 </body>
-    <script src="scriptinicio.js"></script>
-    <script src="A_Estoque.js"></script>
+
+<script src="/js/A_Fornecedor.js"></script>
+<script src="/js/scriptinicio.js"></script>
+
 </html>

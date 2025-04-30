@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const { sql, poolPromise } = require('./config/db'); // Conexão com o banco de dados
 const { detect } = require('detect-port');
-
+const path = require('path');
 dotenv.config();
 
 const app = express();
@@ -14,6 +14,10 @@ const port = 3000
 
 app.use(express.json());
 app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'view', 'index.html'));
+  });
 
 // Middleware para processar dados do formulário (application/x-www-form-urlencoded)
 app.use(express.urlencoded({ extended: true }));
@@ -347,24 +351,25 @@ app.post('/add-compra', verifyToken, async (req, res) => {
         res.status(500).send('Erro ao cadastrar compra');
     }
 });
-app.get('/compras', verifyToken, async (req, res) => {
-    try {
-        const pool = await poolPromise;
-        const idusuario = req.userId; // Obtém o ID do usuário autenticado
+//itens cadastrados
 
-        // Consulta para pegar as compras
-        const result = await pool.request()
-            .input('idusuario', sql.Int, idusuario)
-            .query('SELECT * FROM Compras WHERE idusuario = @idusuario');
-
-        res.json(result.recordset); // Retorna as compras
-    } catch (error) {
-        console.error('Erro ao buscar compras:', error.message);
-        res.status(500).send('Erro ao buscar compras.');
-    }
-});
 
 // Rota para deletar uma compra
+app.delete('/compras/:id', (req, res) => {
+    const id = req.params.id;
+  
+    // Aqui você executa a lógica de deletar do banco
+    const query = 'DELETE FROM compras WHERE idcompra = ?';
+    
+    conexao.query(query, [id], (err, result) => {
+      if (err) {
+        console.error('Erro ao excluir compra:', err);
+        return res.status(500).send('Erro ao excluir compra');
+      }
+  
+      res.status(200).send('Compra excluída com sucesso');
+    });
+  });
 
 // Iniciar o servidor
 // detect(DEFAULT_PORT).then((port) => {

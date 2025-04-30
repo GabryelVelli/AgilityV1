@@ -45,7 +45,7 @@ registerButton.addEventListener('click', async () => {
         if (response.ok) {
             alert(data.message || 'Usuário cadastrado com sucesso!'); // Alerta para sucesso
             document.getElementById('registerForm').reset(); // Resetar formulário
-            window.location.href = '/index.html'; // Redirecionar após cadastro
+            window.location.href = '/view/index.html'; // Redirecionar após cadastro
         } else {
             alert(data.message || 'Erro ao cadastrar. Tente novamente.');
         }
@@ -81,7 +81,7 @@ loginButton.addEventListener('click', async () => {
             console.log('Token armazenado:', data.token); // Verifique se o token está armazenado corretamente
             
             // Redirecionar após login bem-sucedido
-            window.location.href = '/A_Home.html'; 
+            window.location.href = '/view/A_Home.html'; 
         } else {
             const errorData = await response.json();
             alert(errorData.message || 'Erro no login. Tente novamente.');

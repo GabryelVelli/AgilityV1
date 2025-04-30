@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações - Agility</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="inicio.css">
+    <title>Agility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
@@ -18,7 +16,7 @@
         <div class="placeholder"></div>
       </header>
 
-      <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <ul>
           <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
           <li class="has-submenu">
@@ -40,8 +38,8 @@
           <li class="has-submenu">
             <button class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
             <ul class="submenu">
-              <li><a href="#">Cadastrar Compras</a></li>
-              <li><a href="#">Compras</a></li>
+              <li><a href="A_CadastrarCompras.html">Cadastrar Compras</a></li>
+              <li><a href="A_Compras.html">Compras</a></li>
             </ul>
           </li>
           
@@ -70,49 +68,31 @@
       </nav>
 
       <main class="main-content">
-        <h1 class="titulo"><i class="fa-solid fa-gear"></i>Configurações</h1>
-          <hr>
-
-          <section class="config-opcoes">
-              <div class="config-item">
-                  <label for="tema">Tema:</label>
-                  <select id="tema" name="tema">
-                      <option value="claro">Claro</option>
-                      <option value="escuro">Escuro</option>
-                  </select>
-              </div>
-
-              <div class="config-item">
-                  <label for="nomeUsuario">Alterar Nome de Usuário:</label>
-                  <input type="text" id="nomeUsuario" placeholder="Digite seu novo nome">
-                  <button>Salvar</button>
-              </div>
-
-              <div class="config-item">
-                  <label for="senhaAtual">Alterar Senha:</label>
-                  <input type="password" id="senhaAtual" placeholder="Senha atual">
-                  <input type="password" id="novaSenha" placeholder="Nova senha">
-                  <button>Atualizar Senha</button>
-              </div>
-
-              <div class="config-item">
-                  <label>
-                      <input type="checkbox" id="notificacoes"> Receber notificações por email
-                  </label>
-              </div>
-
-              <div class="config-item">
-                  <label for="idioma">Idioma:</label>
-                  <select id="idioma" name="idioma">
-                      <option value="pt">Português</option>
-                      <option value="en">Inglês</option>
-                      <option value="es">Espanhol</option>
-                  </select>
-              </div>
-
-          </section>
-
-    </main>
+        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i> AGILITY</h1>
+        <hr>
+        <h2><i class="fa-solid fa-chart-pie"></i> Dashboard</h2>
+        <p class="texto-produto">Nesta sessão você tem acesso a um dashboard dinâmico com informações dos seus produtos.</p>
+      
+        <div class="dashboard">
+          <div class="card">
+            <h3>Total de Produtos</h3>
+            <p id="totalProdutos">0</p>
+          </div>
+          <div class="card">
+            <h3>Produtos Vencidos</h3>
+            <p id="produtosVencidos">0</p>
+          </div>
+          <div class="card">
+            <h3>Próximos do Vencimento</h3>
+            <p id="proximosVencimento">0</p>
+          </div>
+          <div class="card">
+            <h3>Produtos Seguros</h3>
+            <p id="produtosSeguros">0</p>
+          </div>
+        </div>
+      </main>
+    <script src="/js/scriptinicio.js"></script>
+    <script src="/js/A_Home.js"></script>
 </body>
-    <script src="scriptinicio.js"></script>
 </html>

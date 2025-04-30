@@ -47,5 +47,5 @@ function logout() {
     alert('Você foi desconectado.'); // Mensagem de confirmação
 
     // Redirecionar para a página de login
-    window.location.href = '/index.html'; // Altere para a página de login
+    window.location.href = '/public/view/index.html'; // Altere para a página de login
 }
