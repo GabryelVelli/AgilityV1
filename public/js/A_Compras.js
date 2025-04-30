@@ -1,113 +1,74 @@
-let compras = [];
-
-async function carregarCompras() {
-    try {
-        const response = await fetch('/compras', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'application/json',
-            }
-        });
-
-        if (response.ok) {
-            compras = await response.json();
-            exibirCompras(compras);
-        } else {
-            mostrarModal('Erro ao carregar compras');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarModal('Erro ao carregar compras');
-    }
-}
-
-function exibirCompras(lista) {
-    const comprasContainer = document.getElementById('comprasContainer');
-    comprasContainer.innerHTML = '';
-
-    const tabela = document.createElement('table');
-    tabela.style = "margin: 20px auto; width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
-    tabela.innerHTML = `
-        <thead>
-            <tr style="background-color: #111827; color: white;">
-                <th style="border: 1px solid #848484; padding: 8px;">Nome</th>
-                <th style="border: 1px solid #848484; padding: 8px;">Valor</th>
-                <th style="border: 1px solid #848484; padding: 8px;">Quantidade</th>
-                <th style="border: 1px solid #848484; padding: 8px;">Prioridade</th>
-                <th style="border: 1px solid #848484; padding: 8px;">Categoria</th>
-                <th style="border: 1px solid #848484; padding: 8px;">Ações</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    `;
-
-    comprasContainer.appendChild(tabela);
-
-    const tabelaBody = tabela.querySelector('tbody');
-    lista.forEach(compra => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td style="border: 1px solid #848484; padding: 8px;">${compra.nome}</td>
-            <td style="border: 1px solid #848484; padding: 8px;">R$ ${parseFloat(compra.valor).toFixed(2)}</td>
-            <td style="border: 1px solid #848484; padding: 8px;">${compra.quantidade}</td>
-            <td style="border: 1px solid #848484; padding: 8px;">${compra.prioridade}</td>
-            <td style="border: 1px solid #848484; padding: 8px;">${compra.categoria}</td>
-            <td style="border: 1px solid #848484; padding: 8px; text-align: center;">
-                <button class="excluir" onclick="excluirCompra(${compra.id})">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </td>
-        `;
-        tabelaBody.appendChild(row);
-    });
-}
-
-async function excluirCompra(id) {
-    try {
-        const response = await fetch(`/compras/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'application/json',
-            }
-        });
-
-        if (response.ok) {
-            mostrarModal('Compra excluída com sucesso');
-            carregarCompras();
-        } else {
-            mostrarModal('Erro ao excluir compra');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarModal('Erro ao excluir compra');
-    }
-}
-
-// Chamar ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
-    carregarCompras();
+  carregarCompras();  // Carrega as compras assim que a página carrega
 });
 
+// Função para carregar as compras
+async function carregarCompras() {
+  const token = localStorage.getItem('token');
+  const tabela = document.querySelector('#tabela-compras tbody');
+  tabela.innerHTML = '';  // Limpa a tabela antes de atualizar
 
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
+  try {
+    const response = await fetch('/compras', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
+    const compras = await response.json();
 
-  // Fecha o modal quando o usuário clica no "x"
-  span.onclick = function() {
-      modal.style.display = 'none';
+    compras.forEach(compra => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${compra.nome}</td>
+        <td>R$ ${parseFloat(compra.valor).toFixed(2)}</td>
+        <td>${compra.quantidade}</td>
+        <td>${compra.categoria}</td>
+        <td>${compra.prioridade}</td>
+        <td>
+          <button onclick="editarCompra(${compra.id})">Editar</button>
+          <button onclick="excluirCompra(${compra.id})">Excluir</button>
+        </td>
+      `;
+      tabela.appendChild(tr);
+    });
+  } catch (err) {
+    console.error('Erro ao carregar compras:', err);
   }
+}
 
-  // Fecha o modal quando o usuário clica fora do conteúdo do modal
-  window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = 'none';
-      }
-  }
+// Função para excluir compra
+async function excluirCompra(id) {
+  const token = localStorage.getItem('token');
+  await fetch(`/excluir-compra/${id}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  carregarCompras();  // Atualiza a lista após excluir
+}
+
+// Função para editar compra
+async function editarCompra(id) {
+  const nome = prompt('Novo nome:');
+  const valor = prompt('Novo valor:');
+  const quantidade = prompt('Nova quantidade:');
+  const categoria = prompt('Nova categoria:');
+  const prioridade = prompt('Nova prioridade:');
+
+  if (!nome || !valor || !quantidade || !categoria || !prioridade) return;
+
+  await fetch(`/editar-compra/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({
+      nome,
+      valor: parseFloat(valor),
+      quantidade: parseInt(quantidade),
+      categoria,
+      prioridade
+    })
+  });
+
+  carregarCompras();  // Atualiza a lista após editar
 }

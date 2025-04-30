@@ -352,25 +352,45 @@ app.post('/add-compra', verifyToken, async (req, res) => {
     }
 });
 //itens cadastrados
-
-
-// Rota para deletar uma compra
-app.delete('/compras/:id', (req, res) => {
-    const id = req.params.id;
+app.get('/compras', verifyToken, async (req, res) => {
+    try {
+      const pool = await poolPromise;
+      const idusuario = req.userId;
   
-    // Aqui você executa a lógica de deletar do banco
-    const query = 'DELETE FROM compras WHERE idcompra = ?';
-    
-    conexao.query(query, [id], (err, result) => {
-      if (err) {
-        console.error('Erro ao excluir compra:', err);
-        return res.status(500).send('Erro ao excluir compra');
-      }
+      // Buscando as compras no banco
+      const result = await pool.request()
+        .input('idusuario', sql.Int, idusuario)
+        .query('SELECT * FROM COMPRAS WHERE idusuario = @idusuario');
   
-      res.status(200).send('Compra excluída com sucesso');
-    });
+      res.status(200).json(result.recordset);
+    } catch (err) {
+      console.error('Erro ao buscar compras:', err.message);
+      res.status(500).send('Erro ao buscar compras');
+    }
   });
 
+// Rota para deletar uma compra
+app.delete('/excluir-compra/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId;
+
+        await pool.request()
+            .input('id', sql.Int, id)
+            .input('idusuario', sql.Int, idusuario)
+            .query(`
+                DELETE FROM COMPRAS 
+                WHERE id = @id AND idusuario = @idusuario
+            `);
+
+        res.status(200).send('Compra excluída com sucesso');
+    } catch (err) {
+        console.error('Erro ao excluir compra:', err.message);
+        res.status(500).send('Erro ao excluir compra');
+    }
+});
 // Iniciar o servidor
 // detect(DEFAULT_PORT).then((port) => {
 //     app.listen(port, () => {
