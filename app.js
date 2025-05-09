@@ -328,67 +328,63 @@ app.post('/add-compra', verifyToken, async (req, res) => {
 
     try {
         const pool = await poolPromise;
-        const idusuario = req.userId; // ID do usuário vindo do token
+        const idusuario = req.userId; // Obtendo o ID do usuário do token
 
-        console.log('ID do usuário:', idusuario); // Para depuração
 
-        // Inserção da compra no banco
-        await pool.request()
+        // Inserir o produto na tabela Produto
+        const produtoInsert = await pool.request()
             .input('nome', sql.NVarChar, nome)
-            .input('valor', sql.Decimal(10, 2), valor)
+            .input('valor', sql.Decimal(10,2), valor)
             .input('quantidade', sql.Int, quantidade)
             .input('prioridade', sql.NVarChar, prioridade)
-            .input('categoria', sql.NVarChar, categoria)
-            .input('idusuario', sql.Int, idusuario)
-            .query(`
-                INSERT INTO COMPRAS (nome, valor, quantidade, prioridade, categoria, idusuario)
-                VALUES (@nome, @valor, @quantidade, @prioridade, @categoria, @idusuario)
-            `);
+			.input('categoria', sql.NVarChar, categoria)
+            .input('idusuario', sql.Int, idusuario) // ID do usuário autenticado
+            .query('INSERT INTO Produto (nome, valor, quantidade, prioridade,categoria, idusuario) VALUES (@nome, @valor, @quantidade, @prioridade, @categoria, @idusuario); SELECT SCOPE_IDENTITY() AS id');
 
-        res.status(201).send('Compra cadastrada com sucesso');
+        res.status(201).send('Item adicionado com sucesso');
     } catch (err) {
-        console.error('Erro ao cadastrar compra:', err.message);
-        res.status(500).send('Erro ao cadastrar compra');
+        console.error('Erro ao cadastrar Item:', err.message);
+        res.status(500).send('Erro ao Item produto');
     }
 });
 //itens cadastrados
 app.get('/compras', verifyToken, async (req, res) => {
     try {
-      const pool = await poolPromise;
-      const idusuario = req.userId;
-  
-      // Buscando as compras no banco
-      const result = await pool.request()
-        .input('idusuario', sql.Int, idusuario)
-        .query('SELECT * FROM COMPRAS WHERE idusuario = @idusuario');
-  
-      res.status(200).json(result.recordset);
-    } catch (err) {
-      console.error('Erro ao buscar compras:', err.message);
-      res.status(500).send('Erro ao buscar compras');
+        const pool = await poolPromise;
+        const idusuario = req.userId; // Obtém o ID do usuário a partir do token
+
+        // Consulta para obter todos os produtos cadastrados pelo usuário
+        const result = await pool.request()
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT * FROM COMPRAS WHERE idusuario = @idusuario');
+
+        // Retorna os dados dos produtos
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Erro ao buscar itens:', error.message);
+        res.status(500).send('Erro ao buscar Itens.');
     }
-  });
+});
 
 // Rota para deletar uma compra
-app.delete('/excluir-compra/:id', verifyToken, async (req, res) => {
-    const { id } = req.params;
+app.delete('/compras/:idcompras', verifyToken, async (req, res) => {
+    const { idcompras } = req.params;
+    const idusuario = req.userId;
+
+    console.log('ID da compra recebido:', idcompras);
 
     try {
         const pool = await poolPromise;
-        const idusuario = req.userId;
 
         await pool.request()
-            .input('id', sql.Int, id)
+            .input('idcompras', sql.Int, idcompras)
             .input('idusuario', sql.Int, idusuario)
-            .query(`
-                DELETE FROM COMPRAS 
-                WHERE id = @id AND idusuario = @idusuario
-            `);
+            .query('DELETE FROM COMPRAS WHERE idcompras = @idcompras AND idusuario = @idusuario');
 
         res.status(200).send('Compra excluída com sucesso');
-    } catch (err) {
-        console.error('Erro ao excluir compra:', err.message);
-        res.status(500).send('Erro ao excluir compra');
+    } catch (error) {
+        console.error('Erro ao excluir compra:', error.message);
+        res.status(500).send('Erro ao excluir compra.');
     }
 });
 // Iniciar o servidor

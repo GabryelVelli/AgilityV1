@@ -9,7 +9,7 @@ const dbConfig = {
     server: process.env.DB_SERVER,
     database: process.env.DB_DATABASE,
     options: {
-        encrypt: true, // Se estiver usando o Azure ou conexões seguras
+        encrypt: false, // Se estiver usando o Azure ou conexões seguras
         trustServerCertificate: true // Usado em servidores locais
     }
 };
