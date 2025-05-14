@@ -8,12 +8,26 @@
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+  
 </head>
 <body>
     <header class="top-bar">
         <button id="menu-toggle" class="menu-toggle">☰</button>
         <h1>Agility</h1>
         <div class="placeholder"></div>
+           <div class="top-bar-right">
+            <!-- Notificações -->
+            <div class="notification-icon">
+              <span class="bell">🔔</span>
+              <span class="notification-badge">3</span>
+            </div>
+
+            <!-- Área do usuário -->
+            <div class="user-info">
+              <img src="https://i.pravatar.cc/40?img=3" alt="Usuário" class="user-avatar">
+              <span class="user-name">Olá, Usuário</span>
+            </div>
+          </div> 
       </header>
 
     <nav class="sidebar" id="sidebar">
@@ -70,10 +84,44 @@
       <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i> AGILITY</h1>
         <hr>
-        <h2><i class="fa-solid fa-chart-pie"></i> Dashboard</h2>
+        <h2><i class="fa-solid fa-chart-pie"></i>Home</h2>
         <p class="texto-produto">Nesta sessão você tem acesso a um dashboard dinâmico com informações dos seus produtos.</p>
-      
-        <div class="dashboard">
+        <section class="recentes">
+          <div class="recentes-header">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> Acessados Recentemente</h2>
+          </div>
+          <div class="recentes-lista">
+            <div class="item-recente">
+              <i class="fa-solid fa-box-open"></i>
+              <div class="info">
+                <a href="A_Cadastrarproduto.html">Adicionar Produto</a>
+                <span class="data">14/05/2025</span>
+              </div>
+            </div>
+            <div class="item-recente">
+              <i class="fa-solid fa-warehouse"></i>
+              <div class="info">
+                <a href="A_Estoque.html">Estoque</a>
+                <span class="data">13/05/2025</span>
+              </div>
+            </div>
+            <div class="item-recente">
+              <i class="fa-solid fa-file-lines"></i>
+              <div class="info">
+                <a href="A_Dashboard.html">Relatório Produtos</a>
+                <span class="data">13/05/2025</span>
+              </div>
+            </div>
+            <div class="item-recente">
+              <i class="fa-solid fa-boxes-stacked"></i>
+              <div class="info">
+                <a href="A_Fornecedores.html">Fornecedores</a>
+                <span class="data">12/05/2025</span>
+              </div>
+            </div>
+          </div>
+        </section>
+       <div class="dashboard">
           <div class="card">
             <h3>Total de Produtos</h3>
             <p id="totalProdutos">0</p>
@@ -91,8 +139,119 @@
             <p id="produtosSeguros">0</p>
           </div>
         </div>
-      </main>
+        <div class="col-md-8">
+          <div class="card card-round">
+            <div class="card-header">
+              <div class="card-head-row">
+                <div class="card-title">Estatisticas Usuario</div>
+                <div class="card-tools">
+                  <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
+                    <span class="btn-label">
+                      <i class="fa fa-pencil"></i>
+                    </span>
+                    Exportar
+                  </a>
+                  <a href="#" class="btn btn-label-info btn-round btn-sm">
+                    <span class="btn-label">
+                      <i class="fa fa-print"></i>
+                    </span>
+                   Imprimir
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" style="min-height: 375px">
+                <canvas id="statisticsChart"></canvas>
+              </div>
+              <!-- Legenda personalizada -->
+              <div id="myChartLegend" style="margin-top: 20px; display: flex; gap: 20px; justify-content: center;">
+                <div style="display: flex; align-items: center;">
+                  <span style="width: 12px; height: 12px; background-color: #ff6384; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
+                  <span>Fornecedores</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span style="width: 12px; height: 12px; background-color: #ffce56; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
+                  <span>Novos Fornecedores</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span style="width: 12px; height: 12px; background-color: #36a2eb; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
+                  <span>Fornecedores Ativos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+      </div>
+   
+    </main>   
     <script src="../js/scriptinicio.js"></script>
     <script src="../js/A_Home.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const ctx = document.getElementById('statisticsChart').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            label: 'Fornecedores',
+            data: [180, 200, 190, 210, 220, 230, 240, 260, 250, 280, 290, 310],
+            backgroundColor: 'rgba(255, 99, 132, 0.3)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Novos Fornecedores',
+            data: [70, 60, 80, 90, 70, 75, 60, 80, 120, 130, 140, 150],
+            backgroundColor: 'rgba(255, 206, 86, 0.3)',
+            borderColor: 'rgba(255, 206, 86, 1)',
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Fornecedores Ativos',
+            data: [300, 250, 200, 300, 270, 200, 180, 220, 260, 280, 320, 400],
+            backgroundColor: 'rgba(54, 162, 235, 0.3)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false // Esconde a legenda do canvas para usar a customizada
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0,0,0,0.05)'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+});
+</script>
+
+ <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

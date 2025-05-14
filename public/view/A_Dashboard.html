@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Contato</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Agility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
-
 <body>
-      <header class="top-bar">
+ <header class="top-bar">
         <button id="menu-toggle" class="menu-toggle">☰</button>
         <h1>Agility</h1>
         <div class="placeholder"></div>
@@ -33,7 +29,7 @@
           </div> 
       </header>
 
-      <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <ul>
           <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
           <li class="has-submenu">
@@ -85,39 +81,28 @@
       </nav>
 
       <main class="main-content">
-        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
-        <hr>
-        <h2><i class="fa-solid fa-envelope"></i>Entre em Contato</h2>
-        <p class="texto-produto" style="margin-bottom: 30px;">Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.</p>
-        
-        <div class="contato">
-            <form id="contact-form" action="/send-email" method="POST">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
-                
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="assunto">Assunto:</label>
-                <input type="text" id="assunto" name="assunto" required>
-                
-                <label for="mensagem">Mensagem:</label>
-                <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
-                
-                <div class="buttons-container">
-                    <button type="submit" class="send-btn">Enviar</button>
-                    <button type="reset" class="clear-btn">Limpar</button>
-                </div>
-            </form>
-        </div>
-    </main>
-    <div id="modalExclusao" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="mensagemModal"></p>
-        </div>
-    </div>
+  <section class="dashboard-container">
+    <h2>Relatório Agility</h2>
+    
+    <!-- Dashboard embutido -->
+     <iframe 
+    title="Exemplo de Dashboard Power BI"
+    width="95%" 
+    height="600px" 
+    src="https://app.powerbi.com/view?r=eyJrIjoiNTM2Zjk3ZTktYjRkMy00NzU4LTgwNGEtNjBhNTVmYTI1NDdjIiwidCI6IjEyYjk0ZmQ1LTdkMzAtNDc0Yy1iM2E3LTk4NzA0Y2NmZGU5MCIsImMiOjF9" 
+    frameborder="0" 
+    allowfullscreen="true">
+  </iframe>
+
+
+    <!-- Botão de download -->
+    <a href="caminho/para/dashboard.pdf" download class="download-btn">
+      Baixar Dashboard (PDF)
+    </a>
+  </section>
+</main>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="../js/scriptinicio.js"></script>
+    <script src="../js/A_Home.js"></script>
 </body>
-<script src="../js/scriptinicio.js"></script>
-<script src="../js/A_Contato.js"></script>
 </html>
