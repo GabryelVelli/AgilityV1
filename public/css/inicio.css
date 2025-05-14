@@ -10,7 +10,54 @@
     min-height: 100vh;
     background-color: gainsboro;
   }
-  
+/* Notificações */
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.bell {
+  font-size: 20px;
+}
+
+/* Usuário */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #38bdf8;
+}
+
+.user-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #f1f5f9;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
   /* Classe de controle da sidebar */
   body.sidebar-collapsed .main-content,
   body.sidebar-collapsed .conteudo {
@@ -27,7 +74,7 @@
     left: 0;
     z-index: 999;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  
+    height: 76px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -59,7 +106,7 @@
   
   .sidebar {
     position: fixed;
-    top: 3.09rem;
+    top: 4.7rem;
     width: 250px;
     height: 100vh;
     background-color: #1f2a38;
@@ -152,6 +199,160 @@
   /* CONTEÚDO */
   /* CONTEÚDO */
   /* CONTEÚDO */
+/* Estilo geral da coluna */
+.col-md-8 {
+  padding-top: 40px;
+  margin-left: 40px; /* Novo */
+  max-width: 50%;   /* Novo: reduz o tamanho geral do conteúdo */
+}
+
+/* Card com cantos arredondados e sombra */
+.card.card-round {
+  background-color: #fff;
+  border-radius: 12px; /* Levemente menor */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: none;
+  padding: 15px; /* Adicionado para controle interno */
+}
+
+/* Cabeçalho do card */
+.card-header {
+  background-color: #f8f9fa;
+  padding: 12px 18px; /* Reduzido */
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Linha de cabeçalho: título + ferramentas */
+.card-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Título do card */
+.card-title {
+  font-size: 1.1rem; /* Levemente menor */
+  font-weight: bold;
+  color: #343a40;
+}
+
+/* Área de botões */
+.card-tools a {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-label-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-label-success:hover {
+  background-color: #218838;
+}
+
+.btn-label-info {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.btn-label-info:hover {
+  background-color: #138496;
+}
+
+.btn-label i {
+  margin-right: 5px;
+}
+
+/* Corpo do card */
+.card-body {
+  padding: 16px;
+}
+
+/* Gráfico */
+.chart-container {
+  min-height: 350px; /* Levemente reduzido */
+  position: relative;
+}
+
+/* Legenda do gráfico */
+#myChartLegend {
+  margin-top: 16px;
+  font-size: 0.85rem;
+}
+
+.recentes {
+  margin-left: 40px;
+  margin-top: 40px;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.recentes-header h2 {
+  margin-left: 5px;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recentes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.item-recente {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+
+.item-recente:hover {
+  background-color: #e9ecef;
+}
+
+.item-recente i {
+  font-size: 1.4rem;
+  color: #0d6efd;
+}
+
+.item-recente .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-recente a {
+  font-weight: 600;
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.item-recente a:hover {
+  text-decoration: underline;
+}
+
+.item-recente .data {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+/* Vendas */
   .conteudo {
     margin-top: 70px;
     margin-left: 250px;
@@ -232,76 +433,103 @@
   }
   
  /*Adicionar A_CadatrorProduto.HTMl*/
- #product-form, #compras-form {
+/* Container do formulário fluido, sem bloco branco */
+#product-form, #compras-form {
   max-width: 1000px;
-  margin-left: 40px;
-  margin-top: 20px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 40px;
+  padding: 40px 30px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.6); /* fundo translúcido */
+  backdrop-filter: blur(8px); /* vidro fosco */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Linhas de campos */
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
+/* Campo individual */
 .form-field {
   flex: 1;
-  min-width: 250px;
+  min-width: 260px;
   display: flex;
   flex-direction: column;
 }
 
+/* Rótulo */
 label {
-  font-weight: bold;
-  margin-bottom: 6px;
-  color: #333;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #0f172a;
 }
 
+/* Entradas */
 input[type="text"],
 input[type="date"],
 input[type="number"] {
-  padding: 10px;
+  padding: 12px 14px;
   font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.3s ease;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  transition: all 0.3s ease;
 }
 
 input:focus {
-  border-color: #007bff;
+  border-color: #3b82f6;
+  background-color: #ffffff;
   outline: none;
 }
 
+/* Botões */
 .button-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 30px;
+  margin-top: 35px;
 }
 
 .button {
-  background-color: #111827;
+  background-color: #0f172a;
   color: white;
-  padding: 12px 24px;
+  padding: 14px 26px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #1e293b;
+  transform: scale(1.03);
 }
 
-.texto-produto{
-  margin-top: 20px;
-  margin-left: 40px;
+/* Título da página ou seção */
+.texto-produto {
+  max-width: 1000px;
+  margin: 40px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: left;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .button-container {
+    justify-content: center;
+  }
 }
 /*
     Cadastro Fornecedor.html 
@@ -625,7 +853,49 @@ body.tema-escuro .main-content .contato{
 body.tema-escuro .main-content #contact-form label{
   color: gainsboro
 }
+/* Container do dashboard */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  text-align: center;
+}
 
+/* Título */
+.dashboard-container h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Estilo do iframe */
+.dashboard-container iframe {
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  height: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Botão de download */
+.download-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 24px;
+  background-color: #0078D4;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #005ea2;
+}
 
 /* Modals */
 .modal {
