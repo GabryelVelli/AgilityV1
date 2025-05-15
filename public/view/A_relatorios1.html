@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agility - Relatórios</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../css/inicio.css" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+    <h1>Agility</h1>
+    <div class="placeholder"></div>
+    <div class="top-bar-right">
+      <div class="notification-icon">
+        <span class="bell">🔔</span>
+        <span class="notification-badge">3</span>
+      </div>
+      <div class="user-info">
+        <img src="https://i.pravatar.cc/40?img=3" alt="Usuário" class="user-avatar" />
+        <span class="user-name">Olá, Usuário</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-box"></i>Produtos</button>
+        <ul class="submenu">
+          <li><a href="A_Cadastrarproduto.html">Adicionar Produto</a></li>
+          <li><a href="A_Estoque.html">Seu Estoque</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-building"></i>Fornecedores</button>
+        <ul class="submenu">
+          <li><a href="A_Fornecedor.html">Cadastrar Fornecedor</a></li>
+          <li><a href="A_Fornecedores.html">Fornecedores</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+        <ul class="submenu">
+          <li><a href="A_CadastrarCompras.html">Cadastrar Compras</a></li>
+          <li><a href="A_Compras.html">Compras</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Setores</button>
+        <ul class="submenu">
+          <li><a href="#">Cadastrar Setores</a></li>
+          <li><a href="#">Setores</a></li>
+        </ul>
+      </li>
+        <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-file"></i><i class=></i>Relatório</button>
+            <ul class="submenu">
+              <li><a href="A_Dashboard.html">Relatorio produtos</a></li>
+              <li><a href="">relatorio fornecedores</a></li>
+            </ul>
+          </li>
+      <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
+      <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
+      <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
+      <li><a href="A_Configuracoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
+      <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair Da Conta</a></li>
+    </ul>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    <h1 class="titulo"><i class="fa-solid fa-file"></i> Relatórios</h1>
+    <hr />
+    <h2><i class="fa-solid fa-circle-question"></i>Escolha qual relatório deseja visualizar:</h2>
+
+    <div class="dashboard-container">
+     <div class="relatorios-btns">
+  <button onclick="window.location.href=''">
+    Relatório de Produtos
+  </button>
+  <button onclick="window.location.href=''">
+    Relatório de Fornecedores
+  </button>
+</div>
+<div class="relatorio-explicacao">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>
+    Os relatórios exibem dados detalhados sobre os produtos e fornecedores cadastrados em seu sistema.
+    Eles serão gerados dinamicamente com base nas informações armazenadas no banco de dados,
+    e podem incluir tabelas e gráficos feitos em dashboards.
+  </p>
+</div>
+
+
+    </div>
+  </main>
+
+  <script src="../js/scriptinicio.js"></script>
+  <script src="../js/A_Fornecedores.js"></script>
+</body>
+</html>
