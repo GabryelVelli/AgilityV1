@@ -512,6 +512,153 @@ app.delete('/nota/excluir/:id', verifyToken, async (req, res) => {
 // FIM NOTA FISCAL //
 // FIM NOTA FISCAL //
 
+// COMPRAS //
+// COMPRAS //
+// COMPRAS //
+// COMPRAS //
+// COMPRAS //
+app.post('/compras/adicionar', verifyToken, async (req, res) => {
+  const { nome, valor, quantidade, prioridade, categoria } = req.body;
+
+  try {
+    const pool = await poolPromise;
+    const idusuario = req.userId;
+
+    await pool.request()
+      .input('nome', sql.NVarChar(255), nome)
+      .input('valor', sql.Decimal(10, 2), valor)
+      .input('quantidade', sql.Int, quantidade)
+      .input('prioridade', sql.NVarChar(50), prioridade)
+      .input('categoria', sql.NVarChar(100), categoria)
+      .input('idusuario', sql.Int, idusuario)
+      .query(`
+        INSERT INTO COMPRAS (nome, valor, quantidade, prioridade, categoria, idusuario)
+        VALUES (@nome, @valor, @quantidade, @prioridade, @categoria, @idusuario)
+      `);
+
+    res.status(201).send('Compra adicionada com sucesso');
+  } catch (err) {
+    console.error('Erro ao adicionar compra:', err.message);
+    res.status(500).send('Erro ao adicionar compra');
+  }
+});
+
+// LISTAR COMPRAS
+app.get('/compras/listar', verifyToken, async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const idusuario = req.userId;
+
+    const result = await pool.request()
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM COMPRAS WHERE idusuario = @idusuario ORDER BY idcompra DESC');
+
+    res.json(result.recordset);
+  } catch (err) {
+    console.error('Erro ao buscar compras:', err.message);
+    res.status(500).send('Erro ao buscar compras');
+  }
+});
+
+// BUSCAR COMPRA POR ID
+app.get('/compras/:id', verifyToken, async (req, res) => {
+  const id = req.params.id;
+  const idusuario = req.userId;
+
+  try {
+    const pool = await poolPromise;
+
+    const result = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM COMPRAS WHERE idcompra = @id AND idusuario = @idusuario');
+
+    if (result.recordset.length === 0) {
+      return res.status(404).send('Compra não encontrada');
+    }
+
+    res.json(result.recordset[0]);
+  } catch (err) {
+    console.error('Erro ao buscar compra:', err.message);
+    res.status(500).send('Erro no servidor');
+  }
+});
+
+// EDITAR COMPRA
+app.put('/compras/editar/:id', verifyToken, async (req, res) => {
+  const id = req.params.id;
+  const idusuario = req.userId;
+  const { nome, valor, quantidade, prioridade, categoria } = req.body;
+
+  try {
+    const pool = await poolPromise;
+
+    const existe = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM COMPRAS WHERE idcompra = @id AND idusuario = @idusuario');
+
+    if (existe.recordset.length === 0) {
+      return res.status(404).send('Compra não encontrada ou acesso negado');
+    }
+
+    await pool.request()
+      .input('nome', sql.NVarChar(255), nome)
+      .input('valor', sql.Decimal(10, 2), valor)
+      .input('quantidade', sql.Int, quantidade)
+      .input('prioridade', sql.NVarChar(50), prioridade)
+      .input('categoria', sql.NVarChar(100), categoria)
+      .input('id', sql.Int, id)
+      .query(`
+        UPDATE COMPRAS 
+        SET nome = @nome, valor = @valor, quantidade = @quantidade, 
+            prioridade = @prioridade, categoria = @categoria 
+        WHERE idcompra = @id
+      `);
+
+    res.send('Compra atualizada com sucesso');
+  } catch (err) {
+    console.error('Erro ao editar compra:', err.message);
+    res.status(500).send('Erro ao editar compra');
+  }
+});
+
+// EXCLUIR COMPRA
+app.delete('/compras/excluir/:id', verifyToken, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const idusuario = req.userId;
+
+    const pool = await poolPromise;
+
+    const result = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM COMPRAS WHERE idcompra = @id AND idusuario = @idusuario');
+
+    if (result.recordset.length === 0) {
+      return res.status(403).send('Você não tem permissão para excluir esta compra.');
+    }
+
+    await pool.request()
+      .input('id', sql.Int, id)
+      .query('DELETE FROM COMPRAS WHERE idcompra = @id');
+
+    res.status(200).send('Compra excluída com sucesso.');
+  } catch (err) {
+    console.error('Erro ao excluir compra:', err.message);
+    res.status(500).send('Erro ao excluir compra');
+  }
+});
+
+
+// FIM COMPRAS //
+// FIM COMPRAS //
+// FIM COMPRAS //
+// FIM COMPRAS //
+// FIM COMPRAS //
+
+
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
   });

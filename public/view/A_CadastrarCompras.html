@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility</title>
+    <title>Agility - Cadastrar Compras</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -12,7 +12,7 @@
 <body>
       <header class="top-bar">
         <button id="menu-toggle" class="menu-toggle">☰</button>
-        <h1>Agility</h1>
+        <h1 style="letter-spacing: 5px;">AGILITY</h1>
         <div class="placeholder"></div>
            <div class="top-bar-right">
             <!-- Notificações -->
@@ -89,42 +89,47 @@
       <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr> 
-        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Cadastrar Itens</h2>
+        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Cadastrar Compras</h2>
         <p class="texto-produto">Cadastre Produtos para Compra Aqui.</p>
-        <p class="texto-produto">Apos Cadastrar os itens eles estarão no Compras.</p>
 
-        <div class="cadastroprod">
-            <form id="compras-form">
-              <div class="form-row">
-                <div class="form-field">
-                  <label for="nome">Nome do Produto:</label>
-                  <input type="text" id="nome" name="nome" placeholder="Ex: Coca-Cola 2L" required>
-                </div>
-                <div class="form-field">
-                  <label for="valor">Valor (R$)</label>
-                  <input type="number" id="valor" name="valor" placeholder="99,00" required>
-                </div>
+       <div class="card-container">
+        <div class="form-card">
+          <form id="compra-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required />
               </div>
-            
-              <div class="form-row">
-                <div class="form-field">
-                  <label for="quantidade">Quantidade:</label>
-                  <input type="number" id="quantidade" name="quantidade" min="1" required placeholder="1">
-                </div>
-                <div class="form-field">
-                  <label for="prioridade">Categoria</label>
-                  <input type="text" id="categoria" name="categoria" placeholder="Bebbida">
-                </div>
-                <div class="form-field">
-                  <label for="prioridade">Prioridade</label>
-                  <input type="text" id="prioridade" name="prioridade" placeholder="Alta">
-                </div>
+              <div class="form-field">
+                <label for="valor">Valor:</label>
+                <input type="number" step="0.01" id="valor" name="valor" required />
               </div>
-            
-              <div class="button-container">
-                <button type="submit" class="button">Cadastrar</button>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade" required />
               </div>
-            </form>
+              <div class="form-field">
+                <label for="prioridade">Prioridade:</label>
+                <input type="text" id="prioridade" name="prioridade" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="categoria">Categoria:</label>
+                <input type="text" id="categoria" name="categoria" required />
+              </div>
+            </div>
+
+            <div class="button-container">
+              <button type="submit" class="button">Cadastrar Item</button>
+            </div>
+          </form>
+        </div>
+      </div>
               <!-- Modal -->
               <div id="modalExclusao" class="modal">
                   <div class="modal-content">

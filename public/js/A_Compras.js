@@ -1,107 +1,66 @@
-// Variável para armazenar todas as compras
-
-
-// Função assíncrona para carregar compras
-const compras = [
-    { idcompras: 1, nome: "Teste", valor: 10, quantidade: 2, categoria: "Exemplo", prioridade: "Alta" }
-];
-exibirCompras(compras);
-
-
-// Função para exibir as compras na tabela
-function exibirCompras(compras) {
-  const comprasContainer = document.getElementById('comprasContainer');
-  comprasContainer.innerHTML = '';
-
-  const tabela = document.createElement('table');
-  tabela.style = "margin-left: 40px; width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
-  tabela.innerHTML = `
-      <thead>
-          <tr style="background-color: #111827; color:white">
-              <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Nome</th>
-              <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Valor</th>
-              <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Quantidade</th>
-              <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Categoria</th>
-              <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Prioridade</th>
-              <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Ações</th>
-          </tr>
-      </thead>
-      <tbody>
-      </tbody>
-  `;
-
-  comprasContainer.appendChild(tabela);
-
-  const tabelaBody = tabela.querySelector('tbody');
-  compras.forEach(compra => {
-      const linha = document.createElement('tr');
-      linha.innerHTML = `
-          <td style="border: 1px solid #848484; padding: 8px;">${compra.idcompras}</td>
-          <td style="border: 1px solid #848484; padding: 8px;">${compra.nome}</td>
-          <td style="border: 1px solid #848484; padding: 8px;">R$ ${compra.valor}</td>
-          <td style="border: 1px solid #848484; padding: 8px;">${compra.quantidade}</td>
-          <td style="border: 1px solid #848484; padding: 8px;">${compra.categoria}</td>
-          <td style="border: 1px solid #848484; padding: 8px;">${compra.prioridade}</td>
-          <td style="border: 1px solid #848484; padding: 8px; text-align: center;">
-              <button onclick="excluirCompra(${compra.idCompras})">Excluir</button>
-          </td>
-      `;
-      tabelaBody.appendChild(linha);
-  });
-}
-document.addEventListener('DOMContentLoaded', () => {
-  carregarCompras();  // Carrega as compras assim que a página carrega
-});
-
-// Função para excluir compra
-async function excluirCompra(idcompras) {
+async function carregarCompras() {
   try {
-      const response = await fetch(`/compras/${idcompras}`, {
-          method: 'DELETE',
-          headers: {
-              'Authorization': 'Bearer ' + localStorage.getItem('token'),
-              'Content-Type': 'application/json',
-          }
-      });
+    const token = localStorage.getItem('token');
+    const response = await fetch('/compras/listar', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
-      if (response.ok) {
-          mostrarModal('Compra excluída com sucesso');
-          carregarCompras();
-      } else {
-          mostrarModal('Erro ao excluir compra');
-      }
-  } catch (error) {
-      console.error('Erro:', error);
-      mostrarModal('Erro ao excluir compra');
+    if (!response.ok) throw new Error(await response.text());
+
+    const compras = await response.json();
+    const tabela = document.getElementById('tabela-compras');
+    tabela.innerHTML = '';
+
+    compras.forEach(compra => {
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td>${compra.nome}</td>
+        <td>${compra.valor.toFixed(2)}</td>
+        <td>${compra.quantidade}</td>
+        <td>${compra.prioridade}</td>
+        <td>${compra.categoria}</td>
+        <td>
+          <button class="btn-editar" onclick="editarCompra(${compra.idcompra})">Editar</button>
+          <button class="btn-excluir" onclick="excluirCompra(${compra.idcompra})">Excluir</button>
+        </td>
+      `;
+
+      tabela.appendChild(tr);
+    });
+  } catch (err) {
+    console.error('Erro ao carregar compras:', err.message);
+    alert('Erro ao buscar compras');
   }
 }
-// Função para editar compra
-async function editarCompra(id) {
-  const nome = prompt('Novo nome:');
-  const valor = prompt('Novo valor:');
-  const quantidade = prompt('Nova quantidade:');
-  const categoria = prompt('Nova categoria:');
-  const prioridade = prompt('Nova prioridade:');
 
-  if (!nome || !valor || !quantidade || !categoria || !prioridade) return;
+async function excluirCompra(id) {
+  if (!confirm('Deseja excluir esta compra?')) return;
 
-  await fetch(`/editar-compra/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify({
-      nome,
-      valor: parseFloat(valor),
-      quantidade: parseInt(quantidade),
-      categoria,
-      prioridade
-    })
-  });
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/compras/excluir/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
-  carregarCompras();  // Atualiza a lista após editar
+    if (response.ok) {
+      alert('Compra excluída com sucesso');
+      carregarCompras();
+    } else {
+      alert('Erro ao excluir: ' + (await response.text()));
+    }
+  } catch (err) {
+    console.error('Erro ao excluir:', err.message);
+  }
 }
+
+function editarCompra(id) {
+  window.location.href = `A_EditarCompra.html?id=${id}`;
+}
+
+// Carregar a tabela automaticamente
+document.addEventListener('DOMContentLoaded', carregarCompras);
 function mostrarModal(mensagem) {
   const modal = document.getElementById('modalExclusao');
   const mensagemModal = document.getElementById('mensagemModal');

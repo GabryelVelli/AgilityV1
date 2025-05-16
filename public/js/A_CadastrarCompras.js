@@ -1,40 +1,39 @@
-
-const form = document.getElementById('compras-form');
-
-form.addEventListener('submit', async (e) => {
+document.getElementById('compra-form').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const data = {
-    nome: form.nome.value,
-    valor: form.valor.value,
-    quantidade: form.quantidade.value,
-    prioridade: form.prioridade.value,
-    categoria: form.categoria.value
+  const compra = {
+    nome: document.getElementById('nome').value,
+    valor: parseFloat(document.getElementById('valor').value),
+    quantidade: parseInt(document.getElementById('quantidade').value),
+    prioridade: document.getElementById('prioridade').value,
+    categoria: document.getElementById('categoria').value
   };
 
   try {
-    const response = await fetch('/add-compra', {
+    const token = localStorage.getItem('token'); // JWT salvo no login
+
+    const response = await fetch('/compras/adicionar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token') // Ajuste conforme onde guarda o token
+        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(compra)
     });
 
-    const result = await response.text();
-
     if (response.ok) {
-        mostrarModal(result);
-      form.reset();
+      alert('Compra cadastrada com sucesso!');
+      this.reset();
     } else {
-        mostrarModal('Erro: ' + result);
+      const error = await response.text();
+      alert('Erro ao cadastrar compra: ' + error);
     }
   } catch (err) {
-    mostrarModal('Erro na requisição:', err);
-    mostrarModal('Erro ao enviar dados.');
+    console.error('Erro no envio:', err);
+    alert('Erro inesperado ao cadastrar.');
   }
 });
+
 
 // Função para exibir o modal com a mensagem
 function mostrarModal(mensagem) {

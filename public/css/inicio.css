@@ -514,7 +514,7 @@ input:focus {
 /* Título da página ou seção */
 .texto-produto {
   max-width: 1000px;
-  margin: 40px;
+  margin-left: 40px;
   font-size: 22px;
   font-weight: 600;
   color: #1e293b;
@@ -1051,7 +1051,7 @@ body.tema-escuro .main-content #contact-form label{
 }
 
 
-.tabela-notas {
+.tabela-notas,.tabela-compras {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Segoe UI', sans-serif;
