@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+!<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Cadastro Produtos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Agility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -29,7 +29,7 @@
           </div> 
       </header>
 
-      <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <ul>
           <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
           <li class="has-submenu">
@@ -56,19 +56,11 @@
             </ul>
           </li>
           
-          <li class="has-submenu">
+           <li class="has-submenu">
             <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Nota Fiscal</button>
             <ul class="submenu">
               <li><a href="A_CadastrarNotaFiscal.html">Cadastrar Fiscal</a></li>
               <li><a href="A_NotaFiscal.html">Notas Fiscais</a></li>
-            </ul>
-          </li>
-
-           <li class="has-submenu">
-            <button class="submenu-toggle"><i class="fa-solid fa-file"></i><i class=></i>Relatório</button>
-            <ul class="submenu">
-              <li><a href="A_Dashboard.html">Relatorio produtos</a></li>
-              <li><a href="">relatorio fornecedores</a></li>
             </ul>
           </li>
 
@@ -79,6 +71,7 @@
               <li><a href="#">Usuários</a></li>
             </ul>
           </li> -->
+          <li><a href="#"><i class="fa-solid fa-file"></i>Relatórios</a></li>
           <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
           <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
           <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
@@ -89,28 +82,63 @@
 
       <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
-        <hr>
-        <h2><i class="fa-solid fa-warehouse"></i>Fornecedores</h2>
-        <h2>Fornecedores Cadastrados</h2>
+        <hr> 
+        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Cadastrar Itens</h2>
+        <p class="texto-produto">Cadastre Produtos para Compra Aqui.</p>
+        <p class="texto-produto">Apos Cadastrar os itens eles estarão no Compras.</p>
 
-        <!-- Barra de pesquisa -->
-        <div class="barra-pesquisa">
-            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
+        <h2>Editar Nota Fiscal</h2>
+      
+      <div class="card-container">
+       <div class="form-card">
+        <form id="nota-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="numero">Número da Nota:</label>
+              <input type="text" id="numero" name="Numero" />
+            </div>
+            <div class="form-field">
+              <label for="serie">Série:</label>
+              <input type="text" id="serie" name="Serie" />
+            </div>
+          </div>
 
-        <div id="estabelecimentosContainer"></div>
-    </main>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="data_emissao">Data de Emissão:</label>
+               <input type="date" id="data_emissao" name="data_emissao" />
+            </div>
+            <div class="form-field">
+              <label for="valor_total">Valor Total:</label>
+              <input type="number" step="0.01" id="valor_total" name="Valor_total" />
+            </div>
+          </div>
 
-    <!-- Modal -->
-    <div id="modalExclusao" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="mensagemModal"></p>
-        </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="fornecedor">Fornecedor:</label>
+              <input type="text" id="fornecedor" name="Fornecedor" />
+            </div>
+          </div>
+
+          <div class="button-container">
+            <button type="submit" class="button">Salvar</button>
+          </div>
+        </form>
+      </div>
     </div>
-</body>
+
+              <!-- Modal -->
+            <div id="modalExclusao" class="modal">
+                <div class="modal-content">
+                    <p class="close">&times;</p>
+                    <p id="mensagemModal"></p>
+                </div>
+            </div>
+          </div>
+  
+      </main>
     <script src="../js/scriptinicio.js"></script>
-    <script src="../js/A_Fornecedores.js"></script>
+    <script src="../js/A_EditarNotaFiscal.js"></script>
+</body>
 </html>
-    

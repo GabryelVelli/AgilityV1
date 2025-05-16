@@ -64,14 +64,6 @@
             </ul>
           </li>
 
-           <li class="has-submenu">
-            <button class="submenu-toggle"><i class="fa-solid fa-file"></i><i class=></i>Relatório</button>
-            <ul class="submenu">
-              <li><a href="A_Dashboard.html">Relatorio produtos</a></li>
-              <li><a href="">relatorio fornecedores</a></li>
-            </ul>
-          </li>
-
           <!-- <li class="has-submenu">
             <button class="submenu-toggle">Usuários</button>
             <ul class="submenu">
@@ -79,6 +71,7 @@
               <li><a href="#">Usuários</a></li>
             </ul>
           </li> -->
+          <li><a href="#"><i class="fa-solid fa-file"></i>Relatórios</a></li>
           <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
           <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
           <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
@@ -90,16 +83,27 @@
       <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
-        <h2><i class="fa-solid fa-warehouse"></i>Fornecedores</h2>
-        <h2>Fornecedores Cadastrados</h2>
+        <h2 class="titulo-tabela">
+          <i class="fa-solid fa-warehouse"></i> Notas Fiscais
+          </h2>
+          <h2 class="subtitulo-tabela">Notas Fiscais Cadastradas</h2>
 
-        <!-- Barra de pesquisa -->
-        <div class="barra-pesquisa">
-            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-
-        <div id="estabelecimentosContainer"></div>
+          
+            <table class="tabela-notas">
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Série</th>
+                  <th>Data de Emissão</th>
+                  <th>Valor Total</th>
+                  <th>Fornecedor</th>
+                  <th style="text-align: center;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-notas">
+                <!-- As linhas serão inseridas via JavaScript -->
+              </tbody>
+            </table>
     </main>
 
     <!-- Modal -->
@@ -111,6 +115,6 @@
     </div>
 </body>
     <script src="../js/scriptinicio.js"></script>
-    <script src="../js/A_Fornecedores.js"></script>
+    <script src="../js/A_Notafiscal.js"></script>
 </html>
     

@@ -40,7 +40,13 @@ const verifyToken = (req, res, next) => {
         next();
     });
 };
-//rota cadastro
+
+//CADASTRO E LOGIN //
+//CADASTRO E LOGIN //
+//CADASTRO E LOGIN //
+//CADASTRO E LOGIN //
+//CADASTRO E LOGIN //
+
 app.post('/register', async (req, res) => {
     const { nome, cpf, email, senha } = req.body;
 
@@ -105,7 +111,11 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// FUNCAO CD_HOME FUNCAO CD_HOME FUNCAO CD_HOME FUNCAO CD_HOME FUNCAO CD_HOME //
+// DASHBOARD HOME //
+// DASHBOARD HOME //
+// DASHBOARD HOME //
+// DASHBOARD HOME //
+// DASHBOARD HOME //
 
 app.get('/dashboard', verifyToken, async (req, res) => {
     try {
@@ -145,7 +155,12 @@ app.get('/dashboard', verifyToken, async (req, res) => {
     }
 });
 
-// FUNCAO CD_ESTABELECIMENTO FUNCAO CD_ESTABELECIMENTO FUNCAO CD_ESTABELECIMENTO FUNCAO CD_ESTABELECIMENTO //
+//ESTABELECIMENTO // 
+//ESTABELECIMENTO // 
+//ESTABELECIMENTO // 
+//ESTABELECIMENTO // 
+//ESTABELECIMENTO // 
+
 app.post('/add-estabelecimento', verifyToken, async (req, res) => {
     const { nomeEstabelecimento, cnpj, contato, logradouro, numero, bairro, cidade, cep } = req.body;
 
@@ -207,9 +222,18 @@ app.get('/estabelecimentos', verifyToken, async (req, res) => {
     }
 });
 
-// FUNCAO PRODUTO FUNCAO PRODUTO FUNCAO PRODUTO FUNCAO PRODUTO //
+// FIM ESTABELECIMENTO // 
+// FIM ESTABELECIMENTO // 
+// FIM ESTABELECIMENTO // 
+// FIM ESTABELECIMENTO // 
+// FIM ESTABELECIMENTO // 
 
-//ADICIONAR PRODUTO
+// PRODUTOS //
+// PRODUTOS //
+// PRODUTOS //
+// PRODUTOS //
+// PRODUTOS //
+
 app.post('/add-produto', verifyToken, async (req, res) => {
     const { nome, codigoBarras, vencimento, quantidade, fornecedor, categoria } = req.body;
 
@@ -286,6 +310,18 @@ app.delete('/produtos/:idproduto', verifyToken, async (req, res) => {
     }
 });
 
+// FIM PRODUTOS //
+// FIM PRODUTOS //
+// FIM PRODUTOS //
+// FIM PRODUTOS //
+// FIM PRODUTOS //
+
+// FUNCAO EMAIL //
+// FUNCAO EMAIL //
+// FUNCAO EMAIL //
+// FUNCAO EMAIL //
+// FUNCAO EMAIL //
+
 app.post('/send-email', (req, res) => {
     const { nome, email, assunto, mensagem } = req.body; // Dados do formulário
 
@@ -321,80 +357,161 @@ app.post('/send-email', (req, res) => {
         res.status(200).send('E-mail enviado com sucesso!');
     });
 });
+// FIM FUNCAO EMAIL //
+// FIM FUNCAO EMAIL //
+// FIM FUNCAO EMAIL //
+// FIM FUNCAO EMAIL //
+// FIM FUNCAO EMAIL //
 
-// add compra 
-app.post('/add-compra', verifyToken, async (req, res) => {
-    const { nome, valor, quantidade, prioridade, categoria } = req.body;
+// NOTA FISCAL //
+// NOTA FISCAL //
+// NOTA FISCAL //
+// NOTA FISCAL //
+// NOTA FISCAL //
+app.post('/nota/adicionar', verifyToken, async (req, res) => {
+  const { Numero, Serie, data_emissao, Valor_total, Fornecedor } = req.body;
 
-    try {
-        const pool = await poolPromise;
-        const idusuario = req.userId; // Obtendo o ID do usuário do token
+  try {
+    const pool = await poolPromise;
+    const idusuario = req.userId; // do token JWT
 
+    console.log('ID do usuário (nota):', idusuario); // para debug
 
-        // Inserir o produto na tabela Produto
-        const produtoInsert = await pool.request()
-            .input('nome', sql.NVarChar, nome)
-            .input('valor', sql.Decimal(10,2), valor)
-            .input('quantidade', sql.Int, quantidade)
-            .input('prioridade', sql.NVarChar, prioridade)
-			.input('categoria', sql.NVarChar, categoria)
-            .input('idusuario', sql.Int, idusuario) // ID do usuário autenticado
-            .query('INSERT INTO Produto (nome, valor, quantidade, prioridade,categoria, idusuario) VALUES (@nome, @valor, @quantidade, @prioridade, @categoria, @idusuario); SELECT SCOPE_IDENTITY() AS id');
+    // Inserir a nota fiscal
+    await pool.request()
+      .input('Numero', sql.VarChar(20), Numero)
+      .input('Serie', sql.VarChar(10), Serie)
+      .input('data_emissao', sql.Date, data_emissao)
+      .input('Valor_total', sql.Decimal(10, 2), Valor_total)
+      .input('Fornecedor', sql.NVarChar(255), Fornecedor)
+      .input('idusuario', sql.Int, idusuario)
+      .query(`
+        INSERT INTO NOTA_FISCAL 
+        (Numero, Serie, data_emissao, Valor_total, Fornecedor, idusuario)
+        VALUES 
+        (@Numero, @Serie, @data_emissao, @Valor_total, @Fornecedor, @idusuario)
+      `);
 
-        res.status(201).send('Item adicionado com sucesso');
-    } catch (err) {
-        console.error('Erro ao cadastrar Item:', err.message);
-        res.status(500).send('Erro ao Item produto');
-    }
-});
-//itens cadastrados
-app.get('/compras', verifyToken, async (req, res) => {
-    try {
-        const pool = await poolPromise;
-        const idusuario = req.userId; // Obtém o ID do usuário a partir do token
-
-        // Consulta para obter todos os produtos cadastrados pelo usuário
-        const result = await pool.request()
-            .input('idusuario', sql.Int, idusuario)
-            .query('SELECT * FROM COMPRAS WHERE idusuario = @idusuario');
-
-        // Retorna os dados dos produtos
-        res.json(result.recordset);
-    } catch (error) {
-        console.error('Erro ao buscar itens:', error.message);
-        res.status(500).send('Erro ao buscar Itens.');
-    }
+    res.status(201).send('Nota fiscal adicionada com sucesso');
+  } catch (err) {
+    console.error('Erro ao adicionar nota fiscal:', err.message);
+    res.status(500).send('Erro ao adicionar nota fiscal');
+  }
 });
 
-// Rota para deletar uma compra
-app.delete('/compras/:idcompras', verifyToken, async (req, res) => {
-    const { idcompras } = req.params;
+app.get('/nota/listar', verifyToken, async (req, res) => {
+  try {
+    const pool = await poolPromise;
     const idusuario = req.userId;
 
-    console.log('ID da compra recebido:', idcompras);
+    const result = await pool.request()
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM NOTA_FISCAL WHERE idusuario = @idusuario ORDER BY criado_em DESC');
 
-    try {
-        const pool = await poolPromise;
-
-        await pool.request()
-            .input('idcompras', sql.Int, idcompras)
-            .input('idusuario', sql.Int, idusuario)
-            .query('DELETE FROM COMPRAS WHERE idcompras = @idcompras AND idusuario = @idusuario');
-
-        res.status(200).send('Compra excluída com sucesso');
-    } catch (error) {
-        console.error('Erro ao excluir compra:', error.message);
-        res.status(500).send('Erro ao excluir compra.');
-    }
+    res.json(result.recordset);
+  } catch (err) {
+    console.error('Erro ao listar notas fiscais:', err.message);
+    res.status(500).send('Erro ao buscar notas fiscais');
+  }
 });
-// Iniciar o servidor
-// detect(DEFAULT_PORT).then((port) => {
-//     app.listen(port, () => {
-//         console.log(`Servidor rodando em http://localhost:${port}`);
-//     });
-// }).catch(err => {
-//     console.error('Erro ao detectar porta:', err);
-// });
+
+app.get('/nota/:id', verifyToken, async (req, res) => {
+  const id = req.params.id;
+  const idusuario = req.userId;
+
+  try {
+    const pool = await poolPromise;
+
+    const result = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM NOTA_FISCAL WHERE IDnota = @id AND idusuario = @idusuario');
+
+    if (result.recordset.length === 0) {
+      return res.status(404).send('Nota não encontrada');
+    }
+
+    res.json(result.recordset[0]);
+  } catch (err) {
+    console.error('Erro ao buscar nota:', err.message);
+    res.status(500).send('Erro no servidor');
+  }
+});
+
+app.put('/nota/editar/:id', verifyToken, async (req, res) => {
+  const id = req.params.id;
+  const idusuario = req.userId;
+
+  console.log('REQ.BODY:', req.body); // <== debug
+
+  const { Numero, Serie, data_emissao, Valor_total, Fornecedor } = req.body;
+
+  try {
+    const pool = await poolPromise;
+
+    const existe = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM NOTA_FISCAL WHERE IDnota = @id AND idusuario = @idusuario');
+
+    if (existe.recordset.length === 0) {
+      return res.status(404).send('Nota não encontrada ou acesso negado');
+    }
+
+    await pool.request()
+      .input('Numero', sql.VarChar, Numero)
+      .input('Serie', sql.VarChar, Serie)
+      .input('data_emissao', sql.Date, data_emissao)
+      .input('Valor_total', sql.Decimal(10, 2), Valor_total)
+      .input('Fornecedor', sql.NVarChar, Fornecedor)
+      .input('id', sql.Int, id)
+      .query(`UPDATE NOTA_FISCAL 
+              SET Numero = @Numero, Serie = @Serie, data_emissao = @data_emissao, 
+                  Valor_total = @Valor_total, Fornecedor = @Fornecedor 
+              WHERE IDnota = @id`);
+
+    res.send('Nota fiscal atualizada com sucesso');
+  } catch (err) {
+    console.error('Erro ao editar nota:', err.message);
+    res.status(500).send('Erro ao editar nota fiscal');
+  }
+});
+
+app.delete('/nota/excluir/:id', verifyToken, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const idusuario = req.userId;
+
+    const pool = await poolPromise;
+
+    // Verifica se a nota pertence ao usuário
+    const result = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM NOTA_FISCAL WHERE IDnota = @id AND idusuario = @idusuario');
+
+    if (result.recordset.length === 0) {
+      return res.status(403).send('Você não tem permissão para excluir esta nota.');
+    }
+
+    // Exclui a nota
+    await pool.request()
+      .input('id', sql.Int, id)
+      .query('DELETE FROM NOTA_FISCAL WHERE IDnota = @id');
+
+    res.status(200).send('Nota excluída com sucesso.');
+  } catch (err) {
+    console.error('Erro ao excluir nota fiscal:', err.message);
+    res.status(500).send('Erro ao excluir nota fiscal');
+  }
+});
+
+// FIM NOTA FISCAL //
+// FIM NOTA FISCAL //
+// FIM NOTA FISCAL //
+// FIM NOTA FISCAL //
+// FIM NOTA FISCAL //
+
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
   });
