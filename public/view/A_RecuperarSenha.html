@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Recuperar Senha - Agility</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="recuperarForm">
+      <h1>Recuperar Senha</h1>
+      <span>Digite a conta de recuperação de senha</span>
+      <input type="email" id="recuperarEmail" placeholder="Digite seu e-mail" required>
+      <button type="submit">Enviar código</button>
+    </form>
+
+    <form id="redefinirForm" style="display: none;">
+      <h1>Redefinir Senha</h1>
+      <input type="text" id="codigoToken" placeholder="Código recebido por e-mail" required>
+      <input type="password" id="novaSenha" placeholder="Nova senha" required>
+      <button type="submit">Redefinir</button>
+    </form>
+  </div>
+
+  <script src="../js/app.js">
+    document.getElementById("recuperarSenhaForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value; // Pega o e-mail do input
+
+    const response = await fetch("http://localhost:3000/recuperar-senha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    });
+
+    const result = await response.text();
+    alert(result); // Exibe "Código enviado! Confira seu e-mail."
+});
+
+  </script>
+</body>
+</html>

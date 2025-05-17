@@ -404,7 +404,95 @@ app.post('/send-email', (req, res) => {
     if (!nome || !email || !assunto || !mensagem) {
         return res.status(400).send('Todos os campos são obrigatórios.');
     }
+// Rota para enviar código de redefinição
+app.post('/recuperar-senha', async (req, res) => {
+  const { email } = req.body;
+  const token = Math.floor(100000 + Math.random() * 900000).toString(); // código de 6 dígitos
 
+  try {
+    await sql.connect(config);
+
+    const result = await sql.query`UPDATE USUARIO SET token = ${token} WHERE email = ${email}`;
+
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).send('E-mail não encontrado.');
+    }
+
+ const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,  
+            pass: process.env.EMAIL_PASS   
+        }
+    });
+
+    await transporter.sendMail({
+      from: `"Agility" <${process.env.EMAIL_USER}>"`, 
+      to: email,
+      subject: 'Recuperação de Senha',
+      text: `Seu código de verificação é: ${token}`
+    });
+
+    res.send('Código enviado.');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erro interno no servidor.');
+  }
+});
+// Rota para redefinir senha
+app.post('/recuperar-senha', async (req, res) => {
+  const { email } = req.body;
+  const token = Math.floor(100000 + Math.random() * 900000).toString(); // Gera um novo código de 6 dígitos
+
+  try {
+    await sql.connect(config);
+
+    const result = await sql.query`
+      UPDATE USUARIO 
+      SET token = ${token} 
+      WHERE email = ${email}
+    `;
+
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).send('E-mail não encontrado.');
+    }
+
+    // Enviar o código atualizado por e-mail
+    await transporter.sendMail({
+      from: `"Agility" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Recuperação de Senha',
+      text: `Seu código de verificação é: ${token}`
+    });
+
+    res.send('Novo código enviado! Confira seu e-mail.');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erro interno no servidor.');
+  }
+});
+document.getElementById("recuperarSenhaForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value; // Pega o e-mail digitado
+
+    const response = await fetch("http://localhost:3000/recuperar-senha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    });
+
+    const result = await response.text();
+    alert(result); // Exibe "Novo código enviado! Confira seu e-mail."
+});
+
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+
+
+    
     // Configuração do Nodemailer
     const transporter = nodemailer.createTransport({
         service: 'gmail',
