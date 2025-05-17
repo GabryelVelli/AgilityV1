@@ -834,7 +834,16 @@ body.tema-escuro h5,
 body.tema-escuro h6 {
     color: gainsboro;
 }
+body.tema-escuro p{
+  color: gainsboro;
+}
+body.tema-escuro .main-content hr {
+  background-color: gainsboro;
+}
 
+body.tema-escuro .main-content section.recentes{
+  background-color: #3a3a3a;
+}
 body.tema-escuro input,
 body.tema-escuro select {
     background-color: #3a3a3a;
@@ -848,11 +857,15 @@ body.tema-escuro .config-opcoes{
 }
 
 body.tema-escuro .main-content .card{
-    background-color: #262626;
+    background-color: #3a3a3a;
     color: gainsboro
 }
-body.tema-escuro .main-content #product-form{
-  background-color: #262626;
+body.tema-escuro .item-recente {
+  background-color: #2b2b2b;
+  color: gainsboro;
+}
+body.tema-escuro .main-content .form-card{
+  background-color: #3a3a3a;
   color: gainsboro
 }
 body.tema-escuro .main-content #compras-form{
@@ -1342,3 +1355,8 @@ body.tema-escuro .main-content #contact-form label{
 .btn-excluirnot:hover {
   color: #a71d2a;
 }
+/* PERFIL .HTML */
+/* PERFIL .HTML */
+/* PERFIL .HTML */
+/* PERFIL .HTML */
+/* PERFIL .HTML */
