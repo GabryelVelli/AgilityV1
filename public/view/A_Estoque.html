@@ -16,9 +16,9 @@
         <div class="placeholder"></div>
            <div class="top-bar-right">
             <!-- Notificações -->
-            <div class="notification-icon">
-              <span class="bell">🔔</span>
-              <span class="notification-badge">3</span>
+           <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
             </div>
 
             <!-- Área do usuário -->
@@ -94,15 +94,29 @@
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
         <h2><i class="fa-solid fa-warehouse"></i>Estoque</h2>
-        <h2>Produtos Cadastrados</h2>
-
+        <h2><i class="fa-solid fa-boxes-stacked"></i> Produtos</h2>
         <!-- Barra de pesquisa -->
         <div class="barra-pesquisa">
             <input type="text" id="pesquisa" placeholder="Pesquisar produto..." oninput="filtrarProdutos()">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
+        <table class="tabela-notas">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Código de Barras</th>
+              <th>Vencimento</th>
+              <th>Quantidade</th>
+              <th>Fornecedor</th>
+              <th>Categoria</th>
+              <th style="text-align: center;">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-produtos"></tbody>
+        </table>
 
-        <div id="produtosContainer"></div>
+       
+
     </main>
 
     <!-- Modal -->
@@ -115,4 +129,10 @@
 </body>
     <script src="../js/scriptinicio.js"></script>
     <script src="../js/A_Estoque.js"></script>
+     <script src="../js/A_Notificacao.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
 </html>

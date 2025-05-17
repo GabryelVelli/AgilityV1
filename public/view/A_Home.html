@@ -17,9 +17,9 @@
         <div class="placeholder"></div>
            <div class="top-bar-right">
             <!-- Notificações -->
-            <div class="notification-icon">
-              <span class="bell">🔔</span>
-              <span class="notification-badge">3</span>
+             <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
             </div>
 
             <!-- Área do usuário -->
@@ -98,34 +98,7 @@
             <h2><i class="fa-solid fa-clock-rotate-left"></i> Acessados Recentemente</h2>
           </div>
           <div class="recentes-lista">
-            <div class="item-recente">
-              <i class="fa-solid fa-box-open"></i>
-              <div class="info">
-                <a href="A_Cadastrarproduto.html">Adicionar Produto</a>
-                <span class="data">14/05/2025</span>
-              </div>
-            </div>
-            <div class="item-recente">
-              <i class="fa-solid fa-warehouse"></i>
-              <div class="info">
-                <a href="A_Estoque.html">Estoque</a>
-                <span class="data">13/05/2025</span>
-              </div>
-            </div>
-            <div class="item-recente">
-              <i class="fa-solid fa-file-lines"></i>
-              <div class="info">
-                <a href="A_relatorios1.html">Relatórios</a>
-                <span class="data">13/05/2025</span>
-              </div>
-            </div>
-            <div class="item-recente">
-              <i class="fa-solid fa-boxes-stacked"></i>
-              <div class="info">
-                <a href="A_Fornecedores.html">Fornecedores</a>
-                <span class="data">12/05/2025</span>
-              </div>
-            </div>
+            <!-- Os itens recentes serão inseridos aqui dinamicamente pelo Javascript -->
           </div>
         </section>
        <div class="dashboard">
@@ -194,6 +167,12 @@
     </main>   
     <script src="../js/scriptinicio.js"></script>
     <script src="../js/A_Home.js"></script>
+    <script src="../js/A_Notificacao.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        atualizarContadorNotificacoes();
+      });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     const ctx = document.getElementById('statisticsChart').getContext('2d');
@@ -260,5 +239,11 @@
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/A_Notificacao.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
 </body>
 </html>

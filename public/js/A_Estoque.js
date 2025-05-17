@@ -1,85 +1,84 @@
-    // Variável para armazenar todos os produtos
-    let produtos = [];
+async function carregarProdutos() {
+  try {
+    const response = await fetch('/produtos', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json',
+      }
+    });
 
-    // Função para formatar a data
-    function formatarData(data) {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        const formatoData = new Date(data).toLocaleDateString('pt-BR', options);
-        return formatoData;
+    if (response.ok) {
+      const produtos = await response.json();
+      exibirProdutos(produtos);
+    } else {
+      mostrarModal('Erro ao carregar produtos');
     }
+  } catch (error) {
+    console.error('Erro:', error);
+    mostrarModal('Erro ao carregar produtos');
+  }
+}
 
-    // Função assíncrona para carregar produtos
-    async function carregarProdutos() {
-        try {
-            const response = await fetch('/produtos', {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    'Content-Type': 'application/json',
-                }
-            });
+function formatarData(dataISO) {
+  const data = new Date(dataISO);
+  return data.toLocaleDateString('pt-BR');
+}
 
-            if (response.ok) {
-                produtos = await response.json(); // Armazena os produtos globalmente
+function exibirProdutos(produtos) {
+  const tbody = document.getElementById('tabela-produtos');
+  tbody.innerHTML = ''; // Limpa a tabela
 
-                // Exibe os produtos ao carregar
-                exibirProdutos(produtos);
-            } else {
-                mostrarModal('Erro ao carregar produtos');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            mostrarModal('Erro ao carregar produtos');
+  produtos.forEach(produto => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${produto.nome}</td>
+      <td>${produto.codigoBarras}</td>
+      <td>${formatarData(produto.vencimento)}</td>
+      <td>${produto.quantidade}</td>
+      <td>${produto.fornecedor}</td>
+      <td>${produto.categoria}</td>
+      <td style="text-align: center;">
+        <button class="btn-detalhes" onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
+        <button class="btn-editar" onclick="editarProduto(${produto.idproduto})">Editar</button>
+        <button class="btn-excluir" onclick="excluirProduto(${produto.idproduto})">Excluir</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function editarProduto(id) {
+  window.location.href = `A_EditarProduto.html?id=${id}`;
+}
+
+async function excluirProduto(id) {
+  if (confirm('Tem certeza que deseja excluir este produto?')) {
+    try {
+      const response = await fetch(`/produtos/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
+      });
+
+      if (response.ok) {
+        adicionarNotificacao('Produto Excluido com sucesso!', 'A_Estoque.html');
+        mostrarModal('Produto excluído com sucesso');
+        carregarProdutos(); // Atualiza a lista
+      } else {
+        mostrarModal('Erro ao excluir produto');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      mostrarModal('Erro ao excluir produto');
     }
+  }
+}
 
-        function exibirProdutos(produtos) {
-        const produtosContainer = document.getElementById('produtosContainer');
-        produtosContainer.innerHTML = ''; // Limpa o conteúdo antes de adicionar os novos produtos
-
-        // Adiciona o cabeçalho da tabela uma única vez
-        const tabela = document.createElement('table');
-        tabela.style = "margin-left: 40px;width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
-        tabela.innerHTML = `
-            <thead>
-                <tr style="background-color: #111827; color:white">
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Nome</th>
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Código de Barras</th>
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Vencimento</th>
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Quantidade</th>
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Fornecedor</th>
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Categoria</th>
-                    <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        `;
-
-        // Adiciona a tabela ao container
-        produtosContainer.appendChild(tabela);
-
-        // Adiciona os produtos na tabela
-        const tabelaBody = tabela.querySelector('tbody');
-        produtos.forEach(produto => {
-            const produtoRow = document.createElement('tr');
-            produtoRow.innerHTML = `
-                <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${produto.nome}</td>
-                <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${produto.codigoBarras}</td>
-                <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${formatarData(produto.vencimento)}</td>
-                <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${produto.quantidade}</td>
-                <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${produto.fornecedor}</td>
-                <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${produto.categoria}</td>
-                <td style="border: 1px solid #848484; padding: 8px; text-align: center;">
-                    <button class="excluir" onclick="excluirProduto(${produto.idproduto})">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            tabelaBody.appendChild(produtoRow);
-        });
-    }
-
+function verDetalhes(id) {
+  window.location.href = `A_DetalhesProduto.html?id=${id}`;
+}
     // Função para filtrar produtos com base no texto digitado na barra de pesquisa
     function filtrarProdutos() {
         const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
@@ -102,29 +101,6 @@
         carregarProdutos();
     });
 
-    // Função para excluir um produto
-    async function excluirProduto(idproduto) {
-        try {
-            const response = await fetch(`/produtos/${idproduto}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (response.ok) {
-                mostrarModal('Produto excluído com sucesso');
-                carregarProdutos(); // Recarrega a lista de produtos após a exclusão
-            } else {
-                mostrarModal('Erro ao excluir produto');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            mostrarModal('Erro ao excluir produto');
-        }
-    }
-
     // Função para exibir o modal com a mensagem
     function mostrarModal(mensagem) {
         const modal = document.getElementById('modalExclusao');
@@ -146,3 +122,8 @@
             }
         }
     }
+document.addEventListener('DOMContentLoaded', () => {
+  adicionarAcessoRecente('Estoque', 'A_Estoque.html', 'estoque');
+});
+
+

@@ -111,6 +111,32 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// ROTA USUARIO //
+// ROTA USUARIO //
+// ROTA USUARIO //
+// ROTA USUARIO //
+// ROTA USUARIO //
+
+app.get('/usuario/me', verifyToken, async (req, res) => {
+  const idusuario = req.userId;
+
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request()
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT nome FROM USUARIO WHERE IDusuario = @idusuario');
+
+    if (result.recordset.length === 0) {
+      return res.status(404).send('Usuário não encontrado');
+    }
+
+    res.json({ nome: result.recordset[0].nome });
+  } catch (err) {
+    console.error('Erro ao buscar usuário:', err.message);
+    res.status(500).send('Erro no servidor');
+  }
+});
+
 // DASHBOARD HOME //
 // DASHBOARD HOME //
 // DASHBOARD HOME //
@@ -309,7 +335,56 @@ app.delete('/produtos/:idproduto', verifyToken, async (req, res) => {
         res.status(500).send('Erro ao excluir produto.');
     }
 });
+app.put('/produtos/:idproduto', verifyToken, async (req, res) => {
+    const { idproduto } = req.params;
+    const { nome, codigoBarras, vencimento, quantidade, fornecedor, categoria } = req.body;
 
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId;
+
+        await pool.request()
+            .input('idproduto', sql.Int, idproduto)
+            .input('idusuario', sql.Int, idusuario)
+            .input('nome', sql.NVarChar, nome)
+            .input('codigoBarras', sql.BigInt, codigoBarras)
+            .input('vencimento', sql.Date, vencimento)
+            .input('quantidade', sql.Int, quantidade)
+            .input('fornecedor', sql.NVarChar, fornecedor)
+            .input('categoria', sql.VarChar, categoria)
+            .query(`UPDATE Produto 
+                    SET nome = @nome, codigoBarras = @codigoBarras, vencimento = @vencimento, 
+                        quantidade = @quantidade, fornecedor = @fornecedor, categoria = @categoria 
+                    WHERE idproduto = @idproduto AND idusuario = @idusuario`);
+
+        res.status(200).send('Produto atualizado com sucesso');
+    } catch (error) {
+        console.error('Erro ao atualizar produto:', error.message);
+        res.status(500).send('Erro ao atualizar produto.');
+    }
+});
+app.get('/produtos/:idproduto', verifyToken, async (req, res) => {
+    const { idproduto } = req.params;
+
+    try {
+        const pool = await poolPromise;
+        const idusuario = req.userId;
+
+        const result = await pool.request()
+            .input('idproduto', sql.Int, idproduto)
+            .input('idusuario', sql.Int, idusuario)
+            .query('SELECT * FROM Produto WHERE idproduto = @idproduto AND idusuario = @idusuario');
+
+        if (result.recordset.length === 0) {
+            return res.status(404).send('Produto não encontrado');
+        }
+
+        res.json(result.recordset[0]);
+    } catch (error) {
+        console.error('Erro ao buscar produto:', error.message);
+        res.status(500).send('Erro ao buscar produto.');
+    }
+});
 // FIM PRODUTOS //
 // FIM PRODUTOS //
 // FIM PRODUTOS //

@@ -22,15 +22,16 @@ document.getElementById('compra-form').addEventListener('submit', async function
     });
 
     if (response.ok) {
-      alert('Compra cadastrada com sucesso!');
+      adicionarNotificacao('Compra cadastrada com sucesso!', 'A_Compras.html');
+      mostrarModal('Compra cadastrada com sucesso!');
       this.reset();
     } else {
       const error = await response.text();
-      alert('Erro ao cadastrar compra: ' + error);
+      mostrarModal('Erro ao cadastrar compra: ' + error);
     }
   } catch (err) {
     console.error('Erro no envio:', err);
-    alert('Erro inesperado ao cadastrar.');
+    mostrarModal('Erro inesperado ao cadastrar.');
   }
 });
 

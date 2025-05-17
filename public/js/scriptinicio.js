@@ -40,6 +40,88 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    document.querySelector('.user-name').textContent = 'Olá, Visitante';
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:3000/usuario/me', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (!response.ok) throw new Error('Não foi possível carregar o nome do usuário.');
+
+    const data = await response.json();
+    document.querySelector('.user-name').textContent = `Olá, ${data.nome}`;
+  } catch (error) {
+    console.error(error);
+    document.querySelector('.user-name').textContent = 'Olá, Usuário';
+  }
+});
+
+//FUNCAO RECENTES//
+//FUNCAO RECENTES//
+//FUNCAO RECENTES//
+//FUNCAO RECENTES//
+//FUNCAO RECENTES//
+
+
+function adicionarAcessoRecente(nome, url, tipo) {
+  let acessos = JSON.parse(localStorage.getItem('acessosRecentes')) || [];
+
+  acessos = acessos.filter(acesso => acesso.url !== url);
+
+  acessos.unshift({ nome, url, tipo, data: new Date().toISOString() });
+
+  if (acessos.length > 5) {
+    acessos.pop();
+  }
+
+  localStorage.setItem('acessosRecentes', JSON.stringify(acessos));
+}
+
+// Carrega e exibe os acessos recentes na tela
+document.addEventListener('DOMContentLoaded', () => {
+  const recentesLista = document.querySelector('.recentes-lista');
+  const acessosRecentes = JSON.parse(localStorage.getItem('acessosRecentes')) || [];
+
+  if (acessosRecentes.length === 0) {
+    recentesLista.innerHTML = '<p>Nenhum acesso recente.</p>';
+    return;
+  }
+
+  recentesLista.innerHTML = '';
+
+  const icones = {
+    'produto': 'fa-box-open',
+    'estoque': 'fa-warehouse',
+    'relatorio': 'fa-file-lines',
+    'fornecedor': 'fa-boxes-stacked',
+    'compra': 'fa-solid fa-boxes-stacked',
+    'notafiscal': 'fa-solid fa-warehouse',
+  };
+
+  acessosRecentes.forEach(item => {
+    const icone = icones[item.tipo] || 'fa-file';
+    const dataFormatada = new Date(item.data).toLocaleDateString('pt-BR');
+
+    const divItem = document.createElement('div');
+    divItem.classList.add('item-recente');
+
+    divItem.innerHTML = `
+      <i class="fa-solid ${icone}"></i>
+      <div class="info">
+        <a href="${item.url}">${item.nome}</a>
+        <span class="data">${dataFormatada}</span>
+      </div>
+    `;
+
+    recentesLista.appendChild(divItem);
+  });
+});
 // Função de logout
 function logout() {
     // Remover o token do localStorage
@@ -47,5 +129,5 @@ function logout() {
     alert('Você foi desconectado.'); // Mensagem de confirmação
 
     // Redirecionar para a página de login
-    window.location.href = '/public/view/index.html'; // Altere para a página de login
+    window.location.href = 'index.html'; // Altere para a página de login
 }

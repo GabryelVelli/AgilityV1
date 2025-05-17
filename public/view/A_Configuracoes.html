@@ -18,9 +18,9 @@
         <div class="placeholder"></div>
            <div class="top-bar-right">
             <!-- Notificações -->
-            <div class="notification-icon">
-              <span class="bell">🔔</span>
-              <span class="notification-badge">3</span>
+            <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
             </div>
 
             <!-- Área do usuário -->
@@ -135,4 +135,10 @@
     </main>
 </body>
 <script src="../js/scriptinicio.js"></script>
+ <script src="../js/A_Notificacao.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
 </html>

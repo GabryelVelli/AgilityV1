@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Relatorio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <title>Agility - Cadastro Produtos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
 <body>
- <header class="top-bar">
+      <header class="top-bar">
         <button id="menu-toggle" class="menu-toggle">☰</button>
         <h1 style="letter-spacing: 5px;">AGILITY</h1>
         <div class="placeholder"></div>
@@ -29,7 +29,7 @@
           </div> 
       </header>
 
-    <nav class="sidebar" id="sidebar">
+      <nav class="sidebar" id="sidebar">
         <ul>
           <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
           <li class="has-submenu">
@@ -56,7 +56,7 @@
             </ul>
           </li>
           
-         <li class="has-submenu">
+          <li class="has-submenu">
             <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Nota Fiscal</button>
             <ul class="submenu">
               <li><a href="A_CadastrarNotaFiscal.html">Cadastrar Fiscal</a></li>
@@ -80,6 +80,7 @@
             </ul>
           </li> -->
 
+
           <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
           <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
           <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
@@ -88,35 +89,50 @@
         </ul>
       </nav>
 
-      <main class="main-content">
-  <section class="dashboard-container">
-    <h2>Relatório Agility</h2>
-    
-    <!-- Dashboard embutido -->
-     <iframe 
-    title="Exemplo de Dashboard Power BI"
-    width="95%" 
-    height="600px" 
-    src="https://app.powerbi.com/view?r=eyJrIjoiNTM2Zjk3ZTktYjRkMy00NzU4LTgwNGEtNjBhNTVmYTI1NDdjIiwidCI6IjEyYjk0ZmQ1LTdkMzAtNDc0Yy1iM2E3LTk4NzA0Y2NmZGU5MCIsImMiOjF9" 
-    frameborder="0" 
-    allowfullscreen="true">
-  </iframe>
 
+    <main class="main-content">
+        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
+        <hr>
+         <h2>Detalhe do Produto</h2>
+        <div class="container-detalhes">
 
-    <!-- Botão de download -->
-    <a href="caminho/para/dashboard.pdf" download class="download-btn">
-      Baixar Dashboard (PDF)
-    </a>
-  </section>
-</main>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+     <div class="detalhes">
+        <strong>Nome:</strong> <span id="nome"></span>
+        </div>
+        <div class="detalhes">
+        <strong>Valor:</strong> <span id="valor"></span>
+        </div>
+        <div class="detalhes">
+        <strong>Quantidade:</strong> <span id="quantidade"></span>
+        </div>
+        <div class="detalhes">
+        <strong>Prioridade:</strong> <span id="prioridade"></span>
+        </div>
+        <div class="detalhes">
+        <strong>Categoria:</strong> <span id="categoria"></span>
+    </div>
+
+        <div class="botoes-acoes" style="margin-top: 20px;">
+            <button id="btn-voltar" style="margin-right: 10px;">Voltar para Carrinho</button>
+            <button id="btn-editar">Editar Item</button>
+        </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modalExclusao" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="mensagemModal"></p>
+        </div>
+    </div>
+</body>
     <script src="../js/scriptinicio.js"></script>
-    <script src="../js/A_Home.js"></script>
+    <script src="../js/A_DetalheCompra.js"></script>
      <script src="../js/A_Notificacao.js"></script>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           atualizarContadorNotificacoes();
         });
       </script>
-</body>
 </html>

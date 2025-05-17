@@ -21,6 +21,7 @@
             <td>R$ ${nota.Valor_total.toFixed(2)}</td>
             <td>${nota.Fornecedor || ''}</td>
             <td>
+              <button class="btn-detalhes" onclick="verDetalhes(${nota.IDnota})">Detalhes</button>
               <button class="btn-editar" onclick="editarNota(${nota.IDnota})">Editar</button>
               <button class="btn-excluir" onclick="excluirNota(${nota.IDnota})">Excluir</button>
             </td>
@@ -44,7 +45,8 @@
         });
 
         if (resposta.ok) {
-         mostrarModal('Nota excluída com sucesso');
+          adicionarNotificacao('Nota Fiscal Excluida com sucesso!', 'A_NotaFiscal.html');
+         mostrarModal('Nota Fiscal excluída com sucesso');
           carregarNotas();
         } else {
           mostrarModal('Erro ao excluir nota');
@@ -59,7 +61,9 @@
       // Aqui você pode redirecionar para uma página de edição com o ID da nota na URL
       window.location.href = `A_EditarNotaFiscal.html?id=${id}`;
     }
-
+    function verDetalhes(id) {
+      window.location.href = `A_DetalhesNotaFiscal.html?id=${id}`;
+    }
 // Carrega notas assim que a página abrir
     carregarNotas();
        // Função para exibir o modal com a mensagem
@@ -83,3 +87,6 @@
             }
         }
     }
+document.addEventListener('DOMContentLoaded', () => {
+  adicionarAcessoRecente('Nota Fiscal', 'A_NotaFiscal.html', 'notafiscal');
+});

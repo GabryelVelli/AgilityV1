@@ -50,15 +50,41 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       if (response.ok) {
-        alert('Compra atualizada com sucesso!');
-        window.location.href = 'A_Compras.html'; // volta pra lista
+        adicionarNotificacao('Compra editada com sucesso!', 'A_Compras.html');
+        mostrarModal('Compra atualizada com sucesso!');
+         // Espera 2 segundos antes de redirecionar
+            setTimeout(() => {
+                window.location.href = 'A_Compras.html';
+            }, 1000);
+        
       } else {
         const erro = await response.text();
-        alert('Erro ao atualizar: ' + erro);
+        mostrarModal('Erro ao atualizar: ' + erro);
       }
     } catch (err) {
       console.error('Erro ao atualizar compra:', err.message);
-      alert('Erro inesperado ao atualizar.');
+      mostrarModal('Erro inesperado ao atualizar.');
     }
   });
 });
+  // Função para exibir o modal com a mensagem
+    function mostrarModal(mensagem) {
+        const modal = document.getElementById('modalExclusao');
+        const mensagemModal = document.getElementById('mensagemModal');
+        const span = document.getElementsByClassName('close')[0];
+
+        mensagemModal.textContent = mensagem;
+        modal.style.display = 'block';
+
+        // Fecha o modal quando o usuário clica no "x"
+        span.onclick = function () {
+            modal.style.display = 'none';
+        }
+
+        // Fecha o modal quando o usuário clica fora do conteúdo do modal
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    }

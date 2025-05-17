@@ -28,6 +28,9 @@ document.getElementById('nota-form').addEventListener('submit', async (event) =>
     if (resposta.status === 201) {
       mostrarModal('Nota fiscal cadastrada com sucesso!');
       document.getElementById('nota-form').reset();
+
+      // Adiciona notificação
+      adicionarNotificacao('Nota fiscal cadastrada com sucesso!', 'A_NotaFiscal.html');
     } else {
       const erro = await resposta.text();
       mostrarModal('Erro ao cadastrar nota fiscal: ' + erro);

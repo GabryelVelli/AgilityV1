@@ -98,3 +98,6 @@ window.onclick = function(event) {
     }
 }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  adicionarAcessoRecente('Fornecedor', 'A_Fornecedor.html', 'fornecedor');
+});

@@ -56,6 +56,7 @@
         });
 
         if (resposta.ok) {
+          adicionarNotificacao('Nota Fiscal Atualizada com sucesso!', 'A_NotaFiscal.html');
           mostrarModal('Nota fiscal atualizada com sucesso!');
           window.location.href = 'A_NotaFiscal.html'; // redireciona se quiser
         } else {

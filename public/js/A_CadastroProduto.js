@@ -1,5 +1,5 @@
 // Função para enviar o formulário
-    document.getElementById('product-form').addEventListener('submit', async (event) => {
+    document.getElementById('produto-form').addEventListener('submit', async (event) => {
         event.preventDefault(); // Impede o envio padrão do formulário
 
         const nome = document.getElementById('nome').value;
@@ -29,6 +29,8 @@
             });
 
             if (resposta.status === 201) {
+                // Adiciona notificação
+                adicionarNotificacao('Produto cadastrado com sucesso!', 'A_Estoque.html');
                 mostrarModal('Produto cadastrado com sucesso!');
             } else {
                 mostrarModal('Erro ao cadastrar produto');
@@ -60,3 +62,6 @@
             }
         }
     }
+    document.addEventListener('DOMContentLoaded', () => {
+  adicionarAcessoRecente('Produto', 'A_CadastroProduto.html', 'produto');
+});

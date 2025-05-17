@@ -21,6 +21,7 @@ async function carregarCompras() {
         <td>${compra.prioridade}</td>
         <td>${compra.categoria}</td>
         <td>
+          <button class="btn-detalhes" onclick="verDetalhes(${compra.idcompra})">Detalhes</button>
           <button class="btn-editar" onclick="editarCompra(${compra.idcompra})">Editar</button>
           <button class="btn-excluir" onclick="excluirCompra(${compra.idcompra})">Excluir</button>
         </td>
@@ -30,7 +31,7 @@ async function carregarCompras() {
     });
   } catch (err) {
     console.error('Erro ao carregar compras:', err.message);
-    alert('Erro ao buscar compras');
+    mostrarModal('Erro ao buscar compras');
   }
 }
 
@@ -45,10 +46,11 @@ async function excluirCompra(id) {
     });
 
     if (response.ok) {
-      alert('Compra excluída com sucesso');
+      adicionarNotificacao('Compra Excluida com sucesso!', 'A_Compras.html');
+      mostrarModal('Compra excluída com sucesso');
       carregarCompras();
     } else {
-      alert('Erro ao excluir: ' + (await response.text()));
+     mostrarModal('Erro ao excluir: ' + (await response.text()));
     }
   } catch (err) {
     console.error('Erro ao excluir:', err.message);
@@ -58,7 +60,10 @@ async function excluirCompra(id) {
 function editarCompra(id) {
   window.location.href = `A_EditarCompra.html?id=${id}`;
 }
-
+function verDetalhes(id) {
+  // Redireciona para a página de detalhes passando o ID pela URL
+  window.location.href = `A_DetalhesCompra.html?id=${id}`;
+}
 // Carregar a tabela automaticamente
 document.addEventListener('DOMContentLoaded', carregarCompras);
 function mostrarModal(mensagem) {

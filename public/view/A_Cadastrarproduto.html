@@ -20,9 +20,9 @@
         <div class="placeholder"></div>
            <div class="top-bar-right">
             <!-- Notificações -->
-            <div class="notification-icon">
-              <span class="bell">🔔</span>
-              <span class="notification-badge">3</span>
+             <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
             </div>
 
             <!-- Área do usuário -->
@@ -94,46 +94,52 @@
     <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr> 
-        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Cadastrar Produto</h2>
+        <h2 style="margin-bottom: 20px; color: #111827;"><i class="fa-solid fa-box"></i> Cadastro de Produto</h2>
         <p class="texto-produto">Cadastre Seus Produtos Aqui.</p>
         <p class="texto-produto">Após Cadastrar os produtos estarão disponiveis nos seus Registros.</p>
 
-        <div class="cadastroprod">
-          <form id="product-form">
-            <div class="form-row">
-              <div class="form-field">
-                <label for="nome">Nome do Produto:</label>
-                <input type="text" id="nome" name="nome" placeholder="Ex: Coca-Cola 2L" required>
+        <div class="card-container">
+          <div class="form-card">
+            <form id="produto-form">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="nome">Nome do Produto:</label>
+                  <input type="text" id="nome" name="nome" placeholder="Ex: Coca-Cola 2L" required>
+                </div>
+                <div class="form-field">
+                  <label for="codigoBarras">Código de Barras:</label>
+                  <input type="text" id="codigoBarras" name="codigoBarras" placeholder="7891234567890" required>
+                </div>
               </div>
-              <div class="form-field">
-                <label for="codigoBarras">Código de Barras:</label>
-                <input type="text" id="codigoBarras" name="codigoBarras" placeholder="7891234567890" required>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="vencimento">Vencimento:</label>
+                  <input type="date" id="vencimento" name="vencimento" required>
+                </div>
+                <div class="form-field">
+                  <label for="quantidade">Quantidade:</label>
+                  <input type="number" id="quantidade" name="quantidade" min="1" required>
+                </div>
               </div>
-              <div class="form-field">
-                <label for="vencimento">Vencimento:</label>
-                <input type="date" id="vencimento" name="vencimento" required>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="fornecedor">Fornecedor:</label>
+                  <input type="text" id="fornecedor" name="fornecedor" placeholder="Ex: Coca-Cola Brasil">
+                </div>
+                <div class="form-field">
+                  <label for="categoria">Categoria:</label>
+                  <input type="text" id="categoria" name="categoria" placeholder="Ex: Bebida" required>
+                </div>
               </div>
-            </div>
-          
-            <div class="form-row">
-              <div class="form-field">
-                <label for="quantidade">Quantidade:</label>
-                <input type="number" id="quantidade" name="quantidade" min="1" required>
+
+              <div class="button-container">
+                <button type="submit" class="button">Cadastrar</button>
               </div>
-              <div class="form-field">
-                <label for="fornecedor">Fornecedor:</label>
-                <input type="text" id="fornecedor" name="fornecedor" placeholder="Coca-Cola">
-              </div>
-              <div class="form-field">
-                <label for="categoria">Categoria:</label>
-                <input type="text" id="categoria" name="categoria" placeholder="Bebida" required>
-              </div>
-            </div>
-          
-            <div class="button-container">
-              <button type="submit" class="button">Cadastrar</button>
-            </div>
-          </form>
+            </form>
+          </div>
+        </div>
             <!-- Modal -->
             <div id="modalExclusao" class="modal">
                 <div class="modal-content">
@@ -150,5 +156,11 @@
 
 <script src="../js/A_CadastroProduto.js"></script>
 <script src="../js/scriptinicio.js"></script>
+<script src="../js/A_Notificacao.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        atualizarContadorNotificacoes();
+      });
+    </script>
 
 </html>
