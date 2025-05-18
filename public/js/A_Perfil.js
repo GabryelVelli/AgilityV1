@@ -1,37 +1,45 @@
-// Carregar avatar salvo e dados do usuário (simulado com localStorage)
-    document.addEventListener('DOMContentLoaded', () => {
-      const avatarSalvo = localStorage.getItem('avatarSelecionado') || 'https://i.pravatar.cc/100?img=1';
-      document.getElementById('avatar-preview').src = avatarSalvo;
+// Aplica o avatar salvo na tela de perfil (se houver)
+document.addEventListener('DOMContentLoaded', () => {
+  const avatarSalvo = localStorage.getItem('avatarSelecionado');
 
-      const usuarioSalvo = localStorage.getItem('usuario_perfil') || '';
-      const emailSalvo = localStorage.getItem('email_perfil') || '';
+  // Atualiza o avatar da tela de perfil
+  const avatarPreview = document.getElementById('avatarPreview');
+  if (avatarSalvo && avatarPreview) {
+    avatarPreview.src = `https://i.pravatar.cc/100?img=${avatarSalvo}`;
+  }
 
-      document.getElementById('usuario_perfil').value = usuarioSalvo;
-      document.getElementById('email_perfil').value = emailSalvo;
+  // Atualiza o avatar global da navbar/menu (caso exista)
+  const avatarUsuario = document.getElementById('avatarUsuario');
+  if (avatarSalvo && avatarUsuario) {
+    avatarUsuario.src = `https://i.pravatar.cc/40?img=${avatarSalvo}`;
+  }
+
+  // Aplica destaque no avatar selecionado
+  const avatares = document.querySelectorAll('.avatar-opcao');
+  avatares.forEach(img => {
+    if (img.dataset.id === avatarSalvo) {
+      img.classList.add('selecionado');
+    }
+
+    img.addEventListener('click', () => {
+      selecionarAvatar(img.dataset.id);
+      avatares.forEach(i => i.classList.remove('selecionado'));
+      img.classList.add('selecionado');
     });
+  });
+});
 
-    // Selecionar avatar e salvar no localStorage
-    document.querySelectorAll('.avatar-option').forEach(img => {
-      img.addEventListener('click', () => {
-        const avatarUrl = img.getAttribute('data-avatar');
-        document.getElementById('avatar-preview').src = avatarUrl;
-        localStorage.setItem('avatarSelecionado', avatarUrl);
-      });
-    });
+// Função chamada ao selecionar avatar
+function selecionarAvatar(id) {
+  localStorage.setItem('avatarSelecionado', id);
 
-    // Salvar dados do formulário
-    document.getElementById('perfil-form').addEventListener('submit', (e) => {
-      e.preventDefault();
+  const avatarPreview = document.getElementById('avatarPreview');
+  if (avatarPreview) {
+    avatarPreview.src = `https://i.pravatar.cc/100?img=${id}`;
+  }
 
-      const usuario = document.getElementById('usuario_perfil').value;
-      const email = document.getElementById('email_perfil').value;
-      const senha = document.getElementById('senha_perfil').value;
-
-      // Aqui você pode enviar os dados para o backend, por enquanto só salva no localStorage:
-      localStorage.setItem('usuario_perfil', usuario);
-      localStorage.setItem('email_perfil', email);
-      // Senha é melhor tratar com cuidado, mas para exemplo simples:
-      localStorage.setItem('senha_perfil', senha);
-
-      alert('Perfil atualizado com sucesso!');
-    });
+  const avatarUsuario = document.getElementById('avatarUsuario');
+  if (avatarUsuario) {
+    avatarUsuario.src = `https://i.pravatar.cc/40?img=${id}`;
+  }
+}
