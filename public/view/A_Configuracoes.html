@@ -66,22 +66,8 @@
             </ul>
           </li>
 
-           <li class="has-submenu">
-            <button class="submenu-toggle"><i class="fa-solid fa-file"></i><i class=></i>Relatório</button>
-            <ul class="submenu">
-              <li><a href="A_Dashboard.html">Relatorio produtos</a></li>
-              <li><a href="">relatorio fornecedores</a></li>
-            </ul>
-          </li>
-          <!-- <li class="has-submenu">
-            <button class="submenu-toggle">Usuários</button>
-            <ul class="submenu">
-              <li><a href="#">Cadastrar Usuário</a></li>
-              <li><a href="#">Usuários</a></li>
-            </ul>
-          </li> -->
-          
-          <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
+          <li><a href="A_relatorios1.html"><i class="fa-solid fa-file"></i>Relatórios</a></li>
+          <li><a href="A_Perfil.html"><i class="fa-solid fa-user"></i>Perfil</a></li>
           <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
           <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
           <li><a href="A_Configuracoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
@@ -112,10 +98,11 @@
               <button id="btnAtualizarSenha">Atualizar Senha</button>
             </div>
 
-              <div class="config-item">
-                  <label>
-                      <input type="checkbox" id="notificacoes"> Receber notificações por email
-                  </label>
+              <div class="form-group">
+              <label>
+                <input type="checkbox" id="toggleNotificacoes">
+                Desejo receber notificações
+              </label>
               </div>
 
               <div class="config-item">
@@ -125,12 +112,14 @@
                       <option value="en">Inglês</option>
                   </select>
               </div>
-
           </section>
-          <div id="modalExclusao" style="display:none;">
-          <span class="close">&times;</span>
-          <p id="mensagemModal"></p>
-          </div>
+          <!-- Modal -->
+              <div id="modalExclusao" class="modal">
+                  <div class="modal-content">
+                      <p class="close">&times;</p>
+                      <p id="mensagemModal"></p>
+                  </div>
+              </div>
     </main>
 </body>
 <script src="../js/scriptinicio.js"></script>

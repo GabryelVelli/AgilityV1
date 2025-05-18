@@ -1,5 +1,10 @@
 // Adiciona uma nova notificação e atualiza o contador
 function adicionarNotificacao(titulo, link) {
+  const receber = localStorage.getItem('receberNotificacoes');
+
+  // Se a preferência for "false", não adiciona notificações
+  if (receber === 'false') return;
+
   const notificacoes = JSON.parse(localStorage.getItem('notificacoes')) || [];
 
   notificacoes.unshift({
@@ -16,7 +21,7 @@ function adicionarNotificacao(titulo, link) {
 function atualizarContadorNotificacoes() {
   const notificacoes = JSON.parse(localStorage.getItem('notificacoes')) || [];
   const badge = document.querySelector('.notification-badge');
-  if (!badge) return; // evita erro se não encontrar o elemento
+  if (!badge) return;
 
   if (notificacoes.length > 0) {
     badge.textContent = notificacoes.length;
@@ -32,7 +37,7 @@ function configurarCliqueNotificacao() {
   if (!icon) return;
 
   icon.addEventListener('click', () => {
-    window.location.href = 'A_Notificacao.html'; // caminho para a sua página de notificações
+    window.location.href = 'A_Notificacao.html';
   });
 }
 
@@ -40,4 +45,19 @@ function configurarCliqueNotificacao() {
 document.addEventListener('DOMContentLoaded', () => {
   atualizarContadorNotificacoes();
   configurarCliqueNotificacao();
+
+  // Garantir que o valor padrão seja true se nunca tiver sido configurado
+  if (localStorage.getItem('receberNotificacoes') === null) {
+    localStorage.setItem('receberNotificacoes', 'true');
+  }
 });
+ document.addEventListener('DOMContentLoaded', () => {
+    const checkbox = document.getElementById('toggleNotificacoes');
+    const pref = localStorage.getItem('receberNotificacoes');
+
+    checkbox.checked = pref !== 'false'; // marca por padrão
+
+    checkbox.addEventListener('change', () => {
+      localStorage.setItem('receberNotificacoes', checkbox.checked);
+    });
+  });

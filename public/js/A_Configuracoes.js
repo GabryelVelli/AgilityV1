@@ -22,7 +22,7 @@ document.getElementById('btnAtualizarSenha').addEventListener('click', async () 
       const errorText = await response.text();
       throw new Error(errorText);
     }
-
+    adicionarNotificacao('Senha Alterada com sucesso!', 'A_Configuracoes.html');
     mostrarModal('Senha atualizada com sucesso!');
     document.getElementById('senhaAtual').value = '';
     document.getElementById('novaSenha').value = '';
@@ -34,15 +34,20 @@ document.getElementById('btnAtualizarSenha').addEventListener('click', async () 
 function mostrarModal(mensagem) {
   const modal = document.getElementById('modalExclusao');
   const mensagemModal = document.getElementById('mensagemModal');
+  const span = document.getElementsByClassName('close')[0];
 
   mensagemModal.textContent = mensagem;
-  modal.style.display = 'flex'; // Usa flex para centralizar
+  modal.style.display = 'block';
 
-  // Fecha modal se clicar fora da caixa de mensagem
-  modal.onclick = (event) => {
-    // só fecha se clicar na área do modal, não na mensagem
-    if (event.target === modal) {
+  // Fecha o modal quando o usuário clica no "x"
+  span.onclick = function() {
       modal.style.display = 'none';
-    }
+  }
+
+  // Fecha o modal quando o usuário clica fora do conteúdo do modal
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = 'none';
+      }
   }
 }
