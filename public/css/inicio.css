@@ -158,7 +158,7 @@
   }
   
   .main-content {
-  padding: 1.5rem;
+  padding-top: 1.5rem;
   flex: 1;
   margin-top: 70px;
   margin-left: 250px;
@@ -549,15 +549,7 @@
 .h3-Fornecedor{
   margin-bottom: 10px;
 }
-#estabelecimentoForm{
-  max-width: 1000px;
-  margin-left: 40px;
-  margin-top: 20px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
+
 .form-group{
   flex: 1;
   min-width: 250px;
@@ -872,10 +864,14 @@ body.tema-escuro .main-content #compras-form{
   background-color: #262626;
   color: gainsboro
 }
-body.tema-escuro .main-content #estabelecimentoForm{
-  background-color: #262626;
+body.tema-escuro .main-content .card-ajuda{
+  background-color: #3a3a3a;
   color: gainsboro
 }
+/* body.tema-escuro .main-content #estabelecimentoForm{
+  background-color: #262626;
+  color: gainsboro
+} */
 body.tema-escuro .main-content .contato{
   background-color: #262626;
   color: gainsboro

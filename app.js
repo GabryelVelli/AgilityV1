@@ -230,24 +230,187 @@ app.post('/add-estabelecimento', verifyToken, async (req, res) => {
 });
 
 app.get('/estabelecimentos', verifyToken, async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const idusuario = req.userId;
 
-    try {
-        const pool = await poolPromise;
-        const idusuario = req.userId; // Obtém o ID do usuário a partir do token
+    const result = await pool.request()
+      .input('idusuario', sql.Int, idusuario)
+      .query(`
+        SELECT 
+          e.IDestabelecimento,
+          e.nome,
+          e.CNPJ,
+          e.contato,
+          u.idunidade,
+          u.logradouro,
+          u.numero,
+          u.bairro,
+          u.cidade,
+          u.cep
+        FROM ESTABELECIMENTO e
+        LEFT JOIN UNIDADE u ON e.IDestabelecimento = u.IDestabelecimento
+        WHERE e.idusuario = @idusuario
+      `);
 
-        // Consulta para obter todas as estabelecimento cadastradas pelo usuário
-        const result = await pool.request()
-            .input('idusuario', sql.Int, idusuario)
-            .query('SELECT * FROM estabelecimento WHERE idusuario = @idusuario');
-
-        // Retorna os dados para o frontend
-        res.json(result.recordset);
-    } catch (error) {
-        console.error('Erro ao buscar estabelecimento:', error.message);
-        res.status(500).send('Erro ao buscar estabelecimento.');
-    }
+    res.json(result.recordset);
+  } catch (error) {
+    console.error('Erro ao buscar estabelecimentos com unidades:', error.message);
+    res.status(500).send('Erro ao buscar estabelecimentos.');
+  }
 });
 
+app.put('/estabelecimentos/:id', verifyToken, async (req, res) => {
+  const { nomeEstabelecimento, cnpj, contato, logradouro, numero, bairro, cidade, cep } = req.body;
+  const idEstabelecimento = req.params.id;
+
+  try {
+    const pool = await poolPromise;
+    const idusuario = req.userId;
+
+    // Verifica se o estabelecimento pertence ao usuário
+    const check = await pool.request()
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM ESTABELECIMENTO WHERE IDestabelecimento = @idEstabelecimento AND idusuario = @idusuario');
+
+    if (check.recordset.length === 0) {
+      return res.status(403).send('Estabelecimento não encontrado ou acesso negado.');
+    }
+
+    // Atualiza o estabelecimento
+    await pool.request()
+      .input('nomeEstabelecimento', sql.NVarChar, nomeEstabelecimento)
+      .input('cnpj', sql.NVarChar, cnpj)
+      .input('contato', sql.NVarChar, contato)
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .query(`UPDATE ESTABELECIMENTO 
+              SET nome = @nomeEstabelecimento, CNPJ = @cnpj, contato = @contato 
+              WHERE IDestabelecimento = @idEstabelecimento`);
+
+    // Atualiza a unidade associada
+    await pool.request()
+      .input('logradouro', sql.NVarChar, logradouro)
+      .input('numero', sql.NVarChar, numero)
+      .input('bairro', sql.NVarChar, bairro)
+      .input('cidade', sql.NVarChar, cidade)
+      .input('cep', sql.NVarChar, cep)
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .query(`UPDATE UNIDADE 
+              SET logradouro = @logradouro, numero = @numero, bairro = @bairro, cidade = @cidade, CEP = @cep
+              WHERE IDestabelecimento = @idEstabelecimento`);
+
+    res.send('Estabelecimento atualizado com sucesso.');
+  } catch (err) {
+    console.error('Erro ao atualizar estabelecimento:', err.message);
+    res.status(500).send('Erro ao atualizar estabelecimento.');
+  }
+});
+app.get('/estabelecimento-detalhes/:id', verifyToken, async (req, res) => {
+  const idEstabelecimento = req.params.id;
+  const idusuario = req.userId;
+
+  try {
+    const pool = await poolPromise;
+
+    // Verifica se o estabelecimento pertence ao usuário
+    const check = await pool.request()
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM ESTABELECIMENTO WHERE IDestabelecimento = @idEstabelecimento AND idusuario = @idusuario');
+
+    if (check.recordset.length === 0) {
+      return res.status(403).send('Estabelecimento não encontrado ou acesso negado.');
+    }
+
+    const estabelecimento = check.recordset[0];
+
+    // Busca os dados da unidade vinculada
+    const unidadeResult = await pool.request()
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .query('SELECT * FROM UNIDADE WHERE IDestabelecimento = @idEstabelecimento');
+
+    const unidade = unidadeResult.recordset[0] || {};
+
+    res.json({
+      estabelecimento,
+      unidade
+    });
+  } catch (err) {
+    console.error('Erro ao buscar detalhes do estabelecimento:', err.message);
+    res.status(500).send('Erro ao buscar detalhes do estabelecimento.');
+  }
+});
+app.get('/estabelecimentos/:id', verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const idusuario = req.userId;
+
+  try {
+    const pool = await poolPromise;
+
+    const result = await pool.request()
+      .input('id', sql.Int, id)
+      .input('idusuario', sql.Int, idusuario)
+      .query(`
+        SELECT 
+          e.IDestabelecimento,
+          e.nome,
+          e.CNPJ,
+          e.contato,
+          u.idunidade,
+          u.logradouro,
+          u.numero,
+          u.bairro,
+          u.cidade,
+          u.cep
+        FROM ESTABELECIMENTO e
+        LEFT JOIN UNIDADE u ON e.IDestabelecimento = u.IDestabelecimento
+        WHERE e.idusuario = @idusuario
+      `);
+
+    if (result.recordset.length === 0) {
+      return res.status(404).send('Fornecedor não encontrado');
+    }
+
+    res.json(result.recordset[0]);
+  } catch (error) {
+    console.error('Erro ao buscar fornecedor:', error.message);
+    res.status(500).send('Erro ao buscar fornecedor.');
+  }
+});
+app.delete('/estabelecimentos/:id', verifyToken, async (req, res) => {
+  const idEstabelecimento = req.params.id;
+  const idusuario = req.userId;
+
+  try {
+    const pool = await poolPromise;
+
+    // Verifica se pertence ao usuário
+    const check = await pool.request()
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT * FROM ESTABELECIMENTO WHERE IDestabelecimento = @idEstabelecimento AND idusuario = @idusuario');
+
+    if (check.recordset.length === 0) {
+      return res.status(403).send('Estabelecimento não encontrado ou acesso negado.');
+    }
+
+    // Exclui a unidade primeiro
+    await pool.request()
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .query('DELETE FROM UNIDADE WHERE IDestabelecimento = @idEstabelecimento');
+
+    // Depois exclui o estabelecimento
+    await pool.request()
+      .input('idEstabelecimento', sql.Int, idEstabelecimento)
+      .query('DELETE FROM ESTABELECIMENTO WHERE IDestabelecimento = @idEstabelecimento');
+
+    res.send('Estabelecimento excluído com sucesso.');
+  } catch (err) {
+    console.error('Erro ao excluir estabelecimento:', err.message);
+    res.status(500).send('Erro ao excluir estabelecimento.');
+  }
+});
 // FIM ESTABELECIMENTO // 
 // FIM ESTABELECIMENTO // 
 // FIM ESTABELECIMENTO // 

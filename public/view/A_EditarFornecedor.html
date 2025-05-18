@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+!<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Fornecedores</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Agility - Editar Fornecedor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
@@ -29,7 +29,7 @@
           </div> 
       </header>
 
-      <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <ul>
           <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
           <li class="has-submenu">
@@ -56,19 +56,11 @@
             </ul>
           </li>
           
-          <li class="has-submenu">
+           <li class="has-submenu">
             <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Nota Fiscal</button>
             <ul class="submenu">
               <li><a href="A_CadastrarNotaFiscal.html">Cadastrar Fiscal</a></li>
               <li><a href="A_NotaFiscal.html">Notas Fiscais</a></li>
-            </ul>
-          </li>
-
-           <li class="has-submenu">
-            <button class="submenu-toggle"><i class="fa-solid fa-file"></i><i class=></i>Relatório</button>
-            <ul class="submenu">
-              <li><a href="A_Dashboard.html">Relatorio produtos</a></li>
-              <li><a href="">relatorio fornecedores</a></li>
             </ul>
           </li>
 
@@ -79,6 +71,7 @@
               <li><a href="#">Usuários</a></li>
             </ul>
           </li> -->
+          <li><a href="#"><i class="fa-solid fa-file"></i>Relatórios</a></li>
           <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
           <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
           <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
@@ -89,50 +82,87 @@
 
       <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
-        <hr>
-        <h2><i class="fa-solid fa-warehouse"></i>Fornecedores</h2>
-        <h2>Fornecedores Cadastrados</h2>
-        <table class="tabela-notas">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>CNPJ</th>
-              <th>Contato</th>
-              <th>Logradouro</th>
-              <th>Número</th>
-              <th>Bairro</th>
-              <th>Cidade</th>
-              <th>CEP</th>
-              <th style="text-align: center;">Ações</th>
-            </tr>
-        </thead>
-        <tbody id="tabela-estabelecimentos">
-          <!-- As linhas serão inseridas via JavaScript -->
-        </tbody>
-      </table>
-        <!-- Barra de pesquisa -->
-        <div class="barra-pesquisa">
-            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <hr> 
+        <h2><i class="fa-solid fa-plus"></i class="texto-produto">Editar Fornecedor</h2>
+      
+        <div class="card-container">
+        <div class="form-card">
+            <form id="editar-fornecedor-form">
+            <h3>Dados do Fornecedor</h3>
+
+            <div class="form-row">
+                <div class="form-field">
+                <label for="nomeEstabelecimento">Nome:</label>
+                <input type="text" id="nomeEstabelecimento" name="nomeEstabelecimento" required />
+                </div>
+                <div class="form-field">
+                <label for="cnpj">CNPJ:</label>
+                <input type="text" id="cnpj" name="cnpj" required />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                <label for="contato">Contato:</label>
+                <input type="text" id="contato" name="contato" required />
+                </div>
+            </div>
+
+            <h3>Dados da Unidade</h3>
+
+            <div class="form-row">
+                <div class="form-field">
+                <label for="logradouro">Logradouro:</label>
+                <input type="text" id="logradouro" name="logradouro" required />
+                </div>
+                <div class="form-field">
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" name="numero" required />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                <label for="bairro">Bairro:</label>
+                <input type="text" id="bairro" name="bairro" required />
+                </div>
+                <div class="form-field">
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" name="cidade" required />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep" required />
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="button">Salvar Alterações</button>
+            </div>
+            </form>
+        </div>
         </div>
 
-    </main>
-
-    <!-- Modal -->
-    <div id="modalExclusao" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="mensagemModal"></p>
-        </div>
-    </div>
-</body>
+              <!-- Modal -->
+            <div id="modalExclusao" class="modal">
+                <div class="modal-content">
+                    <p class="close">&times;</p>
+                    <p id="mensagemModal"></p>
+                </div>
+            </div>
+          </div>
+  
+      </main>
     <script src="../js/scriptinicio.js"></script>
-    <script src="../js/A_Fornecedores.js"></script>
+    <script src="../js/A_EditarFornecedor.js"></script>
      <script src="../js/A_Notificacao.js"></script>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           atualizarContadorNotificacoes();
         });
       </script>
+</body>
 </html>
-    

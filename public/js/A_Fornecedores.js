@@ -1,58 +1,82 @@
 async function carregarEstabelecimentos() {
-    try {
-        const response = await fetch('/estabelecimentos', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'), // Passa o token JWT
-                'Content-Type': 'application/json',
-            }
-        });
+  const token = localStorage.getItem('token');
 
-        if (response.ok) {
-            const estabelecimentos = await response.json();
+  try {
+    const response = await fetch('/estabelecimentos', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
-            // Exibe os estabelecimentos em uma tabela
-            const estabelecimentosContainer = document.getElementById('estabelecimentosContainer');
-            estabelecimentosContainer.innerHTML = ''; // Limpa o container antes de adicionar os novos
+    if (!response.ok) throw new Error('Erro ao buscar estabelecimentos');
 
-            const tabela = document.createElement('table');
-            tabela.style = "margin-left: 40px; width: 95%; border-collapse: collapse; color: black; table-layout: fixed;";
-            tabela.innerHTML = `
-                <thead>
-                    <tr style="background-color: #6E6E6E;">
-                        <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Nome</th>
-                        <th style="border: 1px solid #848484; padding: 8px; text-align: left;">CNPJ</th>
-                        <th style="border: 1px solid #848484; padding: 8px; text-align: left;">Contato</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            `;
-            estabelecimentosContainer.appendChild(tabela);
+    const estabelecimentos = await response.json();
+    const tabela = document.getElementById('tabela-estabelecimentos');
 
-            const tabelaBody = tabela.querySelector('tbody');
-            estabelecimentos.forEach(item => {
-                const estabelecimentoRow = document.createElement('tr');
-                estabelecimentoRow.innerHTML = `
-                    <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${item.nome}</td>
-                    <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${item.CNPJ}</td>
-                    <td style="border: 1px solid #848484; padding: 8px; word-wrap: break-word; white-space: normal;">${item.contato}</td>
-                `;
-                tabelaBody.appendChild(estabelecimentoRow);
-            });
+    estabelecimentos.forEach(est => {
+      const tr = document.createElement('tr');
 
-        } else {
-            mostrarModal('Erro ao carregar Estabelecimentos');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarModal('Erro ao carregar Estabelecimentos');
-    }
+      tr.innerHTML = `
+        <td>${est.nome}</td>
+        <td>${est.CNPJ}</td>
+        <td>${est.contato}</td>
+        <td>${est.logradouro}</td>
+        <td>${est.numero}</td>
+        <td>${est.bairro}</td>
+        <td>${est.cidade}</td>
+        <td>${est.cep}</td>
+        <td>
+            <button class="btn-detalhes" onclick="verDetalhes(${est.IDestabelecimento}, ${est.idunidade})">Detalhes</button>
+            <button class="btn-editar" onclick="editarEstabelecimento(${est.IDestabelecimento}, ${est.idunidade})">Editar</button>
+            <button class="btn-excluir" onclick="excluirEstabelecimento(${est.IDestabelecimento})">Excluir</button>
+        </td>
+      `;
+
+      tabela.appendChild(tr);
+    });
+
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao carregar estabelecimentos.");
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    carregarEstabelecimentos();
+  carregarEstabelecimentos();
 });
+
+async function excluirEstabelecimento(id) {
+  if (!confirm('Deseja excluir este estabelecimento?')) return;
+
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/estabelecimentos/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (response.ok) {
+      mostrarModal('Fornecedor excluído com sucesso!');
+
+      // Aguarda 2 segundos antes de recarregar a página
+      setTimeout(() => {
+        adicionarNotificacao('Fornecedor Excluido com sucesso!', 'A_Fornecedor.html');
+        location.reload();
+      }, 1000);
+    } else {
+      mostrarModal('Erro ao excluir: ' + (await response.text()));
+    }
+  } catch (err) {
+    console.error('Erro ao excluir:', err.message);
+    mostrarModal('Erro inesperado ao excluir.');
+  }
+}
+function editarEstabelecimento(id) {
+  window.location.href = `A_EditarFornecedor.html?id=${id}`;
+}
+function verDetalhes(id) {
+  window.location.href = `A_DetalhesFornecedores.html?id=${id}`;
+}
         // Função para exibir o modal com a mensagem
         function mostrarModal(mensagem) {
             const modal = document.getElementById('modalExclusao');

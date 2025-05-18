@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Fornecedores</title>
+    <title>Agility - Cadastro Produtos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -79,6 +79,8 @@
               <li><a href="#">Usuários</a></li>
             </ul>
           </li> -->
+
+
           <li><a href="#"><i class="fa-solid fa-user"></i>Perfil</a></li>
           <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
           <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
@@ -87,35 +89,42 @@
         </ul>
       </nav>
 
-      <main class="main-content">
+
+    <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
-        <h2><i class="fa-solid fa-warehouse"></i>Fornecedores</h2>
-        <h2>Fornecedores Cadastrados</h2>
-        <table class="tabela-notas">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>CNPJ</th>
-              <th>Contato</th>
-              <th>Logradouro</th>
-              <th>Número</th>
-              <th>Bairro</th>
-              <th>Cidade</th>
-              <th>CEP</th>
-              <th style="text-align: center;">Ações</th>
-            </tr>
-        </thead>
-        <tbody id="tabela-estabelecimentos">
-          <!-- As linhas serão inseridas via JavaScript -->
-        </tbody>
-      </table>
-        <!-- Barra de pesquisa -->
-        <div class="barra-pesquisa">
-            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
-            <i class="fa-solid fa-magnifying-glass"></i>
+         <h2>Detalhe do Produto</h2>
+    <div class="container-detalhes">
+        <div class="detalhes">
+            <strong>Nome:</strong> <span id="nome"></span>
+        </div>
+        <div class="detalhes">
+            <strong>CNPJ:</strong> <span id="cnpj"></span>
+        </div>
+        <div class="detalhes">
+            <strong>Contato:</strong> <span id="contato"></span>
+        </div>
+        <div class="detalhes">
+            <strong>Logradouro:</strong> <span id="logradouro"></span>
+        </div>
+        <div class="detalhes">
+            <strong>Número:</strong> <span id="numero"></span>
+        </div>
+        <div class="detalhes">
+            <strong>Bairro:</strong> <span id="bairro"></span>
+        </div>
+        <div class="detalhes">
+            <strong>Cidade:</strong> <span id="cidade"></span>
+        </div>
+        <div class="detalhes">
+            <strong>CEP:</strong> <span id="cep"></span>
         </div>
 
+        <div class="botoes-acoes" style="margin-top: 20px;">
+            <button id="btn-voltar" style="margin-right: 10px;">Voltar para Lista</button>
+            <button id="btn-editar">Editar Fornecedor</button>
+        </div>
+    </div>
     </main>
 
     <!-- Modal -->
@@ -127,7 +136,7 @@
     </div>
 </body>
     <script src="../js/scriptinicio.js"></script>
-    <script src="../js/A_Fornecedores.js"></script>
+    <script src="../js/A_DetalheFornecedor.js"></script>
      <script src="../js/A_Notificacao.js"></script>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -135,4 +144,3 @@
         });
       </script>
 </html>
-    
