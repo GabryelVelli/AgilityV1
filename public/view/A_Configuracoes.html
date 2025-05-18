@@ -103,11 +103,14 @@
               </div>
 
               <div class="config-item">
-                  <label for="senhaAtual">Alterar Senha:</label>
-                  <input type="password" id="senhaAtual" placeholder="Senha atual">
-                  <input type="password" id="novaSenha" placeholder="Nova senha">
-                  <button>Atualizar Senha</button>
-              </div>
+              <label for="senhaAtual">Senha atual:</label>
+              <input type="password" id="senhaAtual" placeholder="Senha atual" required>
+              
+              <label for="novaSenha">Nova senha:</label>
+              <input type="password" id="novaSenha" placeholder="Nova senha" required>
+              
+              <button id="btnAtualizarSenha">Atualizar Senha</button>
+            </div>
 
               <div class="config-item">
                   <label>
@@ -124,11 +127,15 @@
               </div>
 
           </section>
-
+          <div id="modalExclusao" style="display:none;">
+          <span class="close">&times;</span>
+          <p id="mensagemModal"></p>
+          </div>
     </main>
 </body>
 <script src="../js/scriptinicio.js"></script>
  <script src="../js/A_Notificacao.js"></script>
+ <script src="../js/A_Configuracoes.js"></script>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
           atualizarContadorNotificacoes();

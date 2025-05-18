@@ -136,6 +136,52 @@ app.get('/usuario/me', verifyToken, async (req, res) => {
     res.status(500).send('Erro no servidor');
   }
 });
+// CONFIGURACOES // 
+app.post('/usuario/alterar-senha', verifyToken, async (req, res) => {
+  const { senhaAtual, novaSenha } = req.body;
+  const idusuario = req.userId;
+
+  if (!senhaAtual || !novaSenha) {
+    return res.status(400).send('Campos senhaAtual e novaSenha são obrigatórios.');
+  }
+
+  try {
+    const pool = await poolPromise;
+
+    // Buscar hash da senha atual
+    const result = await pool.request()
+      .input('idusuario', sql.Int, idusuario)
+      .query('SELECT senha FROM USUARIO WHERE IDusuario = @idusuario');
+
+    if (result.recordset.length === 0) {
+      return res.status(404).send('Usuário não encontrado');
+    }
+
+    const hashSenhaAtual = result.recordset[0].senha;
+
+    // Comparar senha atual com hash
+    const senhaConfere = await bcrypt.compare(senhaAtual, hashSenhaAtual);
+
+    if (!senhaConfere) {
+      return res.status(401).send('Senha atual incorreta');
+    }
+
+    // Criar hash da nova senha
+    const saltRounds = 10;
+    const hashNovaSenha = await bcrypt.hash(novaSenha, saltRounds);
+
+    // Atualizar senha no banco
+    await pool.request()
+      .input('idusuario', sql.Int, idusuario)
+      .input('novaSenha', sql.NVarChar(150), hashNovaSenha)
+      .query('UPDATE USUARIO SET senha = @novaSenha WHERE IDusuario = @idusuario');
+
+    res.send('Senha atualizada com sucesso!');
+  } catch (err) {
+    console.error('Erro ao atualizar senha:', err);
+    res.status(500).send('Erro no servidor');
+  }
+});
 
 // DASHBOARD HOME //
 // DASHBOARD HOME //
