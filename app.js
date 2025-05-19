@@ -1030,7 +1030,6 @@ app.delete('/compras/excluir/:id', verifyToken, async (req, res) => {
 // FIM COMPRAS //
 // FIM COMPRAS //
 
-
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
   });
