@@ -30,13 +30,14 @@ Agility! O sistema tem como objetivo gerenciar o controle de estoque
 🌐 Tecnologias Utilizadas:
 - Backend:
 - Node.js - Ambiente de execução JavaScript (v20.18.0)
-- Express - Framework para aplicativos web em Node.js (v4.21.2)
+- Express - Framework para aplicativos web em Node.js (v4.21.0)
 - EJS - Template engine para renderizar HTML (v3.1.10)
 - BcryptJS - Para criptografar senhas (v2.4.3)
 - Dotenv - Gerenciamento de variáveis de ambiente (v16.4.5)
 - JSON Web Token (JWT) - Autenticação segura de usuários (v9.0.2)
-- MSSQL - Conexão com Microsoft SQL Server (v11.0.1)]
+- MySQL2 -  Driver para conexão com banco de dados MySQL (v3.14.1)
+- Detect-port - Para detectar portas livres (v2.1.0)
 - Nodemailer - Envio de emails (v6.10.0)
 - Frontend: HTML para estrutura, CSS para design responsivo e JavaScript para validação dos formulários.
-- Banco de Dados: SQL Server
+- Banco de Dados: My SQL
 - Autenticação: Criação de tokens para login seguro.
