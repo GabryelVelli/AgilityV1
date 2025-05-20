@@ -137,6 +137,10 @@ app.get('/usuario/me', verifyToken, async (req, res) => {
   }
 });
 // CONFIGURACOES // 
+// CONFIGURACOES // 
+// CONFIGURACOES // 
+// CONFIGURACOES // 
+// CONFIGURACOES // 
 app.post('/usuario/alterar-senha', verifyToken, async (req, res) => {
   const { senhaAtual, novaSenha } = req.body;
   const idusuario = req.userId;
@@ -146,35 +150,28 @@ app.post('/usuario/alterar-senha', verifyToken, async (req, res) => {
   }
 
   try {
-    const pool = await poolPromise;
+    const [rows] = await pool.query(
+      'SELECT senha FROM USUARIO WHERE IDusuario = ?', 
+      [idusuario]
+    );
 
-    // Buscar hash da senha atual
-    const result = await pool.request()
-      .input('idusuario', sql.Int, idusuario)
-      .query('SELECT senha FROM USUARIO WHERE IDusuario = @idusuario');
-
-    if (result.recordset.length === 0) {
+    if (rows.length === 0) {
       return res.status(404).send('Usuário não encontrado');
     }
 
-    const hashSenhaAtual = result.recordset[0].senha;
+    const hashSenhaAtual = rows[0].senha;
 
-    // Comparar senha atual com hash
     const senhaConfere = await bcrypt.compare(senhaAtual, hashSenhaAtual);
-
     if (!senhaConfere) {
       return res.status(401).send('Senha atual incorreta');
     }
 
-    // Criar hash da nova senha
-    const saltRounds = 10;
-    const hashNovaSenha = await bcrypt.hash(novaSenha, saltRounds);
+    const hashNovaSenha = await bcrypt.hash(novaSenha, 10);
 
-    // Atualizar senha no banco
-    await pool.request()
-      .input('idusuario', sql.Int, idusuario)
-      .input('novaSenha', sql.NVarChar(150), hashNovaSenha)
-      .query('UPDATE USUARIO SET senha = @novaSenha WHERE IDusuario = @idusuario');
+    await pool.query(
+      'UPDATE USUARIO SET senha = ? WHERE IDusuario = ?', 
+      [hashNovaSenha, idusuario]
+    );
 
     res.send('Senha atualizada com sucesso!');
   } catch (err) {
@@ -182,6 +179,7 @@ app.post('/usuario/alterar-senha', verifyToken, async (req, res) => {
     res.status(500).send('Erro no servidor');
   }
 });
+
 
 // DASHBOARD HOME //
 // DASHBOARD HOME //
@@ -600,140 +598,6 @@ app.get('/produtos/:idproduto', verifyToken, async (req, res) => {
 // FIM PRODUTOS //
 // FIM PRODUTOS //
 
-// FUNCAO EMAIL //
-// FUNCAO EMAIL //
-// FUNCAO EMAIL //
-// FUNCAO EMAIL //
-// FUNCAO EMAIL //
-
-app.post('/send-email', (req, res) => {
-    const { nome, email, assunto, mensagem } = req.body; // Dados do formulário
-
-    // Verificar se os dados necessários foram enviados
-    if (!nome || !email || !assunto || !mensagem) {
-        return res.status(400).send('Todos os campos são obrigatórios.');
-    }
-// Rota para enviar código de redefinição
-app.post('/recuperar-senha', async (req, res) => {
-  const { email } = req.body;
-  const token = Math.floor(100000 + Math.random() * 900000).toString(); // código de 6 dígitos
-
-  try {
-    await sql.connect(config);
-
-    const result = await sql.query`UPDATE USUARIO SET token = ${token} WHERE email = ${email}`;
-
-    if (result.rowsAffected[0] === 0) {
-      return res.status(404).send('E-mail não encontrado.');
-    }
-
- const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,  
-            pass: process.env.EMAIL_PASS   
-        }
-    });
-
-    await transporter.sendMail({
-      from: `"Agility" <${process.env.EMAIL_USER}>"`, 
-      to: email,
-      subject: 'Recuperação de Senha',
-      text: `Seu código de verificação é: ${token}`
-    });
-
-    res.send('Código enviado.');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Erro interno no servidor.');
-  }
-});
-// Rota para redefinir senha
-app.post('/recuperar-senha', async (req, res) => {
-  const { email } = req.body;
-  const token = Math.floor(100000 + Math.random() * 900000).toString(); // Gera um novo código de 6 dígitos
-
-  try {
-    await sql.connect(config);
-
-    const result = await sql.query`
-      UPDATE USUARIO 
-      SET token = ${token} 
-      WHERE email = ${email}
-    `;
-
-    if (result.rowsAffected[0] === 0) {
-      return res.status(404).send('E-mail não encontrado.');
-    }
-
-    // Enviar o código atualizado por e-mail
-    await transporter.sendMail({
-      from: `"Agility" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Recuperação de Senha',
-      text: `Seu código de verificação é: ${token}`
-    });
-
-    res.send('Novo código enviado! Confira seu e-mail.');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Erro interno no servidor.');
-  }
-});
-document.getElementById("recuperarSenhaForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    const email = document.getElementById("email").value; // Pega o e-mail digitado
-
-    const response = await fetch("http://localhost:3000/recuperar-senha", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-    });
-
-    const result = await response.text();
-    alert(result); // Exibe "Novo código enviado! Confira seu e-mail."
-});
-
-
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
-
-
-    
-    // Configuração do Nodemailer
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,  // Seu e-mail
-            pass: process.env.EMAIL_PASS   // Senha gerada do app
-        }
-    });
-
-    const mailOptions = {
-        from: email,  // E-mail do remetente
-        to: 'agilityv1contato@gmail.com',  // Destinatário do e-mail
-        subject: assunto,
-        text: `Nome: ${nome}\nE-mail: ${email}\nAssunto: ${assunto}\nMensagem: ${mensagem}`
-    };
-
-    // Envio do e-mail
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Erro ao enviar e-mail:', error);
-            return res.status(500).send('Erro ao enviar e-mail. Tente novamente mais tarde.');
-        }
-
-        console.log('E-mail enviado:', info.response);
-        res.status(200).send('E-mail enviado com sucesso!');
-    });
-});
-// FIM FUNCAO EMAIL //
-// FIM FUNCAO EMAIL //
-// FIM FUNCAO EMAIL //
-// FIM FUNCAO EMAIL //
-// FIM FUNCAO EMAIL //
 
 // NOTA FISCAL //
 // NOTA FISCAL //
@@ -744,25 +608,15 @@ app.post('/nota/adicionar', verifyToken, async (req, res) => {
   const { Numero, Serie, data_emissao, Valor_total, Fornecedor } = req.body;
 
   try {
-    const pool = await poolPromise;
-    const idusuario = req.userId; // do token JWT
+    const idusuario = req.userId; // ID do usuário do token JWT
 
-    console.log('ID do usuário (nota):', idusuario); // para debug
-
-    // Inserir a nota fiscal
-    await pool.request()
-      .input('Numero', sql.VarChar(20), Numero)
-      .input('Serie', sql.VarChar(10), Serie)
-      .input('data_emissao', sql.Date, data_emissao)
-      .input('Valor_total', sql.Decimal(10, 2), Valor_total)
-      .input('Fornecedor', sql.NVarChar(255), Fornecedor)
-      .input('idusuario', sql.Int, idusuario)
-      .query(`
-        INSERT INTO NOTA_FISCAL 
-        (Numero, Serie, data_emissao, Valor_total, Fornecedor, idusuario)
-        VALUES 
-        (@Numero, @Serie, @data_emissao, @Valor_total, @Fornecedor, @idusuario)
-      `);
+    // Insere a nota fiscal no MySQL
+    await pool.query(
+      `INSERT INTO NOTA_FISCAL 
+       (Numero, Serie, data_emissao, Valor_total, Fornecedor, idusuario) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [Numero, Serie, data_emissao, Valor_total, Fornecedor, idusuario]
+    );
 
     res.status(201).send('Nota fiscal adicionada com sucesso');
   } catch (err) {
@@ -773,7 +627,7 @@ app.post('/nota/adicionar', verifyToken, async (req, res) => {
 
 app.get('/nota/listar', verifyToken, async (req, res) => {
   try {
-    const pool = await poolPromise;
+    const pool = await pool;
     const idusuario = req.userId;
 
     const result = await pool.request()

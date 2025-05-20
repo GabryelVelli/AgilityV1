@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const token = localStorage.getItem('token'); // Se estiver usando autenticação
+  const token = localStorage.getItem('token'); // pegar token do localStorage
 
   if (!id) {
     alert('ID da compra não informado');
@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const compra = await response.json();
 
     document.getElementById('nome').textContent = compra.nome;
-    document.getElementById('valor').textContent = `R$ ${compra.valor.toFixed(2)}`;
+
+    // Converter para número e formatar com 2 casas decimais, com fallback para '0.00'
+    const valorFormatado = compra.valor ? parseFloat(compra.valor).toFixed(2) : '0.00';
+    document.getElementById('valor').textContent = `R$ ${valorFormatado}`;
+
     document.getElementById('quantidade').textContent = compra.quantidade;
     document.getElementById('prioridade').textContent = compra.prioridade;
     document.getElementById('categoria').textContent = compra.categoria;
@@ -37,24 +41,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = `A_EditarCompra.html?id=${id}`;
   });
 });
- // Função para exibir o modal com a mensagem
-    function mostrarModal(mensagem) {
-        const modal = document.getElementById('modalExclusao');
-        const mensagemModal = document.getElementById('mensagemModal');
-        const span = document.getElementsByClassName('close')[0];
 
-        mensagemModal.textContent = mensagem;
-        modal.style.display = 'block';
+// Função para exibir o modal com a mensagem
+function mostrarModal(mensagem) {
+  const modal = document.getElementById('modalExclusao');
+  const mensagemModal = document.getElementById('mensagemModal');
+  const span = document.getElementsByClassName('close')[0];
 
-        // Fecha o modal quando o usuário clica no "x"
-        span.onclick = function () {
-            modal.style.display = 'none';
-        }
+  mensagemModal.textContent = mensagem;
+  modal.style.display = 'block';
 
-        // Fecha o modal quando o usuário clica fora do conteúdo do modal
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
+  // Fecha o modal quando o usuário clica no "x"
+  span.onclick = function () {
+    modal.style.display = 'none';
+  }
+
+  // Fecha o modal quando o usuário clica fora do conteúdo do modal
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
     }
+  }
+}

@@ -16,17 +16,16 @@ async function carregarCompras() {
 
       tr.innerHTML = `
         <td>${compra.nome}</td>
-        <td>${compra.valor.toFixed(2)}</td>
+        <td>R$ ${isNaN(Number(compra.valor)) ? '0.00' : Number(compra.valor).toFixed(2)}</td>
         <td>${compra.quantidade}</td>
         <td>${compra.prioridade}</td>
         <td>${compra.categoria}</td>
         <td>
-          <button class="btn-detalhes" onclick="verDetalhes(${compra.idcompra})">Detalhes</button>
-          <button class="btn-editar" onclick="editarCompra(${compra.idcompra})">Editar</button>
-          <button class="btn-excluir" onclick="excluirCompra(${compra.idcompra})">Excluir</button>
+          <button class="btn-detalhes" onclick="verDetalhes(${compra.IDCompras})">Detalhes</button>
+          <button class="btn-editar" onclick="editarCompra(${compra.IDCompras})">Editar</button>
+          <button class="btn-excluir" onclick="excluirCompra(${compra.IDCompras})">Excluir</button>
         </td>
       `;
-
       tabela.appendChild(tr);
     });
   } catch (err) {

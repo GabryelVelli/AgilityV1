@@ -58,7 +58,9 @@
         if (resposta.ok) {
           adicionarNotificacao('Nota Fiscal Atualizada com sucesso!', 'A_NotaFiscal.html');
           mostrarModal('Nota fiscal atualizada com sucesso!');
-          window.location.href = 'A_NotaFiscal.html'; // redireciona se quiser
+          setTimeout(() => {
+          window.location.href = 'A_NotaFiscal.html';
+        }, 1000) // redireciona se quiser
         } else {
           const msg = await resposta.text();
          mostrarModal('Erro ao atualizar nota: ' + msg);

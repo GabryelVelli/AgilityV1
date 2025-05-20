@@ -37,7 +37,7 @@ async function carregarEstabelecimentos() {
 
   } catch (err) {
     console.error(err);
-    alert("Erro ao carregar estabelecimentos.");
+    alert("Erro ao carregar Fornecedor.");
   }
 }
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function excluirEstabelecimento(id) {
-  if (!confirm('Deseja excluir este estabelecimento?')) return;
+  if (!confirm('Deseja excluir este Fornecedor?')) return;
 
   try {
     const token = localStorage.getItem('token');

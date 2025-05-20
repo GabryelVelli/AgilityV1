@@ -1,41 +1,39 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const token = localStorage.getItem('token'); // caso use token
+  const token = localStorage.getItem('token'); // se estiver usando token JWT
 
   if (!id) {
-    alert('ID do fornecedor não informado');
+    alert('ID do produto não informado');
     return;
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/estabelecimentos/${id}`, {
+    const response = await fetch(`http://localhost:3000/produtos/${id}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
     if (!response.ok) throw new Error(await response.text());
 
-    const fornecedor = await response.json();
+    const produto = await response.json();
 
-    document.getElementById('nomeEstabelecimento').textContent = fornecedor.nomeEstabelecimento || fornecedor.nome || '';
-    document.getElementById('cnpj').textContent = fornecedor.CNPJ || '';
-    document.getElementById('contato').textContent = fornecedor.contato || '';
-    document.getElementById('logradouro').textContent = fornecedor.logradouro || '';
-    document.getElementById('numero').textContent = fornecedor.numero || '';
-    document.getElementById('bairro').textContent = fornecedor.bairro || '';
-    document.getElementById('cidade').textContent = fornecedor.cidade || '';
-    document.getElementById('cep').textContent = fornecedor.CEP || '';
+    document.getElementById('nome').textContent = produto.nome || '';
+    document.getElementById('codigoBarras').textContent = produto.codigoBarras || '';
+    document.getElementById('vencimento').textContent = new Date(produto.vencimento).toLocaleDateString() || '';
+    document.getElementById('quantidade').textContent = produto.quantidade || '';
+    document.getElementById('fornecedor').textContent = produto.fornecedor || '';
+    document.getElementById('categoria').textContent = produto.categoria || '';
 
   } catch (err) {
-    mostrarModal('Erro ao carregar fornecedor: ' + err.message);
+    mostrarModal('Erro ao carregar Produto: ' + err.message);
   }
 
   document.getElementById('btn-voltar').addEventListener('click', () => {
-    window.location.href = 'A_Fornecedores.html'; // Ajuste sua página de lista
+    window.location.href = 'A_Estoque.html';
   });
 
   document.getElementById('btn-editar').addEventListener('click', () => {
-    window.location.href = `A_EditarFornecedor.html?id=${id}`; // Ajuste sua página de edição
+    window.location.href = `A_EditarProduto.html?id=${id}`;
   });
 });
 

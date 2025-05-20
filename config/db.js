@@ -1,27 +1,20 @@
-const sql = require('mssql');
+const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const dbConfig = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
-    database: process.env.DB_DATABASE,
-    options: {
-        encrypt: false, // Se estiver usando o Azure ou conexões seguras
-        trustServerCertificate: true // Usado em servidores locais
-    }
-};
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'senha',  // sua senha do MySQL
+  database: 'agility'
+});
 
-const poolPromise = new sql.ConnectionPool(dbConfig)
-    .connect()
-    .then(pool => {
-        console.log('Conectado ao SQL Server');
-        return pool;
-    })
-    .catch(err => console.error('Falha na conexão com o banco de dados', err));
+pool.getConnection()
+  .then(conn => {
+    console.log('Conectado ao MySQL');
+    conn.release(); // libera a conexão
+  })
+  .catch(err => console.error('Falha na conexão com o banco de dados MySQL', err));
 
-module.exports = {
-    sql, poolPromise
-};
+module.exports = pool;

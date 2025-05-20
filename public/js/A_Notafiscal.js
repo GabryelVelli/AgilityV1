@@ -18,7 +18,7 @@
             <td>${nota.Numero}</td>
             <td>${nota.Serie}</td>
             <td>${new Date(nota.data_emissao).toLocaleDateString()}</td>
-            <td>R$ ${nota.Valor_total.toFixed(2)}</td>
+            <td>R$ ${Number(nota.Valor_total).toFixed(2)}</td>
             <td>${nota.Fornecedor || ''}</td>
             <td>
               <button class="btn-detalhes" onclick="verDetalhes(${nota.IDnota})">Detalhes</button>
