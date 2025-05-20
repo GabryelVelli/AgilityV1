@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agility - Privacidade</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../css/inicio.css" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+    <h1 style="letter-spacing: 5px;">AGILITY</h1>
+    <div class="placeholder"></div>
+    <div class="top-bar-right">
+      <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
+            </div>
+       <div class="user-info">
+              <img id="avatarUsuario" src="https://i.pravatar.cc/40?img=3" alt="Usuário" class="user-avatar">
+              <span class="user-name">Olá, Usuário</span>
+            </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="A_Home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-box"></i>Produtos</button>
+        <ul class="submenu">
+          <li><a href="A_Cadastrarproduto.html">Adicionar Produto</a></li>
+          <li><a href="A_Estoque.html">Seu Estoque</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-building"></i>Fornecedores</button>
+        <ul class="submenu">
+          <li><a href="A_Fornecedor.html">Cadastrar Fornecedor</a></li>
+          <li><a href="A_Fornecedores.html">Fornecedores</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <button class="submenu-toggle"><i class="fa-solid fa-cart-shopping"></i>Compras</button>
+        <ul class="submenu">
+          <li><a href="A_CadastrarCompras.html">Cadastrar Compras</a></li>
+          <li><a href="A_Compras.html">Compras</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+            <button class="submenu-toggle"><i class="fa-solid fa-tag"></i>Nota Fiscal</button>
+            <ul class="submenu">
+              <li><a href="A_CadastrarNotaFiscal.html">Cadastrar Fiscal</a></li>
+              <li><a href="A_NotaFiscal.html">Notas Fiscais</a></li>
+            </ul>
+      </li>
+      <li><a href="A_ChatBot.html"><i class="fa-solid fa-headset"></i>ChatBot</a></li>
+      <li><a href="A_relatorios1.html"><i class="fa-solid fa-file"></i>Relatórios</a></li>
+      <li><a href="A_Perfil.html"><i class="fa-solid fa-user"></i>Perfil</a></li>
+      <li><a href="A_Contato.html"><i class="fa-solid fa-envelope"></i>Contato</a></li>
+      <li><a href="A_Sobre.html"><i class="fa-solid fa-circle-info"></i>Sobre / Ajuda</a></li>
+      <li><a href="A_Configuracoes.html"><i class="fa-solid fa-gear"></i>Configurações</a></li>
+      <li><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Sair Da Conta</a></li>
+    </ul>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    <h1 class="titulo"><i class="fa-solid fa-shield-halved"></i>Privacidade</h1>
+    <hr />
+    <div class="container-privacidade">
+    <h3 class="titulo-privacidade">Politica de Privacidade</h3>
+        <p class="texto-privacidade">Nossa política de privacidade é destinada a proteger suas informações pessoais e garantir que você se sinta seguro ao utilizar nossos serviços. Nós respeitamos sua privacidade e estamos comprometidos em proteger e manter suas informações pessoais em sigilo.</p>
+    <h3 class="titulo-privacidade">Coleta de Informações</h3>
+        <p class="texto-privacidade">Coletamos informações pessoais apenas quando estritamente necessário para fornecer nossos serviços. Essas informações podem incluir seu nome, endereço de e-mail e outras informações de contato. Não compartilhamos suas informações com terceiros sem o seu consentimento.</p>
+    <h3 class="titulo-privacidade">Uso de Informações</h3>
+        <p class="texto-privacidade">As informações pessoais coletadas são usadas apenas para os fins específicos para os quais foram fornecidas. Isso pode incluir o processamento de pedidos, fornecimento de suporte ao cliente e comunicação relacionada aos nossos serviços.</p>
+    <h3 class="titulo-privacidade">Segurança de Dados</h3>
+        <p class="texto-privacidade">Utilizamos medidas de segurança adequadas para proteger suas informações contra acesso não autorizado, perda ou alteração. Nosso compromisso é garantir que suas informações estejam seguras.</p>
+    <h3 class="titulo-privacidade">Cookies e Rastreamento</h3>
+        <p class="texto-privacidade">Podemos utilizar cookies e tecnologias de rastreamento para melhorar sua experiência em nosso site. Esses dados são usados apenas para fins de análise e aprimoramento de nossos serviços.</p>
+    <h3 class="titulo-privacidade">Alterações na Política de Privacidade</h3>
+    <p class="texto-privacidade">
+        Reservamo-nos o direito de fazer alterações em nossa política de privacidade a qualquer momento. Quaisquer alterações serão publicadas em nosso site. Recomendamos verificar periodicamente nossa política de privacidade para estar ciente de eventuais atualizações.
+
+        Lembre-se de que este é apenas um exemplo básico e que a política de privacidade pode precisar ser adaptada às suas necessidades específicas e às regulamentações aplicáveis em sua região. Além disso, é importante consultar um profissional jurídico para garantir que sua política de privacidade esteja em conformidade com todas as leis relevantes.
+    </p>
+    </div>
+  </main>
+
+  <script src="../js/scriptinicio.js"></script>
+  <script src="../js/A_Notificacao.js"></script>
+   <script src="../js/A_Perfil.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
+</body>
+</html>
