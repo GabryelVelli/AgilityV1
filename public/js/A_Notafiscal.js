@@ -1,4 +1,6 @@
-  async function carregarNotas() {
+let notas = [];
+
+    async function carregarNotas() {
       try {
         const resposta = await fetch('http://localhost:3000/nota/listar', {
           headers: {
@@ -8,29 +10,48 @@
 
         if (!resposta.ok) throw new Error('Erro ao buscar notas fiscais');
 
-        const notas = await resposta.json();
-        const tabela = document.getElementById('tabela-notas');
-        tabela.innerHTML = '';
-
-        notas.forEach(nota => {
-          const linha = document.createElement('tr');
-          linha.innerHTML = `
-            <td>${nota.Numero}</td>
-            <td>${nota.Serie}</td>
-            <td>${new Date(nota.data_emissao).toLocaleDateString()}</td>
-            <td>R$ ${Number(nota.Valor_total).toFixed(2)}</td>
-            <td>${nota.Fornecedor || ''}</td>
-            <td>
-              <button class="btn-detalhes" onclick="verDetalhes(${nota.IDnota})">Detalhes</button>
-              <button class="btn-editar" onclick="editarNota(${nota.IDnota})">Editar</button>
-              <button class="btn-excluir" onclick="excluirNota(${nota.IDnota})">Excluir</button>
-            </td>
-          `;
-          tabela.appendChild(linha);
-        });
+        notas = await resposta.json();
+        exibirNotas(notas);
       } catch (error) {
         mostrarModal('Erro ao carregar notas fiscais: ' + error.message);
       }
+    }
+
+    function exibirNotas(lista) {
+      const tabela = document.getElementById('tabela-notas');
+      tabela.innerHTML = '';
+
+      lista.forEach(nota => {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+          <td>${nota.Numero}</td>
+          <td>${nota.Serie}</td>
+          <td>${new Date(nota.data_emissao).toLocaleDateString()}</td>
+          <td>R$ ${Number(nota.Valor_total).toFixed(2)}</td>
+          <td>${nota.Fornecedor || ''}</td>
+          <td style="text-align:center;">
+            <button class="btn-detalhes" onclick="verDetalhes(${nota.IDnota})">Detalhes</button>
+            <button class="btn-editar" onclick="editarNota(${nota.IDnota})">Editar</button>
+            <button class="btn-excluir" onclick="excluirNota(${nota.IDnota})">Excluir</button>
+          </td>
+        `;
+        tabela.appendChild(linha);
+      });
+    }
+
+    function filtrarNotas() {
+      const termo = document.getElementById('pesquisa').value.toLowerCase();
+
+      const filtradas = notas.filter(nota => {
+        return (
+          (nota.Numero?.toString().toLowerCase().includes(termo)) ||
+          (nota.Serie?.toString().toLowerCase().includes(termo)) ||
+          (nota.Fornecedor?.toLowerCase().includes(termo)) ||
+          (new Date(nota.data_emissao).toLocaleDateString().toLowerCase().includes(termo))
+        );
+      });
+
+      exibirNotas(filtradas);
     }
 
     async function excluirNota(id) {
@@ -45,8 +66,8 @@
         });
 
         if (resposta.ok) {
-          adicionarNotificacao('Nota Fiscal Excluida com sucesso!', 'A_NotaFiscal.html');
-         mostrarModal('Nota Fiscal excluída com sucesso');
+          adicionarNotificacao('Nota Fiscal Excluída com sucesso!', 'A_NotaFiscal.html');
+          mostrarModal('Nota Fiscal excluída com sucesso');
           carregarNotas();
         } else {
           mostrarModal('Erro ao excluir nota');
@@ -58,35 +79,37 @@
     }
 
     function editarNota(id) {
-      // Aqui você pode redirecionar para uma página de edição com o ID da nota na URL
       window.location.href = `A_EditarNotaFiscal.html?id=${id}`;
     }
     function verDetalhes(id) {
       window.location.href = `A_DetalhesNotaFiscal.html?id=${id}`;
     }
-// Carrega notas assim que a página abrir
-    carregarNotas();
-       // Função para exibir o modal com a mensagem
+
     function mostrarModal(mensagem) {
-        const modal = document.getElementById('modalExclusao');
-        const mensagemModal = document.getElementById('mensagemModal');
-        const span = document.getElementsByClassName('close')[0];
+      const modal = document.getElementById('modalExclusao');
+      const mensagemModal = document.getElementById('mensagemModal');
+      const span = document.getElementsByClassName('close')[0];
 
-        mensagemModal.textContent = mensagem;
-        modal.style.display = 'block';
+      mensagemModal.textContent = mensagem;
+      modal.style.display = 'block';
 
-        // Fecha o modal quando o usuário clica no "x"
-        span.onclick = function () {
-            modal.style.display = 'none';
-        }
+      span.onclick = function () {
+          modal.style.display = 'none';
+      }
 
-        // Fecha o modal quando o usuário clica fora do conteúdo do modal
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
+      window.onclick = function (event) {
+          if (event.target == modal) {
+              modal.style.display = 'none';
+          }
+      }
     }
-document.addEventListener('DOMContentLoaded', () => {
-  adicionarAcessoRecente('Nota Fiscal', 'A_NotaFiscal.html', 'notafiscal');
-});
+
+    // Função fictícia para notificações
+    function adicionarNotificacao(msg, url) {
+      console.log('Notificação:', msg);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      carregarNotas();
+      adicionarAcessoRecente?.('Nota Fiscal', 'A_NotaFiscal.html', 'notafiscal');
+    });

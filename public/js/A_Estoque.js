@@ -1,3 +1,5 @@
+let produtos = []; // Escopo global para ser acessado em qualquer função
+
 async function carregarProdutos() {
   try {
     const response = await fetch('/produtos', {
@@ -9,7 +11,7 @@ async function carregarProdutos() {
     });
 
     if (response.ok) {
-      const produtos = await response.json();
+      produtos = await response.json(); // Preenche a variável global
       exibirProdutos(produtos);
     } else {
       mostrarModal('Erro ao carregar produtos');
@@ -79,51 +81,58 @@ async function excluirProduto(id) {
 function verDetalhes(id) {
   window.location.href = `A_DetalhesProduto.html?id=${id}`;
 }
-    // Função para filtrar produtos com base no texto digitado na barra de pesquisa
-    function filtrarProdutos() {
-        const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
-        // Filtra os produtos com base no nome, fornecedor, categoria e vencimento
-        const produtosFiltrados = produtos.filter(produto => {
-        const nomeMatch = produto.nome.toLowerCase().includes(termoPesquisa);
-        const fornecedorMatch = produto.fornecedor.toLowerCase().includes(termoPesquisa);
-        const categoriaMatch = produto.categoria.toLowerCase().includes(termoPesquisa);
-        const vencimentoMatch = formatarData(produto.vencimento).toLowerCase().includes(termoPesquisa);
+// 🔍 Filtra produtos com base no texto digitado
+function filtrarProdutos() {
+  const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
-        // Retorna true se algum campo corresponder ao termo de pesquisa
-        return nomeMatch || fornecedorMatch || categoriaMatch || vencimentoMatch;
-    });
-        // Exibe os produtos filtrados
-        exibirProdutos(produtosFiltrados);
+  const produtosFiltrados = produtos.filter(produto => {
+    const nomeMatch = (produto.nome || '').toLowerCase().includes(termoPesquisa);
+    const fornecedorMatch = (produto.fornecedor || '').toLowerCase().includes(termoPesquisa);
+    const categoriaMatch = (produto.categoria || '').toLowerCase().includes(termoPesquisa);
+    const vencimentoMatch = formatarData(produto.vencimento || '').toLowerCase().includes(termoPesquisa);
+    const codigoBarrasMatch = String(produto.codigoBarras || '').toLowerCase().includes(termoPesquisa);
+
+    return (
+      nomeMatch ||
+      fornecedorMatch ||
+      categoriaMatch ||
+      vencimentoMatch ||
+      codigoBarrasMatch
+    );
+  });
+
+  exibirProdutos(produtosFiltrados);
+}
+
+// Modal de mensagem
+function mostrarModal(mensagem) {
+  const modal = document.getElementById('modalExclusao');
+  const mensagemModal = document.getElementById('mensagemModal');
+  const span = document.getElementsByClassName('close')[0];
+
+  mensagemModal.textContent = mensagem;
+  modal.style.display = 'block';
+
+  span.onclick = function () {
+    modal.style.display = 'none';
+  }
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
     }
+  }
+}
 
-    document.addEventListener('DOMContentLoaded', () => {
-        carregarProdutos();
-    });
-
-    // Função para exibir o modal com a mensagem
-    function mostrarModal(mensagem) {
-        const modal = document.getElementById('modalExclusao');
-        const mensagemModal = document.getElementById('mensagemModal');
-        const span = document.getElementsByClassName('close')[0];
-
-        mensagemModal.textContent = mensagem;
-        modal.style.display = 'block';
-
-        // Fecha o modal quando o usuário clica no "x"
-        span.onclick = function() {
-            modal.style.display = 'none';
-        }
-
-        // Fecha o modal quando o usuário clica fora do conteúdo do modal
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
-    }
+// ✅ Tudo é iniciado aqui
 document.addEventListener('DOMContentLoaded', () => {
+  carregarProdutos();
+
+  const inputPesquisa = document.getElementById('pesquisa');
+  if (inputPesquisa) {
+    inputPesquisa.addEventListener('input', filtrarProdutos);
+  }
+
   adicionarAcessoRecente('Estoque', 'A_Estoque.html', 'estoque');
 });
-
-

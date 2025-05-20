@@ -78,6 +78,11 @@
         <hr>
         <h2><i class="fa-solid fa-warehouse"></i>Fornecedores</h2>
         <h2>Fornecedores Cadastrados</h2>
+         <!-- Barra de pesquisa -->
+        <div class="barra-pesquisa">
+            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
         <table class="tabela-notas">
           <thead>
             <tr>
@@ -96,11 +101,6 @@
           <!-- As linhas serão inseridas via JavaScript -->
         </tbody>
       </table>
-        <!-- Barra de pesquisa -->
-        <div class="barra-pesquisa">
-            <input type="text" id="pesquisa" placeholder="Pesquisar Fornecedor..." oninput="filtrarFornecedor()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
 
     </main>
 
