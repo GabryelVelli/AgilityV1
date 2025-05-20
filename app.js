@@ -8,6 +8,7 @@ const path = require('path');
 dotenv.config();
 
 const initDb = require('./config/initDb');
+const db = require('./config/db');
 
 const app = express();
 const port = 3000;
@@ -810,7 +811,41 @@ app.post('/send-email', (req, res) => {
         res.status(200).send('E-mail enviado com sucesso!');
     });
 });
+//RECUPERAR SENHA 
+app.post('/verificar-email', async (req, res) => {
+  const { email } = req.body;
 
+  try {
+    const [rows] = await db.query('SELECT * FROM USUARIO WHERE email = ?', [email]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'E-mail não encontrado' });
+    }
+    res.json({ message: 'E-mail encontrado, prossiga para redefinir a senha' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao consultar o banco' });
+  }
+});
+// Rota para redefinir a senha (passo 2)
+app.post('/redefinir-senha', async (req, res) => {
+  const { email, novaSenha } = req.body;
+
+  try {
+    const [rows] = await pool.query('SELECT * FROM USUARIO WHERE email = ?', [email]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Usuário não encontrado com esse e-mail' });
+    }
+
+    const hashSenha = await bcrypt.hash(novaSenha, 10);
+    await pool.query('UPDATE USUARIO SET senha = ? WHERE email = ?', [hashSenha, email]);
+
+    res.json({ message: 'Senha redefinida com sucesso' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao atualizar a senha' });
+  }
+});
 
 initDb().then(() => {
   app.listen(port, () => {

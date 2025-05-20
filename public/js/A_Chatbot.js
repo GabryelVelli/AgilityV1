@@ -14,8 +14,8 @@
   function botResponse(msg) {
     const msgLower = msg.toLowerCase();
 
-    if (msgLower.includes('cadastro') && msgLower.includes('produto')) {
-      addMessage('Para cadastrar um produto, vá até a seção "Cadastrar Produto" no menu lateral.', 'bot');
+    if (msgLower.includes('produto') && msgLower.includes('produto')) {
+      addMessage('Para cadastrar um produto, vá até a seção Produto "Cadastrar Produto" no menu lateral.', 'bot');
     } else if (msgLower.includes('nota fiscal')) {
       addMessage('Você pode cadastrar uma nota fiscal na aba "Notas Fiscais".', 'bot');
     } else if (msgLower.includes('compra')) {

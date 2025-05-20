@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Recuperar Senha - Agility</title>
   <link rel="stylesheet" href="../css/style.css">
+
   <style>
     body {
       display: flex;
@@ -21,38 +22,21 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <form id="recuperarForm">
-      <h1>Recuperar Senha</h1>
-      <span>Digite a conta de recuperação de senha</span>
-      <input type="email" id="recuperarEmail" placeholder="Digite seu e-mail" required>
-      <button type="submit">Enviar código</button>
-    </form>
+    <div class="container">
+        <!-- Formulário para inserir o e-mail -->
+        <form id="recuperarForm" class="form-recuperacao">
+          <h1>Recuperar Senha</h1>
+          <span>Digite o e-mail da sua conta</span>
+          <input type="email" id="recuperarEmail" placeholder="Digite seu e-mail" required>
+          <button type="submit">Continuar</button>
+        </form>
 
-    <form id="redefinirForm" style="display: none;">
-      <h1>Redefinir Senha</h1>
-      <input type="text" id="codigoToken" placeholder="Código recebido por e-mail" required>
-      <input type="password" id="novaSenha" placeholder="Nova senha" required>
-      <button type="submit">Redefinir</button>
-    </form>
-  </div>
-
-  <script src="../js/app.js">
-    document.getElementById("recuperarSenhaForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    const email = document.getElementById("email").value; // Pega o e-mail do input
-
-    const response = await fetch("http://localhost:3000/recuperar-senha", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-    });
-
-    const result = await response.text();
-    alert(result); // Exibe "Código enviado! Confira seu e-mail."
-});
-
-  </script>
+        <form id="redefinirForm" class="form-recuperacao" style="display: none;">
+          <h1>Redefinir Senha</h1>
+          <input type="password" id="novaSenha" placeholder="Nova senha" required>
+          <button type="submit">Redefinir Senha</button>
+        </form>
+      </div>
 </body>
+<script src="../js/A_RecuperarSenha.js"></script>
 </html>

@@ -226,5 +226,8 @@ span{
 button{
     border: 1px solid black;
 }
-
+#redefinirForm{
+    margin-top: 150px;
+    text-align: center;
+}
 
