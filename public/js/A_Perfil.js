@@ -1,21 +1,20 @@
-// Aplica o avatar salvo na tela de perfil (se houver)
 document.addEventListener('DOMContentLoaded', () => {
   const avatarSalvo = localStorage.getItem('avatarSelecionado');
 
-  // Atualiza o avatar da tela de perfil
-  const avatarPreview = document.getElementById('avatarPreview');
+  // Usa o ID correto para o avatar principal
+  const avatarPreview = document.getElementById('avatarSelecionado');
   if (avatarSalvo && avatarPreview) {
-    avatarPreview.src = `https://i.pravatar.cc/100?img=${avatarSalvo}`;
+    avatarPreview.src = `https://i.pravatar.cc/70?img=${avatarSalvo}`; // 70px conforme seu html
   }
 
-  // Atualiza o avatar global da navbar/menu (caso exista)
+  // Avatar global na navbar/menu (se existir)
   const avatarUsuario = document.getElementById('avatarUsuario');
   if (avatarSalvo && avatarUsuario) {
     avatarUsuario.src = `https://i.pravatar.cc/40?img=${avatarSalvo}`;
   }
 
-  // Aplica destaque no avatar selecionado
-  const avatares = document.querySelectorAll('.avatar-opcao');
+  // Seleciona todos os avatares com a classe correta ".avatar"
+  const avatares = document.querySelectorAll('.avatar');
   avatares.forEach(img => {
     if (img.dataset.id === avatarSalvo) {
       img.classList.add('selecionado');
@@ -29,13 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Função chamada ao selecionar avatar
 function selecionarAvatar(id) {
   localStorage.setItem('avatarSelecionado', id);
 
-  const avatarPreview = document.getElementById('avatarPreview');
+  const avatarPreview = document.getElementById('avatarSelecionado');
   if (avatarPreview) {
-    avatarPreview.src = `https://i.pravatar.cc/100?img=${id}`;
+    avatarPreview.src = `https://i.pravatar.cc/70?img=${id}`;
   }
 
   const avatarUsuario = document.getElementById('avatarUsuario');
