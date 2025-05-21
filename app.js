@@ -5,7 +5,8 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-dotenv.config();
+dotenv.config({ path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env' });
+
 
 const initDb = require('./config/initDb');
 const db = require('./config/db');
