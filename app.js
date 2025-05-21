@@ -276,7 +276,7 @@ app.post('/add-estabelecimento', verifyToken, async (req, res) => {
 
     // Inserir estabelecimento
     const [estabelecimentoInsert] = await pool.query(
-      'INSERT INTO Estabelecimento (nome, CNPJ, contato, idusuario) VALUES (?, ?, ?, ?)',
+      'INSERT INTO ESTABELECIMENTO (nome, CNPJ, contato, idusuario) VALUES (?, ?, ?, ?)',
       [nomeEstabelecimento, cnpj, contato, idusuario]
     );
 
@@ -311,7 +311,7 @@ app.get('/estabelecimentos', verifyToken, async (req, res) => {
         u.cidade,
         u.cep
       FROM ESTABELECIMENTO e
-      LEFT JOIN UNIDADE u ON e.IDestabelecimento = u.IDestabelecimento
+      LEFT JOIN Unidade u ON e.IDestabelecimento = u.IDestabelecimento
       WHERE e.idusuario = ?
     `, [idusuario]);
 
@@ -348,7 +348,7 @@ app.put('/estabelecimentos/:id', verifyToken, async (req, res) => {
 
     // Atualiza a unidade associada
     await pool.query(
-      `UPDATE UNIDADE 
+      `UPDATE Unidade 
        SET logradouro = ?, numero = ?, bairro = ?, cidade = ?, CEP = ?
        WHERE IDestabelecimento = ?`,
       [logradouro, numero, bairro, cidade, cep, idEstabelecimento]
@@ -379,7 +379,7 @@ app.get('/estabelecimento-detalhes/:id', verifyToken, async (req, res) => {
 
     // Busca os dados da unidade vinculada
     const [unidadeResult] = await pool.query(
-      'SELECT * FROM UNIDADE WHERE IDestabelecimento = ?',
+      'SELECT * FROM Unidade WHERE IDestabelecimento = ?',
       [idEstabelecimento]
     );
 
@@ -412,7 +412,7 @@ app.get('/estabelecimentos/:id', verifyToken, async (req, res) => {
         u.cidade,
         u.cep
       FROM ESTABELECIMENTO e
-      LEFT JOIN UNIDADE u ON e.IDestabelecimento = u.IDestabelecimento
+      LEFT JOIN Unidade u ON e.IDestabelecimento = u.IDestabelecimento
       WHERE e.idusuario = ? AND e.IDestabelecimento = ?
     `, [idusuario, id]);
 
@@ -443,7 +443,7 @@ app.delete('/estabelecimentos/:id', verifyToken, async (req, res) => {
 
     // Exclui a(s) unidade(s) primeiro
     await pool.query(
-      'DELETE FROM UNIDADE WHERE IDestabelecimento = ?',
+      'DELETE FROM Unidade WHERE IDestabelecimento = ?',
       [idEstabelecimento]
     );
 

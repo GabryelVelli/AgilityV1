@@ -9,7 +9,7 @@
     }
 
     try {
-      const resposta = await fetch(`http://localhost:3000/nota/${id}`, {
+      const resposta = await fetch(`/nota/${id}`, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
@@ -46,7 +46,7 @@
       const notaAtualizada = { Numero, Serie, data_emissao, Valor_total, Fornecedor };
 
       try {
-        const resposta = await fetch(`http://localhost:3000/nota/editar/${id}`, {
+        const resposta = await fetch(`/nota/editar/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

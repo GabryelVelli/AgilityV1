@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/nota/${id}`, {  // Corrigido aqui
+    const response = await fetch(`/nota/${id}`, {  // Corrigido aqui
       headers: { 'Authorization': `Bearer ${token}` }
     });
 

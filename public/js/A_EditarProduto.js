@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/produtos/${id}`, {
+        const response = await fetch(`/produtos/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         try {
-          const response = await fetch(`http://localhost:3000/produtos/${id}`, {
+          const response = await fetch(`/produtos/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

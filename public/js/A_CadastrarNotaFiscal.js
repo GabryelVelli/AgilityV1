@@ -16,7 +16,7 @@ document.getElementById('nota-form').addEventListener('submit', async (event) =>
   };
 
   try {
-    const resposta = await fetch('http://localhost:3000/nota/adicionar', {
+      const resposta = await fetch('/nota/adicionar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

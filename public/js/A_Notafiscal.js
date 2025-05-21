@@ -2,7 +2,7 @@ let notas = [];
 
     async function carregarNotas() {
       try {
-        const resposta = await fetch('http://localhost:3000/nota/listar', {
+        const resposta = await fetch('/nota/listar', {
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
           }
@@ -58,7 +58,7 @@ let notas = [];
       if (!confirm('Tem certeza que deseja excluir esta nota?')) return;
 
       try {
-        const resposta = await fetch(`http://localhost:3000/nota/excluir/${id}`, {
+        const resposta = await fetch(`/nota/excluir/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')

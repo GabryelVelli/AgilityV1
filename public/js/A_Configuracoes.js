@@ -9,7 +9,7 @@ document.getElementById('btnAtualizarSenha').addEventListener('click', async () 
   }
 
   try {
-    const response = await fetch('http://localhost:3000/usuario/alterar-senha', {
+    const response = await fetch('/usuario/alterar-senha', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

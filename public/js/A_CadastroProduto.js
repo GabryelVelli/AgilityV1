@@ -19,7 +19,7 @@
         };
 
         try {
-            const resposta = await fetch('http://localhost:3000/add-produto', {
+            const resposta = await fetch('/add-produto', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
