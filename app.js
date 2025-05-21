@@ -157,6 +157,44 @@ app.post('/usuario/alterar-senha', verifyToken, async (req, res) => {
     res.status(500).send('Erro no servidor');
   }
 });
+app.post('/usuario/alterar-email', verifyToken, async (req, res) => {
+  const { emailAtual, novoEmail } = req.body;
+  const idusuario = req.userId;
+
+  if (!emailAtual || !novoEmail) {
+    return res.status(400).send('Campos emailAtual e novoEmail são obrigatórios.');
+  }
+
+  try {
+    // Busca o e-mail atual no banco
+    const [rows] = await pool.query(
+      'SELECT email FROM USUARIO WHERE IDusuario = ?',
+      [idusuario]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).send('Usuário não encontrado');
+    }
+
+    const emailSalvo = rows[0].email;
+
+    // Verifica se o e-mail atual informado confere
+    if (emailAtual !== emailSalvo) {
+      return res.status(401).send('E-mail atual incorreto');
+    }
+
+    // Atualiza o e-mail no banco
+    await pool.query(
+      'UPDATE USUARIO SET email = ? WHERE IDusuario = ?',
+      [novoEmail, idusuario]
+    );
+
+    res.send('E-mail atualizado com sucesso!');
+  } catch (err) {
+    console.error('Erro ao atualizar e-mail:', err);
+    res.status(500).send('Erro no servidor');
+  }
+});
 // DASHBOARD HOME //
 // DASHBOARD HOME //
 // DASHBOARD HOME //

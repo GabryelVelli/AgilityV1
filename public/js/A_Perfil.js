@@ -41,3 +41,49 @@ function selecionarAvatar(id) {
     avatarUsuario.src = `https://i.pravatar.cc/40?img=${id}`;
   }
 }
+ document.getElementById('alterarEmailForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const emailAtual = document.getElementById('emailAtual').value;
+    const novoEmail = document.getElementById('novoEmail').value;
+
+    try {
+      const res = await fetch('/usuario/alterar-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token') // Token do login
+        },
+        body: JSON.stringify({ emailAtual, novoEmail })
+      });
+
+      if (res.ok) {
+        mostrarModal('E-mail alterado com sucesso!');
+        // Redirecionar ou limpar campos, se quiser
+      } else {
+        const erro = await res.text();
+        mostrarModal('Erro: ' + erro);
+      }
+    } catch (err) {
+      console.error(err);
+      mostrarModal('Erro ao conectar com o servidor');
+    }
+  });
+     function mostrarModal(mensagem) {
+      const modal = document.getElementById('modalExclusao');
+      const mensagemModal = document.getElementById('mensagemModal');
+      const span = document.getElementsByClassName('close')[0];
+
+      mensagemModal.textContent = mensagem;
+      modal.style.display = 'block';
+
+      span.onclick = function () {
+          modal.style.display = 'none';
+      }
+
+      window.onclick = function (event) {
+          if (event.target == modal) {
+              modal.style.display = 'none';
+          }
+      }
+    }
