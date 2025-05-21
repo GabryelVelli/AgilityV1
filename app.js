@@ -888,7 +888,7 @@ app.post('/redefinir-senha', async (req, res) => {
 
 initDb().then(() => {
   app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
+    console.log(`Servidor rodando na porta ${port}`);
   });
 }).catch(err => {
   console.error('Erro ao inicializar banco:', err);
