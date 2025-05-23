@@ -1,27 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const avatarSalvo = localStorage.getItem('avatarSelecionado');
+  const avatarMap = {
+    1: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png',
+    2: 'https://i.pinimg.com/564x/5b/50/e7/5b50e75d07c726d36f397f6359098f58.jpg',
+    3: 'https://wallpapers.com/images/hd/netflix-profile-pictures-5yup5hd2i60x7ew3.jpg',
+    4: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-7.png'
+  };
 
-  // Usa o ID correto para o avatar principal
+  const avatarSalvoId = localStorage.getItem('avatarSelecionado');
+  const avatarUrl = avatarMap[avatarSalvoId];
+
   const avatarPreview = document.getElementById('avatarSelecionado');
-  if (avatarSalvo && avatarPreview) {
-    avatarPreview.src = `https://i.pravatar.cc/70?img=${avatarSalvo}`; // 70px conforme seu html
+  if (avatarSalvoId && avatarPreview && avatarUrl) {
+    avatarPreview.src = avatarUrl;
   }
 
-  // Avatar global na navbar/menu (se existir)
   const avatarUsuario = document.getElementById('avatarUsuario');
-  if (avatarSalvo && avatarUsuario) {
-    avatarUsuario.src = `https://i.pravatar.cc/40?img=${avatarSalvo}`;
+  if (avatarSalvoId && avatarUsuario && avatarUrl) {
+    avatarUsuario.src = avatarUrl;
   }
 
-  // Seleciona todos os avatares com a classe correta ".avatar"
   const avatares = document.querySelectorAll('.avatar');
   avatares.forEach(img => {
-    if (img.dataset.id === avatarSalvo) {
+    if (img.dataset.id === avatarSalvoId) {
       img.classList.add('selecionado');
     }
 
     img.addEventListener('click', () => {
-      selecionarAvatar(img.dataset.id);
+      const id = img.dataset.id;
+      selecionarAvatar(id);
       avatares.forEach(i => i.classList.remove('selecionado'));
       img.classList.add('selecionado');
     });
@@ -29,61 +35,74 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function selecionarAvatar(id) {
+  const avatarMap = {
+    1: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png',
+    2: 'https://i.pinimg.com/564x/5b/50/e7/5b50e75d07c726d36f397f6359098f58.jpg',
+    3: 'https://wallpapers.com/images/hd/netflix-profile-pictures-5yup5hd2i60x7ew3.jpg',
+    4: 'https://loodibee.com/wp-content/uploads/Netflix-avatar-7.png'
+  };
+
+  const url = avatarMap[id];
+  if (!url) return;
+
   localStorage.setItem('avatarSelecionado', id);
 
   const avatarPreview = document.getElementById('avatarSelecionado');
   if (avatarPreview) {
-    avatarPreview.src = `https://i.pravatar.cc/70?img=${id}`;
+    avatarPreview.src = url;
   }
 
   const avatarUsuario = document.getElementById('avatarUsuario');
   if (avatarUsuario) {
-    avatarUsuario.src = `https://i.pravatar.cc/40?img=${id}`;
+    avatarUsuario.src = url;
   }
 }
- document.getElementById('alterarEmailForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
 
-    const emailAtual = document.getElementById('emailAtual').value;
-    const novoEmail = document.getElementById('novoEmail').value;
+// Lógica para o formulário de alteração de e-mail
+document.getElementById('alterarEmailForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await fetch('/usuario/alterar-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token') // Token do login
-        },
-        body: JSON.stringify({ emailAtual, novoEmail })
-      });
+  const emailAtual = document.getElementById('emailAtual').value;
+  const novoEmail = document.getElementById('novoEmail').value;
 
-      if (res.ok) {
-        mostrarModal('E-mail alterado com sucesso!');
-        // Redirecionar ou limpar campos, se quiser
-      } else {
-        const erro = await res.text();
-        mostrarModal('Erro: ' + erro);
-      }
-    } catch (err) {
-      console.error(err);
-      mostrarModal('Erro ao conectar com o servidor');
+  try {
+    const res = await fetch('/usuario/alterar-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({ emailAtual, novoEmail })
+    });
+
+    if (res.ok) {
+      mostrarModal('E-mail alterado com sucesso!');
+    } else {
+      const erro = await res.text();
+      mostrarModal('Erro: ' + erro);
     }
-  });
-     function mostrarModal(mensagem) {
-      const modal = document.getElementById('modalExclusao');
-      const mensagemModal = document.getElementById('mensagemModal');
-      const span = document.getElementsByClassName('close')[0];
+  } catch (err) {
+    console.error(err);
+    mostrarModal('Erro ao conectar com o servidor');
+  }
+});
 
-      mensagemModal.textContent = mensagem;
-      modal.style.display = 'block';
+// Função para exibir modal de mensagens
+function mostrarModal(mensagem) {
+  const modal = document.getElementById('modalExclusao');
+  const mensagemModal = document.getElementById('mensagemModal');
+  const span = document.getElementsByClassName('close')[0];
 
-      span.onclick = function () {
-          modal.style.display = 'none';
-      }
+  mensagemModal.textContent = mensagem;
+  modal.style.display = 'block';
 
-      window.onclick = function (event) {
-          if (event.target == modal) {
-              modal.style.display = 'none';
-          }
-      }
+  span.onclick = function () {
+    modal.style.display = 'none';
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
     }
+  };
+}
