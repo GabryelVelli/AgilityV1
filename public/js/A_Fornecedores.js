@@ -19,6 +19,12 @@ async function carregarEstabelecimentos() {
   }
 }
 
+function formatarCNPJ(cnpj) {
+  cnpj = cnpj.replace(/\D/g, ''); // remove tudo que não é número
+  return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, 
+    "$1.$2.$3/$4-$5");
+}
+
 function exibirEstabelecimentos(lista) {
   const tabela = document.getElementById('tabela-estabelecimentos');
   tabela.innerHTML = ''; // Limpa a tabela
@@ -27,7 +33,7 @@ function exibirEstabelecimentos(lista) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${est.nome}</td>
-      <td>${est.CNPJ}</td>
+      <td>${formatarCNPJ(est.CNPJ)}</td>
       <td>${est.contato}</td>
       <td>${est.logradouro}</td>
       <td>${est.numero}</td>
