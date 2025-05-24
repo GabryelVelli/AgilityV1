@@ -90,6 +90,21 @@ async function initDb() {
       );
     `);
 
+   await pool.query(`
+      CREATE TABLE IF NOT EXISTS MovimentacaoEstoque (
+        idmovimentacao INT AUTO_INCREMENT PRIMARY KEY,
+        idproduto INT NOT NULL,
+        idusuario INT NOT NULL,
+        tipo ENUM('entrada', 'saida') NOT NULL,
+        quantidade INT NOT NULL,
+        dataMovimentacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+        observacao TEXT,
+        FOREIGN KEY (idproduto) REFERENCES Produto(idproduto),
+        FOREIGN KEY (idusuario) REFERENCES Usuario(idusuario)
+      );
+    `);
+
+
     console.log('Tabelas criadas ou já existentes.');
   } catch (error) {
     console.error('Erro ao criar tabelas:', error);

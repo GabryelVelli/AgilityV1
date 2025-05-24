@@ -1619,3 +1619,47 @@ body.tema-escuro .main-content #contact-form label{
   color: #333;
   margin-bottom: 8px;
 }
+/* MOVIMENTACAO */ 
+#modalMovimentacao label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+#modalMovimentacao input,
+#modalMovimentacao select,
+#modalMovimentacao textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #1f2937;
+  color: #ffffff;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#modalMovimentacao textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* Botão confirmar */
+#modalMovimentacao button {
+  width: 100%;
+  padding: 12px;
+  background-color: gainsboro;
+  color: #13203f;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#modalMovimentacao button:hover {
+  background-color: #155ec4;
+}

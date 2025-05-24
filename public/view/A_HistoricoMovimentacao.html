@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agility - Produtos</title>
+    <title>Agility - Movimentação Estoque</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -78,53 +78,31 @@
     <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
-        <h2><i class="fa-solid fa-warehouse"></i>Estoque</h2>
-        <h2><i class="fa-solid fa-boxes-stacked"></i> Produtos</h2>
+        <h2><i class="fa-solid fa-warehouse"></i>Historico de Movimentação</h2>
+        <h2><i class="fa-solid fa-boxes-stacked"></i>Movimentações</h2>
         <!-- Barra de pesquisa -->
         <div class="barra-pesquisa">
-          <input type="text" id="pesquisa" placeholder="Pesquisar produto...">
+          <input type="text" id="pesquisa" placeholder="Pesquisar..." oninput="filtrarMovimentacoes()">
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
+
         <table class="tabela-notas">
-          <thead>
+        <thead>
             <tr>
-              <th>Nome</th>
-              <th>Código de Barras</th>
-              <th>Vencimento</th>
-              <th>Quantidade</th>
-              <th>Fornecedor</th>
-              <th>Categoria</th>
-              <th style="text-align: center;">Ações</th>
+            <th>Produto</th>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Data</th>
+            <th>Observação</th>
+            <th style="text-align: center;">Ações</th>
             </tr>
-          </thead>
-          <tbody id="tabela-produtos"></tbody>
+        </thead>
+        <tbody id="tabela-historico"></tbody>
         </table>
 
-       
 
     </main>
-    <!-- Modal de Movimentação -->
-    <div id="modalMovimentacao" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="fecharModalMovimentacao()">&times;</span>
-        <h3>Movimentação de Estoque</h3>
-        <input type="hidden" id="idprodutoMovimentacao">
-
-        <label for="tipoMovimentacao">Tipo:</label>
-        <select id="tipoMovimentacao">
-          <option value="entrada">Entrada</option>
-          <option value="saida">Saída</option>
-        </select>
-
-        <label for="quantidadeMovimentacao">Quantidade:</label>
-        <input type="number" id="quantidadeMovimentacao" placeholder="Quantidade">
-
-        <label for="observacaoMovimentacao">Observação:</label>
-        <textarea id="observacaoMovimentacao" placeholder="Observação (opcional)" maxlength="50"></textarea>
-
-        <button onclick="registrarMovimentacao()">Confirmar</button>
-      </div>
-    </div>
+   
     <!-- Modal -->
     <div id="modalExclusao" class="modal">
         <div class="modal-content">
@@ -134,7 +112,7 @@
     </div>
 </body>
     <script src="../js/scriptinicio.js"></script>
-    <script src="../js/A_Estoque.js"></script>
+    <script src="../js/A_Historico.js"></script>
      <script src="../js/A_Notificacao.js"></script>
       <script src="../js/A_Perfil.js"></script>
       <script>

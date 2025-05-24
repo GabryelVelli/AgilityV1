@@ -44,6 +44,7 @@ function exibirProdutos(produtos) {
         <button class="btn-detalhes" onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
         <button class="btn-editar" onclick="editarProduto(${produto.idproduto})">Editar</button>
         <button class="btn-excluir" onclick="excluirProduto(${produto.idproduto})">Excluir</button>
+        <button class="btn-editar" onclick="abrirModalMovimentacao(${produto.idproduto})">Movimentar</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -124,7 +125,69 @@ function mostrarModal(mensagem) {
     }
   }
 }
+function abrirModalMovimentacao(idproduto) {
+  const modal = document.getElementById('modalMovimentacao');
+  const span = modal.getElementsByClassName('close')[0];
 
+  // Armazena o ID do produto no input oculto
+  document.getElementById('idprodutoMovimentacao').value = idproduto;
+
+  modal.style.display = 'block';
+
+  // Fecha ao clicar no "X"
+  span.onclick = function () {
+    modal.style.display = 'none';
+  };
+
+  // Fecha ao clicar fora do conteúdo do modal
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
+
+// Função para fechar via outro botão, se desejar
+function fecharModalMovimentacao() {
+  document.getElementById('modalMovimentacao').style.display = 'none';
+}
+
+async function registrarMovimentacao() {
+  const idproduto = document.getElementById('idprodutoMovimentacao').value;
+  const tipo = document.getElementById('tipoMovimentacao').value;
+  const quantidade = parseInt(document.getElementById('quantidadeMovimentacao').value);
+  const observacao = document.getElementById('observacaoMovimentacao').value;
+  const token = localStorage.getItem('token');
+
+  if (!quantidade || quantidade <= 0) {
+    mostrarModal('Quantidade inválida.');
+    return;
+  }
+
+  try {
+    const resposta = await fetch('/estoque/movimentar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ idproduto, tipo, quantidade, observacao })
+    });
+
+    const texto = await resposta.text();
+    mostrarModal(texto);
+
+    if (resposta.ok) {
+      fecharModalMovimentacao();
+      // recarrega produtos ou atualiza quantidade
+      carregarProdutos(); 
+    }
+  } catch (erro) {
+    console.error(erro);
+    mostrarModal('Erro ao registrar movimentação.');
+  }
+}
 // ✅ Tudo é iniciado aqui
 document.addEventListener('DOMContentLoaded', () => {
   carregarProdutos();
@@ -136,3 +199,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   adicionarAcessoRecente('Estoque', 'A_Estoque.html', 'estoque');
 });
+
