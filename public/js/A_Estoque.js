@@ -44,7 +44,6 @@ function exibirProdutos(produtos) {
         <button class="btn-detalhes" onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
         <button class="btn-editar" onclick="editarProduto(${produto.idproduto})">Editar</button>
         <button class="btn-excluir" onclick="excluirProduto(${produto.idproduto})">Excluir</button>
-        <button class="btn-editar" onclick="abrirModalMovimentacao(${produto.idproduto})">Movimentar</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -54,7 +53,7 @@ function exibirProdutos(produtos) {
 function editarProduto(id) {
   window.location.href = `A_EditarProduto.html?id=${id}`;
 }
-
+//<button class="btn-editar" onclick="abrirModalMovimentacao(${produto.idproduto})">Movimentar</button>
 async function excluirProduto(id) {
   if (confirm('Tem certeza que deseja excluir este produto?')) {
     try {
