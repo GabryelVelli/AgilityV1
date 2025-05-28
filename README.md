@@ -18,12 +18,15 @@ Agility! O sistema tem como objetivo gerenciar o controle de estoque
 - Cadastro de Usuários: Criação de contas inserindo nome, email e senha.
 - Login: Autenticação segura com senhas criptografadas.
 - Validação de Formulário com JavaScript​: Garantia de que os dados inseridos pelos usuários estão corretos, tornando a experiência mais fluida.
-- Cadastro de Estabelecimento: Criação de estabelecimento inserindo CNPJ, Estabelecimento e contato.
-- Cadastro de Unidade: Criação de unidade junto com estabelecimento inserindo Rua, Numero, Bairro, Cidade e CEP.
+- Cadastro de Estabelecimento: Criação de fornecedor inserindo CNPJ, Estabelecimento e contato.
+- Cadastro de Unidade: Criação de unidade junto com forncedor inserindo Rua, Numero, Bairro, Cidade e CEP.
+- Cadastro de Compras: Criação de uma lista de compras para estoque
+- Cadastro de Nota Fiscal: Adicione suas notas fiscais de produtos
+- Detalhes: Tela de detalhes para seus itens.
 - Sistema de Logout: Foi inserido também um sistema de logout.
 - Cadastro de Produtos: Criação de Produtos inserindo, nome do produto, Vencimento, fornecedor, quantidade e Categoria.
-- Visualização de Produtos e Estabelecimentos cadastrados.
-- Exclusão de Produtos cadastrados.
+- Visualização de Produtos e Fornecedor cadastrados.
+- Exclusão de itens cadastrados(Produto,Fornecedor, Compras, Nota Fiscal)
 - Contato: A funcionalidade de contato permite que o usuário se comunique com os colaboradores da empresa por meio de e-mail.
 - DashBoard: Foi inserido uma funcionalidade de dashboard de produtos proximo do vencimento, vencidos, produtos seguros e Total de Produtos.
   
