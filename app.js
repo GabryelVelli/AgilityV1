@@ -815,40 +815,41 @@ app.delete('/compras/excluir/:id', verifyToken, async (req, res) => {
   }
 });
 
-app.post('/send-email', (req, res) => {
-    const { nome, email, assunto, mensagem } = req.body; // Dados do formulário
+app.post('/send-email', async (req, res) => {
+    const { nome, email, assunto, mensagem } = req.body; // Dados do formulario
 
-    // Verificar se os dados necessários foram enviados
+    // Verificar se os dados necessarios foram enviados
     if (!nome || !email || !assunto || !mensagem) {
-        return res.status(400).send('Todos os campos são obrigatórios.');
+        return res.status(400).send('Todos os campos sao obrigatorios.');
     }
 
-    // Configuração do Nodemailer
+    // Sem EMAIL_PASS: usa OAuth2 do Google (client id/secret + refresh token)
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_USER,  // Seu e-mail
-            pass: process.env.EMAIL_PASS   // Senha gerada do app
+            type: 'OAuth2',
+            user: process.env.EMAIL_USER,
+            clientId: process.env.GMAIL_CLIENT_ID,
+            clientSecret: process.env.GMAIL_CLIENT_SECRET,
+            refreshToken: process.env.GMAIL_REFRESH_TOKEN
         }
     });
 
     const mailOptions = {
-        from: email,  // E-mail do remetente
-        to: 'agilityv1contato@gmail.com',  // Destinatário do e-mail
+        from: process.env.EMAIL_USER,
+        replyTo: email,
+        to: 'gabryel.velli@gmail.com',
         subject: assunto,
         text: `Nome: ${nome}\nE-mail: ${email}\nAssunto: ${assunto}\nMensagem: ${mensagem}`
     };
 
-    // Envio do e-mail
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Erro ao enviar e-mail:', error);
-            return res.status(500).send('Erro ao enviar e-mail. Tente novamente mais tarde.');
-        }
-
-        console.log('E-mail enviado:', info.response);
+    try {
+        await transporter.sendMail(mailOptions);
         res.status(200).send('E-mail enviado com sucesso!');
-    });
+    } catch (error) {
+        console.log('Erro ao enviar e-mail:', error);
+        return res.status(500).send('Erro ao enviar e-mail. Tente novamente mais tarde.');
+    }
 });
 //RECUPERAR SENHA 
 app.post('/verificar-email', async (req, res) => {
@@ -983,8 +984,8 @@ app.delete('/estoque/historico/:idmovimentacao', verifyToken, async (req, res) =
 
 initDb().then(() => {
   app.listen(port, () => {
-  // console.log(`Servidor rodando em http://localhost:${port}`);
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Servidor rodando em http://localhost:${port}`);
+  // console.log(`Servidor rodando na porta ${port}`);
   });
 }).catch(err => {
   console.error('Erro ao inicializar banco:', err);

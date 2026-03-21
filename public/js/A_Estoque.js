@@ -34,22 +34,48 @@ function exibirProdutos(produtos) {
   produtos.forEach(produto => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
+      <td style="text-align: center; position: relative;">
+        <div class="menu-container">
+          <button class="hamburger-btn" onclick="toggleMenu(this)">
+            ☰
+          </button>
+          <div class="dropdown-menu">
+            <button onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
+            <button onclick="editarProduto(${produto.idproduto})">Editar</button>
+            <button onclick="excluirProduto(${produto.idproduto})">Excluir</button>
+            <button onclick="abrirModalMovimentacao(${produto.idproduto})">Movimentar</button>
+          </div>
+        </div>
+      </td>
       <td>${produto.nome}</td>
       <td>${produto.codigoBarras}</td>
       <td>${formatarData(produto.vencimento)}</td>
       <td>${produto.quantidade}</td>
       <td>${produto.fornecedor}</td>
-      <td>${produto.categoria}</td>
-      <td style="text-align: center;">
-        <button class="btn-detalhes" onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
-        <button class="btn-editar" onclick="editarProduto(${produto.idproduto})">Editar</button>
-        <button class="btn-excluir" onclick="excluirProduto(${produto.idproduto})">Excluir</button>
-      </td>
+      <td style="text-align: left">${produto.categoria}</td>
     `;
     tbody.appendChild(tr);
   });
 }
+function toggleMenu(button) {
+  const menu = button.nextElementSibling;
+  const isVisible = menu.classList.contains('show');
 
+  // Fecha todos os outros menus abertos
+  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+
+  // Alterna visibilidade do menu clicado
+  if (!isVisible) {
+    menu.classList.add('show');
+  }
+}
+
+// Fecha o menu se clicar fora
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.menu-container')) {
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+  }
+});
 function editarProduto(id) {
   window.location.href = `A_EditarProduto.html?id=${id}`;
 }

@@ -1,33 +1,28 @@
-document.getElementById('contact-form').addEventListener('submit', function (e) {
-    e.preventDefault();
+const form = document.getElementById('contact-form');
+const nextInput = form.querySelector('input[name="_next"]');
 
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const assunto = document.getElementById('assunto').value;
-    const mensagem = document.getElementById('mensagem').value;
+if (nextInput) {
+    nextInput.value = `${window.location.origin}/view/A_Contato.html?enviado=1`;
+}
+
+form.addEventListener('submit', function (e) {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const assunto = document.getElementById('assunto').value.trim();
+    const mensagem = document.getElementById('mensagem').value.trim();
 
     if (!nome || !email || !assunto || !mensagem) {
+        e.preventDefault();
         mostrarModal('Por favor, preencha todos os campos!');
-        return;
     }
+});
 
-    const formData = new FormData(this);
-    const urlEncodedData = new URLSearchParams(formData).toString();
-
-    fetch('/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: urlEncodedData
-    })
-    .then(response => response.text())
-    .then(result => {
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('enviado') === '1') {
         mostrarModal('E-mail enviado com sucesso!');
-    })
-    .catch(error => {
-        mostrarModal('Erro ao enviar o e-mail.');
-    });
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 });
 // Função para exibir o modal com a mensagem
 function mostrarModal(mensagem) {
