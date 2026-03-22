@@ -1,79 +1,94 @@
-// Abrir/fechar a sidebar
-document.getElementById("menu-toggle").addEventListener("click", function () {
-    const sidebar = document.getElementById("sidebar");
-    const mainContent = document.querySelector(".main-content");
-  
-    sidebar.classList.toggle("open");              // Mostra/oculta sidebar
-    mainContent.classList.toggle("full-width");    // Expande ou contrai conteúdo principal
-  });
-  
-  // Expandir/colapsar submenus
-  document.querySelectorAll('.submenu-toggle').forEach(button => {
+function initSidebarInteractions() {
+  const menuToggle = document.getElementById('menu-toggle');
+
+  if (menuToggle && !menuToggle.dataset.sidebarBound) {
+    menuToggle.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.querySelector('.main-content');
+
+      if (!sidebar || !mainContent) {
+        return;
+      }
+
+      sidebar.classList.toggle('open');
+      mainContent.classList.toggle('full-width');
+    });
+
+    menuToggle.dataset.sidebarBound = 'true';
+  }
+
+  document.querySelectorAll('.submenu-toggle').forEach((button) => {
+    if (button.dataset.sidebarBound) {
+      return;
+    }
+
     button.addEventListener('click', () => {
       const parent = button.parentElement;
-      parent.classList.toggle('open'); // Mostra ou esconde os <ul class="submenu">
+      parent.classList.toggle('open');
     });
-  });
 
-  // Aplica a classe de tema no body
+    button.dataset.sidebarBound = 'true';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initSidebarInteractions);
+document.addEventListener('sidebar:loaded', initSidebarInteractions);
+
 function aplicarTema(tema) {
   document.body.classList.remove('tema-claro', 'tema-escuro');
   document.body.classList.add(`tema-${tema}`);
-  } 
+}
 
-// Ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
-  const temaSalvo = localStorage.getItem('tema') || 'claro'; // tema padrão
+  const temaSalvo = localStorage.getItem('tema') || 'claro';
   aplicarTema(temaSalvo);
 
-  // Atualiza o <select> com o valor salvo
   const selectTema = document.getElementById('tema');
   if (selectTema) {
-      selectTema.value = temaSalvo;
+    selectTema.value = temaSalvo;
 
-      // Quando o usuário muda o tema
-      selectTema.addEventListener('change', () => {
-          const novoTema = selectTema.value;
-          aplicarTema(novoTema);
-          localStorage.setItem('tema', novoTema);
-      });
+    selectTema.addEventListener('change', () => {
+      const novoTema = selectTema.value;
+      aplicarTema(novoTema);
+      localStorage.setItem('tema', novoTema);
+    });
   }
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+  const userName = document.querySelector('.user-name');
   const token = localStorage.getItem('token');
+
+  if (!userName) {
+    return;
+  }
+
   if (!token) {
-    document.querySelector('.user-name').textContent = 'Olá, Visitante';
+    userName.textContent = 'Ol\u00E1, Visitante';
     return;
   }
 
   try {
     const response = await fetch('/usuario/me', {
-      headers: { 'Authorization': `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
-    if (!response.ok) throw new Error('Não foi possível carregar o nome do usuário.');
+    if (!response.ok) {
+      throw new Error('N\u00E3o foi poss\u00EDvel carregar o nome do usu\u00E1rio.');
+    }
 
     const data = await response.json();
-    document.querySelector('.user-name').textContent = `Olá, ${data.nome}`;
+    userName.textContent = `Ol\u00E1, ${data.nome}`;
   } catch (error) {
     console.error(error);
-    document.querySelector('.user-name').textContent = 'Olá, Usuário';
+    userName.textContent = 'Ol\u00E1, Usu\u00E1rio';
   }
 });
-
-//FUNCAO RECENTES//
-//FUNCAO RECENTES//
-//FUNCAO RECENTES//
-//FUNCAO RECENTES//
-//FUNCAO RECENTES//
-
 
 function adicionarAcessoRecente(nome, url, tipo) {
   let acessos = JSON.parse(localStorage.getItem('acessosRecentes')) || [];
 
-  acessos = acessos.filter(acesso => acesso.url !== url);
-
+  acessos = acessos.filter((acesso) => acesso.url !== url);
   acessos.unshift({ nome, url, tipo, data: new Date().toISOString() });
 
   if (acessos.length > 5) {
@@ -83,10 +98,13 @@ function adicionarAcessoRecente(nome, url, tipo) {
   localStorage.setItem('acessosRecentes', JSON.stringify(acessos));
 }
 
-// Carrega e exibe os acessos recentes na tela
 document.addEventListener('DOMContentLoaded', () => {
   const recentesLista = document.querySelector('.recentes-lista');
   const acessosRecentes = JSON.parse(localStorage.getItem('acessosRecentes')) || [];
+
+  if (!recentesLista) {
+    return;
+  }
 
   if (acessosRecentes.length === 0) {
     recentesLista.innerHTML = '<p>Nenhum acesso recente.</p>';
@@ -96,15 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
   recentesLista.innerHTML = '';
 
   const icones = {
-    'produto': 'fa-box-open',
-    'estoque': 'fa-warehouse',
-    'relatorio': 'fa-file-lines',
-    'fornecedor': 'fa-boxes-stacked',
-    'compra': 'fa-solid fa-boxes-stacked',
-    'notafiscal': 'fa-solid fa-warehouse',
+    produto: 'fa-box-open',
+    estoque: 'fa-warehouse',
+    relatorio: 'fa-file-lines',
+    fornecedor: 'fa-boxes-stacked',
+    compra: 'fa-solid fa-boxes-stacked',
+    notafiscal: 'fa-solid fa-warehouse'
   };
 
-  acessosRecentes.forEach(item => {
+  acessosRecentes.forEach((item) => {
     const icone = icones[item.tipo] || 'fa-file';
     const dataFormatada = new Date(item.data).toLocaleDateString('pt-BR');
 
@@ -122,12 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
     recentesLista.appendChild(divItem);
   });
 });
-// Função de logout
-function logout() {
-    // Remover o token do localStorage
-    localStorage.removeItem('token'); // Remove o token do localStorage
-    alert('Você foi desconectado.'); // Mensagem de confirmação
 
-    // Redirecionar para a página de login
-    window.location.href = 'index.html'; // Altere para a página de login
+function logout() {
+  localStorage.removeItem('token');
+  alert('Voc\u00EA foi desconectado.');
+  window.location.href = 'index.html';
 }
