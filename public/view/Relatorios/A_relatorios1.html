@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agility - Relatórios</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/css/inicio.css" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+    <h1 style="letter-spacing: 5px;">AGILITY</h1>
+    <div class="placeholder"></div>
+    <div class="top-bar-right">
+      <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
+            </div>
+        <div class="user-info">
+              <img id="avatarUsuario" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="Usuário" class="user-avatar">
+              <span class="user-name">Olá, Usuário</span>
+          </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    <h1 class="titulo"><i class="fa-solid fa-file"></i> Relatórios</h1>
+    <hr />
+    <h2><i class="fa-solid fa-circle-question"></i>Escolha qual relatório deseja visualizar:</h2>
+
+    <div class="dashboard-container">
+     <div class="relatorios-btns">
+  <button onclick="window.location.href='/view/Dashboard/A_Dashboard.html'">
+    Relatório de Produtos
+  </button>
+  <button onclick="window.location.href='/view/Dashboard/A_DashboardFornecedor.html'">
+    Relatório de Fornecedores
+  </button>
+</div>
+<div class="relatorio-explicacao">
+  <i class="fa-solid fa-circle-info"></i>
+  <p>
+    Os relatórios exibem dados detalhados sobre os produtos e fornecedores cadastrados em seu sistema.
+    Eles serão gerados dinamicamente com base nas informações armazenadas no banco de dados,
+    e podem incluir tabelas e gráficos feitos em dashboards.
+  </p>
+</div>
+
+
+    </div>
+  </main>
+
+  <script src="/Mixins/sidebar.js"></script>
+    <script src="/js/Auth/scriptinicio.js"></script>
+  <script src="/js/Notificacao/A_Notificacao.js"></script>
+   <script src="/js/Perfil/A_Perfil.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
+</body>
+</html>
+
+
+
+
+

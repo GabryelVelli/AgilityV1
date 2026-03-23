@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agility - Relatorio Fornecedor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/inicio.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+ <header class="top-bar">
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        <h1 style="letter-spacing: 5px;">AGILITY</h1>
+        <div class="placeholder"></div>
+           <div class="top-bar-right">
+            <!-- Notificações -->
+            <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
+            </div>
+
+            <!-- Área do usuário -->
+              <div class="user-info">
+                <img id="avatarUsuario" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="Usuário" class="user-avatar">
+                <span class="user-name">Olá, Usuário</span>
+              </div>
+          </div> 
+      </header>
+
+        <div id="sidebar-container"></div>
+
+      <main class="main-content">
+  <section class="dashboard-container">
+    <h2>Relatório Agility Fornecedor</h2>
+    
+
+  <iframe
+           src="/relatorios/Fornecedor - Relatorio.pdf" 
+          title="Relatorio Fornecedor"
+          width="95%" 
+          height="600px" 
+          style="border: none;"
+          frameborder="0"
+          allowfullscreen="true">
+  </iframe>
+
+
+    <!-- Botão de download -->
+    <a href="/relatorios/Fornecedor-Relatorio.pdf" download class="download-btn">
+      Baixar Dashboard (PDF)
+    </a>
+  </section>
+</main>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="/Mixins/sidebar.js"></script>
+    <script src="/js/Auth/scriptinicio.js"></script>
+    <script src="/js/Home/A_Home.js"></script>
+     <script src="/js/Notificacao/A_Notificacao.js"></script>
+      <script src="/js/Perfil/A_Perfil.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
+</body>
+</html>
+
+
+
+
+

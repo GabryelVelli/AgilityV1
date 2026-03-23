@@ -1,0 +1,87 @@
+﻿!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agility - Detalhes Nota Fiscal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/inicio.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+      <header class="top-bar">
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        <h1 style="letter-spacing: 5px;">AGILITY</h1>
+        <div class="placeholder"></div>
+           <div class="top-bar-right">
+            <!-- Notificações -->
+            <div class="notification-icon" id="notificacao-btn" style="cursor: pointer;">
+                <span class="bell">🔔</span>
+                <span class="notification-badge" id="notificacao-contador" style="display: none;">0</span>
+            </div>
+
+            <!-- Área do usuário -->
+            <div class="user-info">
+              <img id="avatarUsuario" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="Usuário" class="user-avatar">
+              <span class="user-name">Olá, Usuário</span>
+            </div>
+          </div> 
+      </header>
+
+          <div id="sidebar-container"></div>
+
+
+    <main class="main-content">
+        <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
+        <hr>
+         <h2>Detalhes Nota Fiscal</h2>
+        <div class="container-detalhes">
+
+            <div class="detalhes">
+                <strong>Número:</strong> <span id="numero"></span>
+            </div>
+            <div class="detalhes">
+                <strong>Série:</strong> <span id="serie"></span>
+            </div>
+            <div class="detalhes">
+                <strong>Data de Emissão:</strong> <span id="data_emissao"></span>
+            </div>
+            <div class="detalhes">
+                <strong>Valor Total:</strong> <span id="valor_total"></span>
+            </div>
+            <div class="detalhes">
+                <strong>Fornecedor:</strong> <span id="fornecedor"></span>
+            </div>
+
+            <div class="botoes-acoes" style="margin-top: 20px;">
+            <button id="btn-voltar" style="margin-right: 10px;"> Voltar Para Notas Fiscal</button>
+            <button id="btn-editar"> Editar Nota Fiscal</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="modalExclusao" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="mensagemModal"></p>
+        </div>
+    </div>
+</body>
+    <script src="/Mixins/sidebar.js"></script>
+    <script src="/js/Auth/scriptinicio.js"></script>
+    <script src="/js/NotaFiscal/A_DetalheNotaFiscal.js"></script>
+     <script src="/js/Notificacao/A_Notificacao.js"></script>
+      <script src="/js/Perfil/A_Perfil.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          atualizarContadorNotificacoes();
+        });
+      </script>
+</html>
+
+
+
+
+

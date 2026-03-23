@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Agility - Recuperar Senha</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Formulário para inserir o e-mail -->
+        <form id="recuperarForm" class="form-recuperacao">
+          <h1>Recuperar Senha</h1>
+          <span>Digite o e-mail da sua conta</span>
+          <input type="email" id="recuperarEmail" placeholder="Digite seu e-mail" required>
+          <button type="submit">Continuar</button>
+        </form>
+
+        <form id="redefinirForm" class="form-recuperacao" style="display: none;">
+          <h1>Redefinir Senha</h1>
+          <input type="password" id="novaSenha" placeholder="Nova senha" required>
+          <button type="submit">Redefinir Senha</button>
+        </form>
+      </div>
+</body>
+<script src="/js/Auth/A_RecuperarSenha.js"></script>
+</html>
+
