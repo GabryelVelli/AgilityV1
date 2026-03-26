@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +34,12 @@
                 </div>
                 <span>Entre com seu email e senha cadastrados</span>
                 <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Senha" required>
+                <div class="password-field">
+                    <input type="password" id="loginPassword" placeholder="Senha" required>
+                    <button type="button" class="password-toggle" id="toggleLoginPassword" aria-label="Mostrar senha">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
                 <a href="/view/Auth/A_RecuperarSenha.html" id="esqueceuSenha" style="font-weight: bold;">Esqueceu a senha?</a>
                 <button type="button" id="loginButton">Conectar</button>
             </form>

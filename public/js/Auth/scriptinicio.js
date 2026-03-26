@@ -33,6 +33,7 @@ function initSidebarInteractions() {
 
 document.addEventListener('DOMContentLoaded', initSidebarInteractions);
 document.addEventListener('sidebar:loaded', initSidebarInteractions);
+document.addEventListener('topbar:loaded', initSidebarInteractions);
 
 function aplicarTema(tema) {
   document.body.classList.remove('tema-claro', 'tema-escuro');
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function carregarNomeUsuario() {
   const userName = document.querySelector('.user-name');
   const token = localStorage.getItem('token');
 
@@ -83,7 +84,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error(error);
     userName.textContent = 'Ol\u00E1, Usu\u00E1rio';
   }
-});
+}
+
+document.addEventListener('DOMContentLoaded', carregarNomeUsuario);
+document.addEventListener('topbar:loaded', carregarNomeUsuario);
 
 function adicionarAcessoRecente(nome, url, tipo) {
   let acessos = JSON.parse(localStorage.getItem('acessosRecentes')) || [];

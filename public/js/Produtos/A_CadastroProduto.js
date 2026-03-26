@@ -37,7 +37,7 @@ document.getElementById('produto-form').addEventListener('submit', async (event)
 
     // Validação da data de vencimento (não pode ser anterior a hoje)
     const hoje = new Date();
-    hoje.setHours(0,0,0,0); // Zerando hora para comparar só data
+    hoje.setHours(0,0,0,0); // Zerando hora para comparar s? data
     const dataVencimento = new Date(vencimento);
     if (dataVencimento < hoje) {
         mostrarModal('Data de vencimento inválida. O produto não pode estar vencido.');

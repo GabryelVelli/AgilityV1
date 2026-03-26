@@ -1,0 +1,116 @@
+ /*Adicionar A_CadatrorProduto.HTMl*/
+.cadastroprod {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px var(--shadow-soft);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cadastroprod h2 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: var(--color-topbar-bg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--color-sidebar-border);
+}
+
+.form-field input {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.button-container {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #1e40af;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-field {
+    flex: 1 1 100%;
+  }
+
+  .button-container {
+    text-align: center;
+  }
+}
+/* Título da página ou seção */
+.texto-produto {
+  max-width: 1000px;
+  margin-left: 40px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: left;
+}
+
+
+/*
+    Cadastro Fornecedor.html 
+    Cadastro Fornecedor.html 
+    Cadastro Fornecedor.html 
+*/
+.h3-Fornecedor{
+  margin-bottom: 10px;
+}
+
+.form-group{
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+

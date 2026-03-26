@@ -1,24 +1,24 @@
-   let historicoMovimentacoes = [];
+   let históricoMovimentacoes = [];
 
-async function carregarHistorico() {
+async function carregarHistórico() {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('/estoque/historico', {
+    const response = await fetch('/estoque/histórico', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
     if (!response.ok) throw new Error(await response.text());
 
-    historicoMovimentacoes = await response.json();
-    exibirHistorico(historicoMovimentacoes);
+    históricoMovimentacoes = await response.json();
+    exibirHistórico(históricoMovimentacoes);
   } catch (err) {
-    console.error('Erro ao carregar histórico:', err.message);
-    mostrarModal('Erro ao buscar histórico');
+    console.error('Erro ao carregar hist?rico:', err.message);
+    mostrarModal('Erro ao buscar hist?rico');
   }
 }
 
-function exibirHistorico(lista) {
-  const tabela = document.getElementById('tabela-historico');
+function exibirHistórico(lista) {
+  const tabela = document.getElementById('tabela-histórico');
   tabela.innerHTML = '';
 
   lista.forEach(item => {
@@ -43,14 +43,14 @@ async function excluirMovimentacao(idmovimentacao) {
 
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/estoque/historico/${idmovimentacao}`, {
+    const response = await fetch(`/estoque/histórico/${idmovimentacao}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
     if (response.ok) {
       mostrarModal('Movimentação excluída com sucesso!');
-      carregarHistorico();
+      carregarHistórico();
     } else {
       mostrarModal('Erro ao excluir movimentação: ' + await response.text());
     }
@@ -80,12 +80,12 @@ function mostrarModal(mensagem) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', carregarHistorico);
+document.addEventListener('DOMContentLoaded', carregarHistórico);
 
 function filtrarMovimentacoes() {
   const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
-  const movimentacoesFiltradas = historicoMovimentacoes.filter(item => {
+  const movimentacoesFiltradas = históricoMovimentacoes.filter(item => {
     const nomeMatch = (item.nome || '').toLowerCase().includes(termoPesquisa);
     const tipoMatch = (item.tipo || '').toLowerCase().includes(termoPesquisa);
     const observacaoMatch = (item.observacao || '').toLowerCase().includes(termoPesquisa);
@@ -99,5 +99,5 @@ function filtrarMovimentacoes() {
     );
   });
 
-  exibirHistorico(movimentacoesFiltradas); // essa função já existe e está correta
+  exibirHistórico(movimentacoesFiltradas); // essa função já existe e está correta
 }

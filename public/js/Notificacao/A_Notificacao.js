@@ -1,8 +1,6 @@
-// Adiciona uma nova notificação e atualiza o contador
 function adicionarNotificacao(titulo, link) {
   const receber = localStorage.getItem('receberNotificacoes');
 
-  // Se a preferência for "false", não adiciona notificações
   if (receber === 'false') return;
 
   const notificacoes = JSON.parse(localStorage.getItem('notificacoes')) || [];
@@ -17,7 +15,6 @@ function adicionarNotificacao(titulo, link) {
   atualizarContadorNotificacoes();
 }
 
-// Atualiza o número no badge da notificação
 function atualizarContadorNotificacoes() {
   const notificacoes = JSON.parse(localStorage.getItem('notificacoes')) || [];
   const badge = document.querySelector('.notification-badge');
@@ -31,33 +28,40 @@ function atualizarContadorNotificacoes() {
   }
 }
 
-// Redireciona para a página de notificações ao clicar no ícone
 function configurarCliqueNotificacao() {
   const icon = document.querySelector('.notification-icon');
-  if (!icon) return;
+  if (!icon || icon.dataset.bound === 'true') return;
 
   icon.addEventListener('click', () => {
     window.location.href = '/view/Notificacao/A_Notificacao.html';
   });
+
+  icon.dataset.bound = 'true';
 }
 
-// Inicializa tudo ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
+function inicializarNotificacoesTopo() {
   atualizarContadorNotificacoes();
   configurarCliqueNotificacao();
 
-  // Garantir que o valor padrão seja true se nunca tiver sido configurado
   if (localStorage.getItem('receberNotificacoes') === null) {
     localStorage.setItem('receberNotificacoes', 'true');
   }
-});
- document.addEventListener('DOMContentLoaded', () => {
-    const checkbox = document.getElementById('toggleNotificacoes');
-    const pref = localStorage.getItem('receberNotificacoes');
+}
 
-    checkbox.checked = pref !== 'false'; // marca por padrão
+function inicializarPreferenciaNotificacoes() {
+  const checkbox = document.getElementById('toggleNotificacoes');
+  if (!checkbox || checkbox.dataset.bound === 'true') return;
 
-    checkbox.addEventListener('change', () => {
-      localStorage.setItem('receberNotificacoes', checkbox.checked);
-    });
+  const pref = localStorage.getItem('receberNotificacoes');
+  checkbox.checked = pref !== 'false';
+
+  checkbox.addEventListener('change', () => {
+    localStorage.setItem('receberNotificacoes', checkbox.checked);
   });
+
+  checkbox.dataset.bound = 'true';
+}
+
+document.addEventListener('DOMContentLoaded', inicializarNotificacoesTopo);
+document.addEventListener('DOMContentLoaded', inicializarPreferenciaNotificacoes);
+document.addEventListener('topbar:loaded', inicializarNotificacoesTopo);

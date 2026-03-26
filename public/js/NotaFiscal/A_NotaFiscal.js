@@ -66,7 +66,7 @@ let notas = [];
         });
 
         if (resposta.ok) {
-          adicionarNotificacao('Nota Fiscal Excluída com sucesso!', '/view/NotaFiscal/A_NotaFiscal.html');
+          adicionarNotificacao('Nota Fiscal Exclu?da com sucesso!', '/view/NotaFiscal/A_NotaFiscal.html');
           mostrarModal('Nota Fiscal excluída com sucesso');
           carregarNotas();
         } else {

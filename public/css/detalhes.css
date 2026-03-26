@@ -1,0 +1,62 @@
+/*DETALHES.HTML*/
+/*DETALHES.HTML*/
+/*DETALHES.HTML*/
+/*DETALHES.HTML*/
+/*DETALHES.HTML*/
+
+.container-detalhes {
+  max-width: 500px;    /* largura m?xima pra limitar */
+  margin: 0 auto;      /* centraliza horizontalmente */
+  padding: 20px;
+}
+
+.detalhes {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 18px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  align-items: center;
+}
+
+.detalhes strong {
+  font-size: 20px;
+  width: 180px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-right: 20px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.detalhes span {
+  font-size: 20px;
+  flex: 1;
+  color: var(--color-text-secondary);
+  padding-left: 5px;
+}
+
+
+.botoes-acoes {
+  margin-top: 40px;
+  display: flex;
+  gap: 70px;
+  justify-content: center;
+}
+
+.botoes-acoes button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botoes-acoes button:hover {
+  background-color: #374a78;
+}

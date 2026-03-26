@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
+:root{
+    --login-bg-primary: rgb(5, 8, 95);
+    --login-bg-dark: rgb(0, 0, 0);
+    --login-panel-bg: gainsboro;
+    --login-text-dark: #000000;
+    --login-text-muted: #444;
+    --login-text-light: white;
+    --login-input-bg: #eee;
+    --login-toggle-start: #001780;
+    --login-toggle-end: #021879;
+    --login-accent-gold: #FFD700;
+    --login-shadow: rgba(0, 0, 0, 0.35);
+    --login-border-dark: black;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -8,7 +23,7 @@
 }
 
 body{
-    background: linear-gradient(180deg, rgb(5, 8, 95) 0%, rgb(0, 0, 0) 100%);
+    background: linear-gradient(180deg, var(--login-bg-primary) 0%, var(--login-bg-dark) 100%);
     background-size: 200% 200%;
     background-size: 100%;
     display: flex;
@@ -21,10 +36,10 @@ span{
     font-weight:bold;
 }
 .container{
-    background-color: gainsboro;
+    background-color: var(--login-panel-bg);
     border-radius: 30px;
-    color: black;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    color: var(--login-text-dark);
+    box-shadow: 0 5px 15px var(--login-shadow);
     position: relative;
     overflow: hidden;
     width: 768px;
@@ -33,7 +48,7 @@ span{
 }
 
 .container p{
-    color: white;
+    color: var(--login-text-light);
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
@@ -45,18 +60,18 @@ span{
 }
 
 .container a{
-   color: black;
+   color: var(--login-text-dark);
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
 }
 
 .container button{
-    background-color: rgb(5, 8, 95);
-    color: gainsboro;
+    background-color: var(--login-bg-primary);
+    color: var(--login-panel-bg);
     font-size: 12px;
     padding: 10px 45px;
-    border: 1px solid black;
+    border: 1px solid var(--login-border-dark);
     border-radius: 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -65,23 +80,23 @@ span{
     cursor: pointer;
 }
 .container button:hover{
-    background-color: gainsboro;
-    color: rgb(5, 8, 95);
+    background-color: var(--login-panel-bg);
+    color: var(--login-bg-primary);
 }
 .container button.hidden{
     background-color: transparent;
-    border-color: black;
+    border-color: var(--login-border-dark);
 }
 .preto{
-    color: #000000;
+    color: var(--login-text-dark);
 }
 .container button.hidden:hover{
-    background-color: #000000;
-    color: #FFD700;
+    background-color: var(--login-text-dark);
+    color: var(--login-accent-gold);
 }
 
 .container form{
-    background-color: gainsboro;
+    background-color: var(--login-panel-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,7 +106,7 @@ span{
 }
 
 .container input{
-    background-color: #eee;
+    background-color: var(--login-input-bg);
     border: none;
     margin: 8px 0;
     padding: 10px 15px;
@@ -99,6 +114,36 @@ span{
     border-radius: 8px;
     width: 100%;
     outline: none;
+}
+
+.password-field{
+    position: relative;
+    width: 100%;
+}
+
+.password-field input{
+    padding-right: 44px;
+}
+
+.password-toggle{
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: transparent !important;
+    color: var(--login-text-muted) !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+    font-size: 14px !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+.password-toggle:hover{
+    color: var(--login-toggle-end) !important;
+    background: transparent !important;
 }
 
 .form-container{
@@ -148,7 +193,7 @@ span{
 }
 
 .social-icons a{
-    border: 1px solid white;
+    border: 1px solid var(--login-text-light);
     border-radius: 20%;
     display: inline-flex;
     justify-content: center;
@@ -176,10 +221,10 @@ span{
 }
 
 .toggle{
-    background-color: #021879;
+    background-color: var(--login-toggle-end);
     height: 100%;
-    background: linear-gradient(to right, #001780, rgb(5, 8, 95));
-    color: gainsboro;
+    background: linear-gradient(to right, var(--login-toggle-start), var(--login-bg-primary));
+    color: var(--login-panel-bg);
     position: relative;
     left: -100%;
     height: 100%;
@@ -224,7 +269,7 @@ span{
     transform: translateX(200%);
 }
 button{
-    border: 1px solid black;
+    border: 1px solid var(--login-border-dark);
 }
 #redefinirForm{
     margin-top: 150px;

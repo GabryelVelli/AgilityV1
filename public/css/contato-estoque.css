@@ -1,0 +1,127 @@
+/* 
+CONTATO.HTML 
+CONTATO.HTML
+*/
+
+/* CONTATO */
+.contato {
+  width: 100%;
+  max-width: 800px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  margin-bottom:100px;
+  margin-left: 40px;
+}
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#contact-form label {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+#contact-form input,
+#contact-form textarea {
+  width: 100%;
+  padding: 0.625rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+#contact-form textarea {
+  resize: vertical;
+}
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.send-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.clear-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.send-btn:hover,
+.clear-btn:hover {
+  opacity: 0.8;
+}
+
+
+/* 
+ESTOQUE.HTML 
+*/
+
+.barra-pesquisa {
+  margin-left: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  position: relative;
+  width: 130%;
+  max-width: 300px; /* Ajuste a largura conforme necess?rio */
+}
+
+.barra-pesquisa input {
+  width: 120%;
+  padding: 10px 40px 10px 10px; /* Espa?o para o ?cone ? direita */
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+}
+
+.barra-pesquisa i {
+  cursor: pointer;
+  position: absolute;
+  left: 125%; 
+  top: 50%;
+  transform: translateY(-50%);
+  color: #111827;
+  font-size: 18px; /* Ajuste o tamanho do ?cone conforme necess?rio */
+}
+
+.excluir{
+  background-color: #111827;
+  color: gainsboro;
+  border: none;
+  border-radius: 5px;
+  width: 50px;
+}
+
+.excluir:hover{
+  cursor: pointer;
+  background-color: #f72a2a;
+}
+
+.excluir i{
+  font-size: 24px;
+  padding: 10px;
+}
+

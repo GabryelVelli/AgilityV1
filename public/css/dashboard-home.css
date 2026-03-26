@@ -1,0 +1,248 @@
+/* Estilo geral da coluna */
+.col-md-8 {
+  padding-top: 40px;
+  margin-left: 40px; /* Novo */
+  max-width: 50%;   /* Novo: reduz o tamanho geral do conteúdo */
+}
+
+/* Card com cantos arredondados e sombra */
+.card.card-round {
+  background-color: var(--color-white);
+  border-radius: 12px; /* Levemente menor */
+  box-shadow: 0 3px 10px var(--shadow-card);
+  overflow: hidden;
+  border: none;
+  padding: 15px; /* Adicionado para controle interno */
+}
+
+/* Cabe?alho do card */
+.card-header {
+  background-color: var(--color-surface-soft);
+  padding: 12px 18px; /* Reduzido */
+  border-bottom: 1px solid var(--color-border-muted);
+}
+
+/* Linha de cabe?alho: t?tulo + ferramentas */
+.card-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Título do card */
+.card-title {
+  font-size: 1.1rem; /* Levemente menor */
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+/* Área de botões */
+.card-tools a {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-label-success {
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.btn-label-success:hover {
+  background-color: var(--color-success-hover);
+}
+
+.btn-label-info {
+  background-color: var(--color-info);
+  color: var(--color-white);
+}
+
+.btn-label-info:hover {
+  background-color: var(--color-info-hover);
+}
+
+.btn-label i {
+  margin-right: 5px;
+}
+
+/* Corpo do card */
+.card-body {
+  padding: 16px;
+}
+
+/* Gr?fico */
+.chart-container {
+  min-height: 350px; /* Levemente reduzido */
+  position: relative;
+}
+
+/* Legenda do gr?fico */
+#myChartLegend {
+  margin-top: 16px;
+  font-size: 0.85rem;
+}
+
+.recentes {
+  margin-left: 40px;
+  margin-top: 40px;
+  padding: 25px;
+  background-color: var(--color-white-solid);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow-soft);
+}
+
+.recentes-header h2 {
+  margin-left: 5px;
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recentes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.item-recente {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: var(--color-surface-soft);
+  padding: 15px 20px;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+  justify-content: space-between;
+}
+
+.item-recente:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.item-recente i {
+  font-size: 1.4rem;
+  color: var(--color-link-blue);
+  flex-shrink: 0;
+}
+
+.item-recente .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.item-recente a {
+  font-weight: 600;
+  color: var(--color-link-blue);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.item-recente a:hover {
+  text-decoration: underline;
+}
+
+.item-recente .data {
+  font-size: 0.875rem;
+  color: #6c757d;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+/* Vendas */
+  .conteudo {
+    margin-top: 70px;
+    margin-left: 0;
+    padding: 1rem 2rem;
+    flex: 1;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .titulo {
+    margin-left: 40px;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-topbar-bg);
+  }
+  
+  hr {
+    border: 0;
+    margin-left: 40px;
+    height: 2px;
+    background-color: var(--color-sidebar-bg);
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-left: 40px;
+    color: #1f2a38;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .dashboard {
+    margin-left: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .card {
+    background-color: var(--color-white-solid);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-regular);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px var(--shadow-strong);
+    cursor: pointer;
+  }
+  
+  .card h3 {
+    font-size: 1.2rem;
+    color: var(--color-sidebar-bg);
+    margin-bottom: 0.5rem;
+  }
+  
+  .card p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-link-blue);
+  }
+  .sidebar.open ~ .main-content {
+    margin-left: 250px;
+  }
+  .sidebar:not(.open) ~ .main-content {
+    margin-left: 0;
+  }
+  .sidebar.open ~ .conteudo {
+    margin-left: 250px;
+  }
+  .sidebar:not(.open) ~ .conteudo {
+    margin-left: 0;
+  }
+  

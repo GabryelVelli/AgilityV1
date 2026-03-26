@@ -65,7 +65,7 @@
         });
 
         if (response.ok) {
-          adicionarNotificacao('Compra Excluída com sucesso!', '/view/Compras/A_Compras.html');
+          adicionarNotificacao('Compra Exclu?da com sucesso!', '/view/Compras/A_Compras.html');
           mostrarModal('Compra excluída com sucesso');
           carregarCompras();
         } else {

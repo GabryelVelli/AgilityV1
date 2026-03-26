@@ -37,7 +37,7 @@ function exibirProdutos(produtos) {
       <td style="text-align: center; position: relative;">
         <div class="menu-container">
           <button class="hamburger-btn" onclick="toggleMenu(this)">
-            ☰
+            ⋮
           </button>
           <div class="dropdown-menu">
             <button onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
@@ -91,7 +91,7 @@ async function excluirProduto(id) {
       });
 
       if (response.ok) {
-        adicionarNotificacao('Produto Excluido com sucesso!', '/view/Produtos/A_Estoque.html');
+        adicionarNotificacao('Produto Excluído com sucesso!', '/view/Produtos/A_Estoque.html');
         mostrarModal('Produto excluído com sucesso');
         carregarProdutos(); // Atualiza a lista
       } else {
@@ -108,7 +108,7 @@ function verDetalhes(id) {
   window.location.href = `/view/Produtos/A_DetalhesProduto.html?id=${id}`;
 }
 
-// 🔍 Filtra produtos com base no texto digitado
+// Filtra produtos com base no texto digitado
 function filtrarProdutos() {
   const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
@@ -213,7 +213,7 @@ async function registrarMovimentacao() {
     mostrarModal('Erro ao registrar movimentação.');
   }
 }
-// ✅ Tudo é iniciado aqui
+// Tudo é iniciado aqui
 document.addEventListener('DOMContentLoaded', () => {
   carregarProdutos();
 

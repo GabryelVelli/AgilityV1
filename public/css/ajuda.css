@@ -1,0 +1,72 @@
+/* AJUDA.HTML */
+/* AJUDA.HTML */
+/* AJUDA.HTML */
+.cards-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px 40px;
+  animation: fadeIn 0.8s ease-in;
+}
+
+.card-ajuda {
+  background-color: var(--color-white-solid);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-ajuda:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px var(--shadow-regular);
+}
+
+.card-ajuda h2 {
+  font-size: 1.25rem;
+  color: var(--color-sidebar-bg);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-ajuda p {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.project-overview {
+  padding: 40px;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.project-overview h1 {
+  font-size: 2.25rem;
+  color: var(--color-topbar-bg);
+}
+
+.project-overview p {
+  margin-top: 10px;
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .project-overview,
+  .cards-section {
+    padding: 20px;
+  }
+}
+

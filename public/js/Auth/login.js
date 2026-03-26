@@ -3,27 +3,39 @@ const registerBtn = document.getElementById('registerToggle');
 const loginBtn = document.getElementById('loginToggle');
 const registerButton = document.getElementById('registerButton');
 const loginButton = document.getElementById('loginButton');
-const logoutButton = document.getElementById('logoutButton'); // Adicionando o botão de logout
+const loginPasswordInput = document.getElementById('loginPassword');
+const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+const logoutButton = document.getElementById('logoutButton');
 
-// Alternar entre formulários de login e registro
+if (toggleLoginPassword && loginPasswordInput) {
+    toggleLoginPassword.addEventListener('click', () => {
+        const isPasswordHidden = loginPasswordInput.type === 'password';
+        loginPasswordInput.type = isPasswordHidden ? 'text' : 'password';
+        toggleLoginPassword.innerHTML = isPasswordHidden
+            ? '<i class="fa-solid fa-eye-slash"></i>'
+            : '<i class="fa-solid fa-eye"></i>';
+        toggleLoginPassword.setAttribute(
+            'aria-label',
+            isPasswordHidden ? 'Ocultar senha' : 'Mostrar senha'
+        );
+    });
+}
+
 registerBtn.addEventListener('click', () => {
-    container.classList.add("active");
+    container.classList.add('active');
 });
 
 loginBtn.addEventListener('click', () => {
-    container.classList.remove("active");
+    container.classList.remove('active');
 });
 
-// Máscara automática para CPF no input de registro
 const cpfInput = document.getElementById('registerCpf');
 
 cpfInput.addEventListener('input', function (e) {
     let value = e.target.value;
 
-    // Remove tudo que não for número
     value = value.replace(/\D/g, '');
 
-    // Aplica a máscara: XXX.XXX.XXX-XX
     if (value.length > 3) {
         value = value.replace(/^(\d{3})(\d)/, '$1.$2');
     }
@@ -37,54 +49,47 @@ cpfInput.addEventListener('input', function (e) {
     e.target.value = value;
 });
 
-// Função para validar CPF
 function validarCPF(cpf) {
-    cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+    cpf = cpf.replace(/[^\d]+/g, '');
 
     if (cpf.length !== 11) return false;
 
-    // Elimina CPFs inválidos conhecidos
     if (/^(\d)\1{10}$/.test(cpf)) return false;
 
     let soma = 0;
     let resto;
 
     for (let i = 1; i <= 9; i++) {
-        soma += parseInt(cpf.substring(i-1, i)) * (11 - i);
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
     }
     resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf.substring(9, 10))) return false;
 
     soma = 0;
     for (let i = 1; i <= 10; i++) {
-        soma += parseInt(cpf.substring(i-1, i)) * (12 - i);
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
     }
     resto = (soma * 10) % 11;
-    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf.substring(10, 11))) return false;
 
     return true;
 }
 
-// Função de cadastro
 registerButton.addEventListener('click', async () => {
     const nome = document.getElementById('registerName').value;
-
-    // Remove a máscara para enviar só números
     const cpfMascara = document.getElementById('registerCpf').value;
     const cpf = cpfMascara.replace(/\D/g, '');
-
     const email = document.getElementById('registerEmail').value;
     const senha = document.getElementById('registerPassword').value;
 
-    // Validação do CPF
     if (!validarCPF(cpf)) {
-        alert('CPF inválido. Por favor, verifique e tente novamente.');
-        return; // Para o envio do formulário
+        alert('CPF invalido. Por favor, verifique e tente novamente.');
+        return;
     }
 
-    console.log({ nome, cpf, email, senha }); // Para depuração
+    console.log({ nome, cpf, email, senha });
 
     try {
         const response = await fetch('/register', {
@@ -103,12 +108,12 @@ registerButton.addEventListener('click', async () => {
             data = await response.text();
         }
 
-        console.log(data); // Ver resposta no console
+        console.log(data);
 
         if (response.ok) {
-            alert(data.message || 'Usuário cadastrado com sucesso!'); // Alerta para sucesso
-            document.getElementById('registerForm').reset(); // Resetar formulário
-            window.location.href = '/view/Auth/login.html'; // Redirecionar após cadastro
+            alert(data.message || 'Usuario cadastrado com sucesso!');
+            document.getElementById('registerForm').reset();
+            window.location.href = '/view/Auth/login.html';
         } else {
             alert(data.message || 'Erro ao cadastrar. Tente novamente.');
         }
@@ -118,12 +123,11 @@ registerButton.addEventListener('click', async () => {
     }
 });
 
-// Função de login
 loginButton.addEventListener('click', async () => {
     const email = document.getElementById('loginEmail').value;
     const senha = document.getElementById('loginPassword').value;
 
-    console.log({ email, senha }); // Para depuração
+    console.log({ email, senha });
 
     try {
         const response = await fetch('/login', {
@@ -131,20 +135,15 @@ loginButton.addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-
             body: JSON.stringify({ email, senha }),
         });
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data); // Ver dados no console
-
-            // Armazenar token no localStorage
-            localStorage.setItem('token', data.token); // Armazena o token no localStorage
-            console.log('Token armazenado:', data.token); // Verifique se o token está armazenado corretamente
-            
-            // Redirecionar após login bem-sucedido
-            window.location.href = '/view/Home/A_Home.html'; 
+            console.log(data);
+            localStorage.setItem('token', data.token);
+            console.log('Token armazenado:', data.token);
+            window.location.href = '/view/Home/A_Home.html';
         } else {
             const errorData = await response.json();
             alert(errorData.message || 'Erro no login. Tente novamente.');
@@ -154,4 +153,3 @@ loginButton.addEventListener('click', async () => {
         alert('Senha Incorreta. Tente novamente.');
     }
 });
-

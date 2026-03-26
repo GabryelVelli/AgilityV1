@@ -1,0 +1,54 @@
+/* relatórios1 */
+.dashboard-container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.relatorios-btns {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 100px;
+}
+
+.relatorios-btns button {
+  background-color: var(--color-topbar-bg);
+  color: var(--color-white);
+  padding: 18px 36px; 
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 10px var(--shadow-regular);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.relatorios-btns button:hover {
+  background-color: var(--color-primary-soft); 
+  transform: scale(1.05);
+}
+
+.relatorio-explicacao {
+ 
+  max-width: 900px;
+  margin: 40px auto 0 auto; 
+  background-color: var(--color-surface-alt);
+  border-left: 6px solid var(--color-topbar-bg);
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px var(--shadow-soft);
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.relatorio-explicacao i {
+  font-size: 1.5rem;
+  color: var(--color-topbar-bg);
+  margin-top: 3px;
+}

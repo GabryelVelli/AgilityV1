@@ -1,4 +1,4 @@
-// Máscara automática para CNPJ
+// M?scara autom?tica para CNPJ
 const cnpjInput = document.getElementById('cnpj');
 
 cnpjInput.addEventListener('input', function (e) {
@@ -7,7 +7,7 @@ cnpjInput.addEventListener('input', function (e) {
     // Remove tudo que não for número
     value = value.replace(/\D/g, '');
 
-    // Aplica a máscara: XX.XXX.XXX/0001-XX
+    // Aplica a m?scara: XX.XXX.XXX/0001-XX
     if (value.length > 2) {
         value = value.replace(/^(\d{2})(\d)/, '$1.$2');
     }
@@ -66,7 +66,7 @@ document.getElementById('estabelecimentoForm').addEventListener('submit', async 
 
     const nomeEstabelecimento = document.getElementById('nomeEstabelecimento').value;
     const cnpjMascara = document.getElementById('cnpj').value;
-    const cnpj = cnpjMascara.replace(/\D/g, ''); // Remove máscara para validar corretamente
+    const cnpj = cnpjMascara.replace(/\D/g, ''); // Remove m?scara para validar corretamente
     const contato = document.getElementById('contato').value;
     const logradouro = document.getElementById('logradouro').value;
     const numero = document.getElementById('numero').value;
