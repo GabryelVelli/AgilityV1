@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const id = params.get('id');
 
   if (!id) {
-    alert('ID da compra não informado');
+    mostrarModal('ID da compra não informado');
     return;
   }
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('categoria').value = compra.categoria;
   } catch (err) {
     console.error('Erro ao carregar compra:', err.message);
-    alert('Erro ao carregar dados da compra.');
+    mostrarModal('Erro ao carregar dados da compra.');
   }
 
   document.getElementById('editar-compra-form').addEventListener('submit', async function (e) {
@@ -68,23 +68,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
   // Função para exibir o modal com a mensagem
-    function mostrarModal(mensagem) {
-        const modal = document.getElementById('modalExclusao');
-        const mensagemModal = document.getElementById('mensagemModal');
-        const span = document.getElementsByClassName('close')[0];
 
-        mensagemModal.textContent = mensagem;
-        modal.style.display = 'block';
-
-        // Fecha o modal quando o usuário clica no "x"
-        span.onclick = function () {
-            modal.style.display = 'none';
-        }
-
-        // Fecha o modal quando o usuário clica fora do conteúdo do modal
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
-    }

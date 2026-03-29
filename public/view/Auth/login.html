@@ -19,7 +19,7 @@
                 </div>
                 <span>Envie todos os dados para cadastro</span>
                 <input type="text" id="registerName" placeholder="Nome" required>
-                <input type="text" id="registerCpf" placeholder="CPF" required  maxlength="14">
+                <input type="text" id="registerCpf" placeholder="CPF" required maxlength="14" data-doc-type="cpf">
                 <input type="email" id="registerEmail" placeholder="Email" required>
                 <input type="password" id="registerPassword" placeholder="Senha" required>
                 <button type="button" id="registerButton">Cadastrar-se</button>
@@ -59,7 +59,8 @@
             </div>
         </div>
     </div>
-
+    <script src="/Mixins/modal.js"></script>
+    <script src="/Mixins/documento.js"></script>
     <script src="/js/Auth/login.js"></script>
 </body>
 </html>

@@ -88,28 +88,6 @@ if (alterarEmailForm) {
   });
 }
 
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
-
-  if (!modal || !mensagemModal || !span) {
-    return;
-  }
-
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
-
-  span.onclick = function () {
-    modal.style.display = 'none';
-  };
-
-  window.onclick = function (event) {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-    }
-  };
-}
-
 document.addEventListener('DOMContentLoaded', inicializarAvatar);
 document.addEventListener('topbar:loaded', inicializarAvatar);
+

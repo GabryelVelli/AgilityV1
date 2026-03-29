@@ -72,32 +72,13 @@ document.getElementById('produto-form').addEventListener('submit', async (event)
         }
     } catch (error) {
         console.error('Erro ao cadastrar produto:', error);
-        alert('Erro ao cadastrar produto');
+        mostrarModal('Erro ao cadastrar produto');
     }
 });
 
 // Função para exibir o modal com a mensagem
-function mostrarModal(mensagem) {
-    const modal = document.getElementById('modalExclusao');
-    const mensagemModal = document.getElementById('mensagemModal');
-    const span = document.getElementsByClassName('close')[0];
-
-    mensagemModal.textContent = mensagem;
-    modal.style.display = 'block';
-
-    // Fecha o modal quando o usuário clica no "x"
-    span.onclick = function () {
-        modal.style.display = 'none';
-    };
-
-    // Fecha o modal quando o usuário clica fora do conteúdo do modal
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    };
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     adicionarAcessoRecente('Produto', '/view/Produtos/A_Cadastrarproduto.html', 'produto');
 });
+

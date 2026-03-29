@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
+  const cnpjInput = document.getElementById('cnpj');
 
   if (!id) {
-    alert('ID do fornecedor não informado');
+    mostrarModal('ID do fornecedor não informado');
     return;
   }
 
   const token = localStorage.getItem('token');
 
   try {
-    // Busca os dados do fornecedor
     const response = await fetch(`/estabelecimento-detalhes/${id}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
@@ -19,27 +19,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await response.json();
 
-    // Preenche o formulário com os dados recebidos
     document.getElementById('nomeEstabelecimento').value = data.estabelecimento.nomeEstabelecimento || data.estabelecimento.nome || '';
-    document.getElementById('cnpj').value = data.estabelecimento.CNPJ || '';
+    cnpjInput.value = documentoMixin.formatarCNPJ(data.estabelecimento.CNPJ || '');
     document.getElementById('contato').value = data.estabelecimento.contato || '';
     document.getElementById('logradouro').value = data.unidade.logradouro || '';
     document.getElementById('numero').value = data.unidade.numero || '';
     document.getElementById('bairro').value = data.unidade.bairro || '';
     document.getElementById('cidade').value = data.unidade.cidade || '';
     document.getElementById('cep').value = data.unidade.CEP || '';
+    documentoMixin.inicializarCampoDocumento(cnpjInput);
   } catch (err) {
     console.error('Erro ao carregar dados do fornecedor:', err.message);
-    alert('Erro ao carregar dados do fornecedor.');
+    mostrarModal('Erro ao carregar dados do fornecedor.');
   }
 
-  // Evento para enviar a atualização
   document.getElementById('editar-fornecedor-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const cnpj = documentoMixin.removerCaracteresNaoNumericos(cnpjInput.value);
+
+    if (!documentoMixin.validarCNPJ(cnpj)) {
+      cnpjInput.focus();
+      mostrarModal('CNPJ inválido. Por favor, verifique e tente novamente.');
+      return;
+    }
+
     const dadosAtualizados = {
       nomeEstabelecimento: document.getElementById('nomeEstabelecimento').value,
-      cnpj: document.getElementById('cnpj').value,
+      cnpj,
       contato: document.getElementById('contato').value,
       logradouro: document.getElementById('logradouro').value,
       numero: document.getElementById('numero').value,
@@ -75,22 +82,3 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-// Função para exibir o modal com mensagem
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
-
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
-
-  span.onclick = function () {
-    modal.style.display = 'none';
-  };
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  };
-}

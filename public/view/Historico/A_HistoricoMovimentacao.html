@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -12,38 +12,33 @@
 <body>
       <div id="topbar-container"></div>
 
-          <div id="sidebar-container"></div>
-
+      <div id="sidebar-container"></div>
 
     <main class="main-content">
         <h1 class="titulo"><i class="fa-solid fa-triangle-exclamation"></i>AGILITY</h1>
         <hr>
         <h2><i class="fa-solid fa-warehouse"></i>Histórico de Movimentação</h2>
-        <h2><i class="fa-solid fa-boxes-stacked"></i>Movimentações</h2>
-        <!-- Barra de pesquisa -->
+        <h2><i class="fa-solid fa-boxes-stacked"></i>Movimentaçoes</h2>
         <div class="barra-pesquisa">
           <input type="text" id="pesquisa" placeholder="Pesquisar..." oninput="filtrarMovimentacoes()">
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
 
         <table class="tabela-notas">
-        <thead>
+          <thead>
             <tr>
-            <th>Produto</th>
-            <th>Tipo</th>
-            <th>Quantidade</th>
-            <th>Data</th>
-            <th>Observação</th>
-            <th style="text-align: center;">Ações</th>
+              <th>Produto</th>
+              <th>Tipo</th>
+              <th>Quantidade</th>
+              <th>Data</th>
+              <th>Observaçãoo</th>
+              <th style="text-align: center;">Ações</th>
             </tr>
-        </thead>
-        <tbody id="tabela-histórico"></tbody>
+          </thead>
+          <tbody id="tabela-historico"></tbody>
         </table>
-
-
     </main>
-   
-    <!-- Modal -->
+
     <div id="modalExclusao" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -54,16 +49,14 @@
     <script src="/Mixins/topbar.js"></script>
     <script src="/Mixins/sidebar.js"></script>
     <script src="/js/Auth/scriptinicio.js"></script>
-    <script src="/js/Histórico/A_Histórico.js"></script>
-     <script src="/js/Notificacao/A_Notificacao.js"></script>
-      <script src="/js/Perfil/A_Perfil.js"></script>
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          atualizarContadorNotificacoes();
-        });
-      </script>
+    <script src="/js/utils/action-menu.js"></script>
+    <script src="/js/Historico/A_Historico.js"></script>
+    <script src="/js/Notificacao/A_Notificacao.js"></script>
+    <script src="/js/Perfil/A_Perfil.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        atualizarContadorNotificacoes();
+      });
+    </script>
 </html>
-
-
-
 

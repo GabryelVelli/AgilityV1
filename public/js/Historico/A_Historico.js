@@ -1,27 +1,27 @@
-   let históricoMovimentacoes = [];
+﻿let historicoMovimentacoes = [];
 
-async function carregarHistórico() {
+async function carregarHistorico() {
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch('/estoque/histórico', {
-      headers: { 'Authorization': `Bearer ${token}` }
+    const response = await fetch('/estoque/historico', {
+      headers: { Authorization: `Bearer ${token}` }
     });
 
     if (!response.ok) throw new Error(await response.text());
 
-    históricoMovimentacoes = await response.json();
-    exibirHistórico(históricoMovimentacoes);
+    historicoMovimentacoes = await response.json();
+    exibirHistorico(historicoMovimentacoes);
   } catch (err) {
-    console.error('Erro ao carregar hist?rico:', err.message);
-    mostrarModal('Erro ao buscar hist?rico');
+    console.error('Erro ao carregar historico:', err.message);
+    mostrarModal('Erro ao buscar historico');
   }
 }
 
-function exibirHistórico(lista) {
-  const tabela = document.getElementById('tabela-histórico');
+function exibirHistorico(lista) {
+  const tabela = document.getElementById('tabela-historico');
   tabela.innerHTML = '';
 
-  lista.forEach(item => {
+  lista.forEach((item) => {
     const tr = document.createElement('tr');
 
     tr.innerHTML = `
@@ -31,7 +31,9 @@ function exibirHistórico(lista) {
       <td>${new Date(item.dataMovimentacao).toLocaleString()}</td>
       <td>${item.observacao || ''}</td>
       <td style="text-align: center;">
-        <button class="btn-excluir" onclick="excluirMovimentacao(${item.idmovimentacao})">Excluir</button>
+        ${createActionMenu([
+          { label: 'Excluir', action: `excluirMovimentacao(${item.idmovimentacao})`, danger: true }
+        ])}
       </td>
     `;
     tabela.appendChild(tr);
@@ -39,65 +41,40 @@ function exibirHistórico(lista) {
 }
 
 async function excluirMovimentacao(idmovimentacao) {
-  if (!confirm('Tem certeza que deseja excluir esta movimentação?')) return;
+  if (!confirm('Tem certeza que deseja excluir esta movimentacao?')) return;
 
   try {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/estoque/histórico/${idmovimentacao}`, {
+    const response = await fetch(`/estoque/historico/${idmovimentacao}`, {
       method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
     if (response.ok) {
-      mostrarModal('Movimentação excluída com sucesso!');
-      carregarHistórico();
+      mostrarModal('Movimentacao excluida com sucesso!');
+      carregarHistorico();
     } else {
-      mostrarModal('Erro ao excluir movimentação: ' + await response.text());
+      mostrarModal('Erro ao excluir movimentacao: ' + await response.text());
     }
   } catch (err) {
-    console.error('Erro ao excluir movimentação:', err.message);
-    mostrarModal('Erro inesperado ao excluir movimentação.');
+    console.error('Erro ao excluir movimentacao:', err.message);
+    mostrarModal('Erro inesperado ao excluir movimentacao.');
   }
 }
-
-// Modal igual ao seu padrão
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
-
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
-
-  span.onclick = function() {
-    modal.style.display = 'none';
-  }
-
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  }
-}
-
-document.addEventListener('DOMContentLoaded', carregarHistórico);
 
 function filtrarMovimentacoes() {
   const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
-  const movimentacoesFiltradas = históricoMovimentacoes.filter(item => {
+  const movimentacoesFiltradas = historicoMovimentacoes.filter((item) => {
     const nomeMatch = (item.nome || '').toLowerCase().includes(termoPesquisa);
     const tipoMatch = (item.tipo || '').toLowerCase().includes(termoPesquisa);
     const observacaoMatch = (item.observacao || '').toLowerCase().includes(termoPesquisa);
     const dataMatch = new Date(item.dataMovimentacao).toLocaleString().toLowerCase().includes(termoPesquisa);
 
-    return (
-      nomeMatch ||
-      tipoMatch ||
-      observacaoMatch ||
-      dataMatch
-    );
+    return nomeMatch || tipoMatch || observacaoMatch || dataMatch;
   });
 
-  exibirHistórico(movimentacoesFiltradas); // essa função já existe e está correta
+  exibirHistorico(movimentacoesFiltradas);
 }
+
+document.addEventListener('DOMContentLoaded', carregarHistorico);

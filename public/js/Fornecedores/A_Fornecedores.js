@@ -10,28 +10,33 @@ async function carregarEstabelecimentos() {
 
     if (!response.ok) throw new Error('Erro ao buscar estabelecimentos');
 
-    estabelecimentos = await response.json(); // Salva globalmente
-    exibirEstabelecimentos(estabelecimentos); // Mostra todos inicialmente
-
+    estabelecimentos = await response.json();
+    exibirEstabelecimentos(estabelecimentos);
   } catch (err) {
     console.error(err);
-    alert("Erro ao carregar Fornecedor.");
+    mostrarModal('Erro ao carregar Fornecedor.');
   }
 }
 
 function formatarCNPJ(cnpj) {
-  cnpj = cnpj.replace(/\D/g, ''); // remove tudo que não é número
-  return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, 
-    "$1.$2.$3/$4-$5");
+  cnpj = cnpj.replace(/\D/g, '');
+  return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
 }
 
 function exibirEstabelecimentos(lista) {
   const tabela = document.getElementById('tabela-estabelecimentos');
-  tabela.innerHTML = ''; // Limpa a tabela
+  tabela.innerHTML = '';
 
-  lista.forEach(est => {
+  lista.forEach((est) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
+     <td style="text-align: center;">
+        ${createActionMenu([
+          { label: 'Detalhe', action: `verDetalhes(${est.IDestabelecimento})` },
+          { label: 'Editar', action: `editarEstabelecimento(${est.IDestabelecimento})` },
+          { label: 'Excluir', action: `excluirEstabelecimento(${est.IDestabelecimento})`, danger: true }
+        ])}
+      </td>
       <td>${est.nome}</td>
       <td>${formatarCNPJ(est.CNPJ)}</td>
       <td>${est.contato}</td>
@@ -40,11 +45,6 @@ function exibirEstabelecimentos(lista) {
       <td>${est.bairro}</td>
       <td>${est.cidade}</td>
       <td>${est.cep}</td>
-      <td>
-          <button class="btn-detalhes" onclick="verDetalhes(${est.IDestabelecimento}, ${est.idunidade})">Detalhes</button>
-          <button class="btn-editar" onclick="editarEstabelecimento(${est.IDestabelecimento}, ${est.idunidade})">Editar</button>
-          <button class="btn-excluir" onclick="excluirEstabelecimento(${est.IDestabelecimento})">Excluir</button>
-      </td>
     `;
     tabela.appendChild(tr);
   });
@@ -53,7 +53,7 @@ function exibirEstabelecimentos(lista) {
 function filtrarFornecedor() {
   const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
-  const filtrados = estabelecimentos.filter(est => {
+  const filtrados = estabelecimentos.filter((est) => {
     return (
       (est.nome || '').toLowerCase().includes(termoPesquisa) ||
       (est.CNPJ || '').toLowerCase().includes(termoPesquisa) ||
@@ -76,9 +76,8 @@ async function excluirEstabelecimento(id) {
     });
 
     if (response.ok) {
-      mostrarModal('Fornecedor excluído com sucesso!');
+      mostrarModal('Fornecedor exclu�do com sucesso!');
 
-      // Aguarda 1 segundo antes de recarregar a página
       setTimeout(() => {
         adicionarNotificacao('Fornecedor Excluido com sucesso!', '/view/Fornecedores/A_Fornecedor.html');
         location.reload();
@@ -100,29 +99,7 @@ function verDetalhes(id) {
   window.location.href = `/view/Fornecedores/A_DetalhesFornecedores.html?id=${id}`;
 }
 
-// Função para exibir o modal com a mensagem
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
-
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
-
-  // Fecha o modal quando o usuário clica no "x"
-  span.onclick = function() {
-    modal.style.display = 'none';
-  }
-
-  // Fecha o modal quando o usuário clica fora do conteúdo do modal
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   carregarEstabelecimentos();
-  // Pode colocar outras funções que queira rodar após carregamento aqui
 });
+

@@ -1,0 +1,57 @@
+.document-input-wrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.document-input {
+  width: 100% !important;
+  display: block;
+  box-sizing: border-box;
+  padding-right: 48px !important;
+}
+
+.document-status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 8px 8px 0;
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.document-status i {
+  font-size: 15px;
+}
+
+.document-input-wrapper.is-valid .document-status,
+.document-input-wrapper.is-invalid .document-status {
+  opacity: 1;
+}
+
+.document-input-wrapper.is-valid .document-status {
+  background-color: #1f7a4c;
+}
+
+.document-input-wrapper.is-invalid .document-status {
+  background-color: #c0392b;
+}
+
+.document-input-wrapper.is-valid .document-input {
+  border-color: #1f7a4c !important;
+  box-shadow: 0 0 0 2px rgba(31, 122, 76, 0.15);
+}
+
+.document-input-wrapper.is-invalid .document-input {
+  border-color: #c0392b !important;
+  box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.15);
+}

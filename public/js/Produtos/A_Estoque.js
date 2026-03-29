@@ -1,4 +1,4 @@
-let produtos = []; // Escopo global para ser acessado em qualquer função
+let produtos = [];
 
 async function carregarProdutos() {
   try {
@@ -11,7 +11,7 @@ async function carregarProdutos() {
     });
 
     if (response.ok) {
-      produtos = await response.json(); // Preenche a variável global
+      produtos = await response.json();
       exibirProdutos(produtos);
     } else {
       mostrarModal('Erro ao carregar produtos');
@@ -27,25 +27,20 @@ function formatarData(dataISO) {
   return data.toLocaleDateString('pt-BR');
 }
 
-function exibirProdutos(produtos) {
+function exibirProdutos(listaProdutos) {
   const tbody = document.getElementById('tabela-produtos');
-  tbody.innerHTML = ''; // Limpa a tabela
+  tbody.innerHTML = '';
 
-  produtos.forEach(produto => {
+  listaProdutos.forEach((produto) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td style="text-align: center; position: relative;">
-        <div class="menu-container">
-          <button class="hamburger-btn" onclick="toggleMenu(this)">
-            ⋮
-          </button>
-          <div class="dropdown-menu">
-            <button onclick="verDetalhes(${produto.idproduto})">Detalhes</button>
-            <button onclick="editarProduto(${produto.idproduto})">Editar</button>
-            <button onclick="excluirProduto(${produto.idproduto})">Excluir</button>
-            <button onclick="abrirModalMovimentacao(${produto.idproduto})">Movimentar</button>
-          </div>
-        </div>
+      <td style="text-align: center;">
+        ${createActionMenu([
+          { label: 'Detalhe', action: `verDetalhes(${produto.idproduto})` },
+          { label: 'Editar', action: `editarProduto(${produto.idproduto})` },
+          { label: 'Excluir', action: `excluirProduto(${produto.idproduto})`, danger: true },
+          { label: 'Movimentar', action: `abrirModalMovimentacao(${produto.idproduto})` }
+        ])}
       </td>
       <td>${produto.nome}</td>
       <td>${produto.codigoBarras}</td>
@@ -57,29 +52,11 @@ function exibirProdutos(produtos) {
     tbody.appendChild(tr);
   });
 }
-function toggleMenu(button) {
-  const menu = button.nextElementSibling;
-  const isVisible = menu.classList.contains('show');
 
-  // Fecha todos os outros menus abertos
-  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
-
-  // Alterna visibilidade do menu clicado
-  if (!isVisible) {
-    menu.classList.add('show');
-  }
-}
-
-// Fecha o menu se clicar fora
-document.addEventListener('click', function(event) {
-  if (!event.target.closest('.menu-container')) {
-    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
-  }
-});
 function editarProduto(id) {
   window.location.href = `/view/Produtos/A_EditarProduto.html?id=${id}`;
 }
-//<button class="btn-editar" onclick="abrirModalMovimentacao(${produto.idproduto})">Movimentar</button>
+
 async function excluirProduto(id) {
   if (confirm('Tem certeza que deseja excluir este produto?')) {
     try {
@@ -91,9 +68,9 @@ async function excluirProduto(id) {
       });
 
       if (response.ok) {
-        adicionarNotificacao('Produto Excluído com sucesso!', '/view/Produtos/A_Estoque.html');
-        mostrarModal('Produto excluído com sucesso');
-        carregarProdutos(); // Atualiza a lista
+        adicionarNotificacao('Produto Exclu�do com sucesso!', '/view/Produtos/A_Estoque.html');
+        mostrarModal('Produto exclu�do com sucesso');
+        carregarProdutos();
       } else {
         mostrarModal('Erro ao excluir produto');
       }
@@ -108,11 +85,10 @@ function verDetalhes(id) {
   window.location.href = `/view/Produtos/A_DetalhesProduto.html?id=${id}`;
 }
 
-// Filtra produtos com base no texto digitado
 function filtrarProdutos() {
   const termoPesquisa = document.getElementById('pesquisa').value.toLowerCase();
 
-  const produtosFiltrados = produtos.filter(produto => {
+  const produtosFiltrados = produtos.filter((produto) => {
     const nomeMatch = (produto.nome || '').toLowerCase().includes(termoPesquisa);
     const fornecedorMatch = (produto.fornecedor || '').toLowerCase().includes(termoPesquisa);
     const categoriaMatch = (produto.categoria || '').toLowerCase().includes(termoPesquisa);
@@ -131,40 +107,17 @@ function filtrarProdutos() {
   exibirProdutos(produtosFiltrados);
 }
 
-// Modal de mensagem
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
-
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
-
-  span.onclick = function () {
-    modal.style.display = 'none';
-  }
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  }
-}
 function abrirModalMovimentacao(idproduto) {
   const modal = document.getElementById('modalMovimentacao');
   const span = modal.getElementsByClassName('close')[0];
 
-  // Armazena o ID do produto no input oculto
   document.getElementById('idprodutoMovimentacao').value = idproduto;
-
   modal.style.display = 'block';
 
-  // Fecha ao clicar no "X"
   span.onclick = function () {
     modal.style.display = 'none';
   };
 
-  // Fecha ao clicar fora do conteúdo do modal
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = 'none';
@@ -172,8 +125,6 @@ function abrirModalMovimentacao(idproduto) {
   };
 }
 
-
-// Função para fechar via outro botão, se desejar
 function fecharModalMovimentacao() {
   document.getElementById('modalMovimentacao').style.display = 'none';
 }
@@ -181,12 +132,12 @@ function fecharModalMovimentacao() {
 async function registrarMovimentacao() {
   const idproduto = document.getElementById('idprodutoMovimentacao').value;
   const tipo = document.getElementById('tipoMovimentacao').value;
-  const quantidade = parseInt(document.getElementById('quantidadeMovimentacao').value);
+  const quantidade = parseInt(document.getElementById('quantidadeMovimentacao').value, 10);
   const observacao = document.getElementById('observacaoMovimentacao').value;
   const token = localStorage.getItem('token');
 
   if (!quantidade || quantidade <= 0) {
-    mostrarModal('Quantidade inválida.');
+    mostrarModal('Quantidade inv�lida.');
     return;
   }
 
@@ -205,15 +156,14 @@ async function registrarMovimentacao() {
 
     if (resposta.ok) {
       fecharModalMovimentacao();
-      // recarrega produtos ou atualiza quantidade
-      carregarProdutos(); 
+      carregarProdutos();
     }
   } catch (erro) {
     console.error(erro);
-    mostrarModal('Erro ao registrar movimentação.');
+    mostrarModal('Erro ao registrar movimenta��o.');
   }
 }
-// Tudo é iniciado aqui
+
 document.addEventListener('DOMContentLoaded', () => {
   carregarProdutos();
 

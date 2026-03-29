@@ -15,7 +15,7 @@
       document.getElementById('recuperarForm').style.display = 'none';
       document.getElementById('redefinirForm').style.display = 'block';
     } else {
-      alert('E-mail não encontrado!');
+      mostrarModal('E-mail não encontrado!');
     }
   });
 
@@ -33,10 +33,10 @@
     });
 
     if (res.ok) {
-      alert('Senha redefinida com sucesso!');
+      mostrarModal('Senha redefinida com sucesso!');
       window.location.href = '/view/Auth/login.html'; // redireciona pro login
     } else {
-      alert('Erro ao redefinir a senha.');
+      mostrarModal('Erro ao redefinir a senha.');
     }
   });
 

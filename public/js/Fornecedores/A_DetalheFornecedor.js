@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
 
   if (!id) {
-    alert('ID do fornecedor não informado');
+    mostrarModal('ID do fornecedor não informado');
     return;
   }
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cep').textContent = fornecedor.cep;
 
   } catch (err) {
-    alert('Erro ao carregar fornecedor: ' + err.message);
+    mostrarModal('Erro ao carregar fornecedor: ' + err.message);
   }
 
   document.getElementById('btn-voltar').addEventListener('click', () => {
@@ -38,24 +38,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = `/view/Fornecedores/A_EditarFornecedor.html?id=${id}`;
   });
 });
-// Função para exibir o modal com a mensagem
-function mostrarModal(mensagem) {
-  const modal = document.getElementById('modalExclusao');
-  const mensagemModal = document.getElementById('mensagemModal');
-  const span = document.getElementsByClassName('close')[0];
 
-  mensagemModal.textContent = mensagem;
-  modal.style.display = 'block';
-
-  // Fecha o modal quando o usuário clica no "x"
-  span.onclick = function () {
-    modal.style.display = 'none';
-  };
-
-  // Fecha o modal quando o usuário clica fora do conteúdo do modal
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  };
-}
